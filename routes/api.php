@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +13,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+//login & register
+Route::get('/', [\App\Http\Controllers\Api\HomeController::class, 'index']);
+Route::post('register', [\App\Http\Controllers\Api\Auth\RegisterController::class, 'register']);
+Route::post('login', [\App\Http\Controllers\Api\Auth\LoginController::class, 'login']);
+
+//dynamic modules
+Route::get('vehicle_types', [\App\Http\Controllers\Api\HomeController::class, 'VehicleTypes']);
+
+
+//auth
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('activate_account', [\App\Http\Controllers\Api\Auth\RegisterController::class, 'activateAccount']);
+    Route::post('/profile', [\App\Http\Controllers\Api\Auth\LoginController::class, 'profile']);
+    Route::post('/add_vehicle', [\App\Http\Controllers\Api\VehicleController::class, 'addVehicle']);
+    Route::post('/edit_vehicle', [\App\Http\Controllers\Api\VehicleController::class, 'editVehicle']);
 });
