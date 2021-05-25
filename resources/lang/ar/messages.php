@@ -25,6 +25,19 @@ return [
     'added_success' => 'تم الحفظ بنجاح',
     'edit_success' => 'تم التعديل بنجاح',
     'cannot_add_more_than_one_vehicle' => 'لا يمكن إضافة أكثر من سيارة ',
-
+    'trip_status' => [
+        \App\Models\Trip::STATUS_ACTIVE => 'نشط',
+        \App\Models\Trip::STATUS_ENDED => 'إنتهت',
+    ],
+    'days_array' => [
+        'Sun' => 'الأحد',
+        'Mon' => 'الإثنين',
+        'Tue' => 'الثلاثاء',
+        'Wed' => 'الأربعاء',
+        'Thu' => 'الخميس',
+        'Fri' => 'الجمعة',
+        'Sat' => 'السبت',
+    ],
+    'request_sent_successfully' => 'تم إرسال طلب ونس سيتم إرسال إشعار عند موافقة المستخدم',
 
 ];

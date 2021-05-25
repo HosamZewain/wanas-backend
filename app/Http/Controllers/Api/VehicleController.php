@@ -6,6 +6,7 @@ use App\Http\Resources\Api\UserVehicleResource;
 use App\Repositories\SQL\UserRepository;
 use App\Repositories\SQL\UserVehicleRepository;
 use App\Repositories\SQL\VehicleTypeRepository;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -14,8 +15,15 @@ class VehicleController extends ApiBaseController
 
     private $vehicleTypeRepository;
     private $userVehicleRepository;
+    private $IUserRepository;
 
-    public function __construct(VehicleTypeRepository $vehicleTypeRepository, UserVehicleRepository $userVehicleRepository)
+    /**
+     * VehicleController constructor.
+     * @param VehicleTypeRepository $vehicleTypeRepository
+     * @param UserVehicleRepository $userVehicleRepository
+     */
+    public function __construct(VehicleTypeRepository $vehicleTypeRepository,
+                                UserVehicleRepository $userVehicleRepository)
     {
         $this->IUserRepository = app(UserRepository::class);
         $this->vehicleTypeRepository = $vehicleTypeRepository;
@@ -23,6 +31,10 @@ class VehicleController extends ApiBaseController
     }
 
 
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function addVehicle(Request $request)
     {
         $messages = [
@@ -61,6 +73,10 @@ class VehicleController extends ApiBaseController
         return $this->respondWithErrors(__('messages.error'), 422, null, __('messages.error'));
     }
 
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function editVehicle(Request $request)
     {
         $messages = [

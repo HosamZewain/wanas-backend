@@ -20,6 +20,7 @@ Route::post('login', [\App\Http\Controllers\Api\Auth\LoginController::class, 'lo
 
 //dynamic modules
 Route::get('vehicle_types', [\App\Http\Controllers\Api\HomeController::class, 'VehicleTypes']);
+Route::get('trip_filters', [\App\Http\Controllers\Api\HomeController::class, 'tripFilters']);
 
 
 //auth
@@ -28,4 +29,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/profile', [\App\Http\Controllers\Api\Auth\LoginController::class, 'profile']);
     Route::post('/add_vehicle', [\App\Http\Controllers\Api\VehicleController::class, 'addVehicle']);
     Route::post('/edit_vehicle', [\App\Http\Controllers\Api\VehicleController::class, 'editVehicle']);
+    Route::post('/create_trip', [\App\Http\Controllers\Api\TripController::class, 'createTrip']);
+    Route::post('/trips_list', [\App\Http\Controllers\Api\TripController::class, 'tripsList']);
+    Route::post('/book_trip', [\App\Http\Controllers\Api\TripController::class, 'bookTrip']);
 });

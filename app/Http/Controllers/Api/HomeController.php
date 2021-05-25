@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Resources\Api\VehicleTypeResource;
 use App\Repositories\SQL\UserRepository;
 use App\Repositories\SQL\VehicleTypeRepository;
+use Carbon\Carbon;
 
 class HomeController extends ApiBaseController
 {
@@ -31,5 +32,19 @@ class HomeController extends ApiBaseController
             return $this->respondWithSuccess(__('messages.data_found'), $resources);
         }
         return $this->respondWithErrors(__('messages.no_data_found'), 422, null, __('messages.no_data_found'));
+    }
+
+
+    public function tripFilters()
+    {
+        setLocale(LC_TIME, 'ar');
+
+        $list = [];
+        $period = (new \Carbon\CarbonPeriod)->locale('ar')->create(Carbon::today(), Carbon::today()->addDays(5));
+        foreach ($period as $date) {
+            $list[$date->format('Y-m-d')] = __('messages.days_array')[$date->format('D')];
+        }
+        // Convert the period to an array of dates
+        return $list;
     }
 }
