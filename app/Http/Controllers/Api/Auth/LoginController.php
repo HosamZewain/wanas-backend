@@ -26,6 +26,7 @@ class LoginController extends ApiBaseController
     {
         $messages = [
             'mobile.required' => 'رقم الهاتف مطلوب',
+            'fcm_token.required' => 'fcm token مطلوب',
             'mobile.exists' => 'رقم الهاتف غير مسجل من قبل ، يرجى تسجيل حساب جديد',
             'password.required' => 'كلمة المرور  مطلوبة',
             'password.confirmed' => 'تأكيد كلمة  المرور  مطلوب',
@@ -34,6 +35,7 @@ class LoginController extends ApiBaseController
         $validation = Validator::make($request->all(), [
             'mobile' => 'required|exists:users,mobile',
             'password' => 'required|confirmed|min:8',
+            'fcm_token' => 'required',
         ], $messages);
 
 
@@ -43,15 +45,17 @@ class LoginController extends ApiBaseController
 
 
         $resource = $this->IUserRepository->findBy('mobile', $request->mobile);
+        $token = $resource->createToken('auth_token')->plainTextToken;
+        $resource['access_token'] = $token;
+        $resource['token_type'] = 'Bearer';
         if ($resource) {
             if ($resource->status == User::NOT_ACTIVE) {
-                return $this->respondWithErrors(__('messages.account_not_active'), 401, null, __('messages.account_not_active'));
+                return $this->respondWithErrors(__('messages.account_not_active'), 401, $resource, __('messages.account_not_active'));
             }
             if (Hash::check($request->password, $resource->password)) {
-                $token = $resource->createToken('auth_token')->plainTextToken;
-                $resource['access_token'] = $token;
-                $resource['token_type'] = 'Bearer';
-
+                $resource->fcmTokens()->create([
+                    'token' => $request->fcm_token,
+                ]);
                 $resource = new UserResource($resource);
                 return $this->respondWithSuccess(__('messages.login_success'), $resource);
             }

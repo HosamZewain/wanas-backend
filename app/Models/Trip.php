@@ -63,6 +63,12 @@ class Trip extends Model
 
     public function members()
     {
-        return $this->hasMany(TripMember::class, 'user_id');
+        return $this->hasMany(TripMember::class, 'trip_id');
     }
+    public function TripRate()
+    {
+        return $this->hasMany(TripRate::class, 'trip_id');
+    }
+
+
 }

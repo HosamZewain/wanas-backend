@@ -32,4 +32,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/create_trip', [\App\Http\Controllers\Api\TripController::class, 'createTrip']);
     Route::post('/trips_list', [\App\Http\Controllers\Api\TripController::class, 'tripsList']);
     Route::post('/book_trip', [\App\Http\Controllers\Api\TripController::class, 'bookTrip']);
+    Route::post('/trip_details', [\App\Http\Controllers\Api\TripController::class, 'tripDetails']);
+    Route::post('/notification_list', [\App\Http\Controllers\Api\NotificationsController::class, 'notificationList']);
+    Route::post('/accept_member', [\App\Http\Controllers\Api\TripController::class, 'acceptMember']);
+    Route::post('/reject_member', [\App\Http\Controllers\Api\TripController::class, 'rejectMember']);
+    Route::post('/rate_trip', [\App\Http\Controllers\Api\TripController::class, 'rateTrip']);
 });

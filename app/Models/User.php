@@ -56,6 +56,10 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserVehicle::class, 'user_id');
     }
+    public function fcmTokens()
+    {
+        return $this->hasMany(UserFcmToken::class, 'user_id');
+    }
 
     /***************attributes******************/
 }

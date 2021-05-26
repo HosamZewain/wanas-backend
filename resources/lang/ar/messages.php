@@ -39,5 +39,13 @@ return [
         'Sat' => 'السبت',
     ],
     'request_sent_successfully' => 'تم إرسال طلب ونس سيتم إرسال إشعار عند موافقة المستخدم',
+    'trip_added_success' => 'تم إضافة الرحلة بنجاح',
+    'notifications_types' => [
+        'new_trip' => '',
+        'book_approved' => '',
+        'book_disapproved' => '',
+    ],
+    'book_approved'=>'تم الموافقة على طلب حجز الرحلة',
+    'book_disapproved'=>'تم رفض  طلب حجز الرحلة',
 
 ];

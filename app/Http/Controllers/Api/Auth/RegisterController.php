@@ -32,6 +32,7 @@ class RegisterController extends ApiBaseController
     {
         $messages = [
             'mobile.required' => 'رقم الهاتف مطلوب',
+            'fcm_token.required' => 'fcm token مطلوب',
             'mobile.unique' => 'رقم الهاتف مسجل من قبل ، يرجى إدخال رقم جديد',
             'name.required' => 'الإسم  مطلوب',
             'gender.required' => "حقل الجنس مطلوب",
@@ -44,6 +45,7 @@ class RegisterController extends ApiBaseController
             'name' => 'required',
             'mobile' => 'required|unique:users,mobile',
             'gender' => 'required',
+            'fcm_token' => 'required',
             'birth_date' => 'nullable|date',
             'password' => 'required|confirmed|min:8',
         ], $messages);
@@ -63,7 +65,9 @@ class RegisterController extends ApiBaseController
             $token = $resource->createToken('auth_token')->plainTextToken;
             $resource['access_token'] = $token;
             $resource['token_type'] = 'Bearer';
-
+            $resource->fcmTokens()->create([
+                'token' => $request->fcm_token,
+            ]);
             $resource = new UserResource($resource);
             //$this->IUserRepository->sendSMS($resource); // deprecated for using firebase otp
             return $this->respondWithSuccess(__('messages.register_success'), $resource);

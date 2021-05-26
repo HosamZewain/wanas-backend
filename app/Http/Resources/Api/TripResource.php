@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Api;
 
+use App\Models\TripMember;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class TripResource extends JsonResource
@@ -23,6 +24,8 @@ class TripResource extends JsonResource
             'total_trip_cost' => $this->total_trip_cost,
             'rate' => $this->rate,
             'user' => new UserResource($this->user),
+            //'members' => TripMemberResource::collection($this->members),
+            'member_approval' => $this->members()->where('status', TripMember::STATUS_WAITING_APPROVAL)->first(),
         ];
     }
 }

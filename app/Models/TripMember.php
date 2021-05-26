@@ -12,7 +12,7 @@ class TripMember extends Model
     public const STATUS_APPROVED = 1;
     public const STATUS_WAITING_APPROVAL = 2;
     public const STATUS_DISAPPROVED = 3;
-    protected $table = 'trips';
+    protected $table = 'trip_members';
     protected $fillable = [
         'user_id',
         'trip_id',
