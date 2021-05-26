@@ -16,7 +16,7 @@
         <div class="block-header">
             <div class="row">
                 <div class="col-lg-7 col-md-6 col-sm-12">
-                    <h2>{{ trans('dashboard.dashboard') }}</h2>
+                    <h2>{{ $settings->app_name ?? trans('dashboard.dashboard') }}</h2>
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item">
                             <a href="{!! url('/admin') !!}">

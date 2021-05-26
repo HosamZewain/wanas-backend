@@ -60,7 +60,7 @@ class pageController extends Controller
     {
         $resource = $this->pageRepository->find($id);
         $resource->update($request->all());
-        flash(trans('dashboard.updated_successfully'), 'green');
+        flash(trans('dashboard.updated_successfully'), 'success');
         return redirect()->to(route('pages.index'));
     }
 

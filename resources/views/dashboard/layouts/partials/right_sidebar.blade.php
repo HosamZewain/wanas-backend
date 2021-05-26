@@ -1,4 +1,3 @@
-
 <!-- right_sidebar  -->
 <aside id="leftsidebar" class="sidebar">
     <div class="navbar-brand">
@@ -18,8 +17,8 @@
                         <img src="{!! asset('dashboard/assets/images/profile_av.jpg') !!}" alt="User">
                     </a>
                     <div class="detail">
-                        <h4>خالد الوكيل</h4>
-                        <small>المدير العام</small>
+                        <h4>{!! \Illuminate\Support\Facades\Auth::user()->name ?? '' !!}</h4>
+                        <small>ادمن</small>
                     </div>
                 </div>
             </li>
@@ -54,10 +53,7 @@
                 </a>
                 <ul class="ml-menu">
                     <li>
-                        <a disabled="true" href="{!! url('/') !!}">{!! __('dashboard.app_settings') !!}</a>
-                    </li>
-                    <li>
-                        <a disabled="true" href="{!! url('/') !!}">{!! __('dashboard.settings') !!}</a>
+                        <a href="{!! url('admin/settings/1/edit') !!}">{!! __('dashboard.settings') !!}</a>
                     </li>
                     <li>
                         <a disabled="true" href="{!! url('admin/pages') !!}">{!! __('dashboard.pages') !!}</a>

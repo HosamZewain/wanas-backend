@@ -26,4 +26,5 @@ Route::middleware(['auth:web'])->prefix('admin')->group(function () {
     Route::resource('customers', \App\Http\Controllers\Admin\CustomerController::class);
     Route::resource('trips', \App\Http\Controllers\Admin\TripController::class);
     Route::resource('pages', \App\Http\Controllers\Admin\pageController::class);
+    Route::resource('settings', \App\Http\Controllers\Admin\SettingController::class);
 });

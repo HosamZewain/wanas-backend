@@ -64,7 +64,7 @@ class UserController extends Controller
     {
         $resource = $this->userRepository->find($id);
         $resource->update($request->all());
-        flash(trans('dashboard.updated_successfully'), 'green');
+        flash(trans('dashboard.updated_successfully'), 'success');
         return redirect()->to(route('users.index'));
     }
 

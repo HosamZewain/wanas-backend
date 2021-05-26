@@ -67,7 +67,7 @@ class CustomerController extends Controller
         $inputs = $request->all();
         $inputs['password'] = ($request->password) ? Hash::make($request->password) : $resource->password;
         $resource->update($inputs);
-        flash(trans('dashboard.updated_successfully'), 'green');
+        flash(trans('dashboard.updated_successfully'), 'success');
         return redirect()->to(route('customers.index'));
     }
 

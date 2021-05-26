@@ -61,7 +61,7 @@ class TripController extends Controller
     {
         $resource = $this->tripRepository->find($id);
         $resource->update($request->all());
-        flash(trans('dashboard.updated_successfully'), 'green');
+        flash(trans('dashboard.updated_successfully'), 'success');
         return redirect()->to(route('trips.index'));
     }
 
