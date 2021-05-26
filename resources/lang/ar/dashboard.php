@@ -24,4 +24,9 @@ return [
     'trip_cost_per_person' => 'تكلفة الحجز  ',
     'total_trip_cost' => 'تكلفة الرحلة  ',
     'trips' => 'الرحلات',
+    'customers' => 'العمـلاء',
+    'homePage' => 'الرئيسـية',
+    'settings' => 'الإعدادات',
+    'app_settings' => 'إعدادات التطبيق',
+    'pages' => 'الصفحات',
 ];

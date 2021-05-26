@@ -4,55 +4,51 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Repositories\SQL\PageRepository;
 use App\Repositories\SQL\UserRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
-class UserController extends Controller
+class pageController extends Controller
 {
-    private $userRepository;
+    private $pageRepository;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(PageRepository $pageRepository)
     {
-        $this->userRepository = $userRepository;
+        $this->pageRepository = $pageRepository;
     }
 
     public function index()
     {
-        $filters['Type'] = User::TYPE_ADMIN;
-        $resources = $this->userRepository->search($filters, [], true, true);
-        return view('dashboard.users.index', compact('resources'));
+        $resources = $this->pageRepository->search([], [], true, true);
+        return view('dashboard.pages.index', compact('resources'));
     }
 
     public function create()
     {
-        return view('dashboard.users.create');
+        return view('dashboard.pages.create');
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string',
-            'mobile' => 'required|string',
-            'password' => 'required|string|min:4',
-            'email' => 'required|string|email|unique:users,email',
+            'title' => 'required|string',
+            'body' => 'required|string',
         ]);
 
         $inputs = $request->all();
-        $inputs['password'] = Hash::make($request->password);
-        $inputs['type'] = User::TYPE_ADMIN;
-        $this->userRepository->create($inputs);
+        $this->pageRepository->create($inputs);
         flash(trans('dashboard.created_successfully'), 'green');
 
-        return redirect()->to(route('users.index'));
+        return redirect()->to(route('pages.index'));
     }
 
     public function edit($id)
     {
-        $resource = $this->userRepository->find($id);
-        return view('dashboard.users.edit', compact('resource'));
+        $resource = $this->pageRepository->find($id);
+        return view('dashboard.pages.edit', compact('resource'));
     }
 
     /**
@@ -62,10 +58,10 @@ class UserController extends Controller
      */
     public function update($id, Request $request)
     {
-        $resource = $this->userRepository->find($id);
+        $resource = $this->pageRepository->find($id);
         $resource->update($request->all());
         flash(trans('dashboard.updated_successfully'), 'green');
-        return redirect()->to(route('users.index'));
+        return redirect()->to(route('pages.index'));
     }
 
     /**
@@ -74,7 +70,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $resource = $this->userRepository->find($id);
+        $resource = $this->pageRepository->find($id);
         $resource->delete();
 
         return response()->json(['msg' => trans('dashboard.deleted_successfully')], 200);

@@ -1,7 +1,7 @@
 @extends('dashboard.layouts.app',[
     'breadcrumb_1'=>trans('dashboard.trips'),
-    'add_link'=>'admin/trips/create',
-    'add_link_text'=>'Add New Trip',
+    //'add_link'=>'admin/trips/create',
+    //'add_link_text'=>'Add New Trip',
     ])
 @section('content')
     <div class="row clearfix">
@@ -40,11 +40,11 @@
                                     <td>{!! $resource->total_trip_cost !!}</td>
 
                                     <td>
-                                        <button onclick="location.href='{!! route('users.edit',$resource->id) !!}'"
-                                                class="btn btn-default btn-sm"
-                                                href="{!! route('trips.edit',$resource->id) !!}">
-                                            <em class="zmdi zmdi-edit"></em>
-                                        </button>
+{{--                                        <button onclick="location.href='{!! route('users.edit',$resource->id) !!}'"--}}
+{{--                                                class="btn btn-default btn-sm"--}}
+{{--                                                href="{!! route('trips.edit',$resource->id) !!}">--}}
+{{--                                            <em class="zmdi zmdi-edit"></em>--}}
+{{--                                        </button>--}}
                                         <button
                                             data-route="{!! route('trips.destroy',$resource->id) !!}"
                                             data-id="{!!$resource->id !!}"

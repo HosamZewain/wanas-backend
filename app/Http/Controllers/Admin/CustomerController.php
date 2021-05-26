@@ -10,7 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
-class UserController extends Controller
+class CustomerController extends Controller
 {
     private $userRepository;
 
@@ -21,38 +21,38 @@ class UserController extends Controller
 
     public function index()
     {
-        $filters['Type'] = User::TYPE_ADMIN;
+        $filters['Type'] = User::TYPE_USER;
         $resources = $this->userRepository->search($filters, [], true, true);
-        return view('dashboard.users.index', compact('resources'));
+        return view('dashboard.customers.index', compact('resources'));
     }
 
     public function create()
     {
-        return view('dashboard.users.create');
+        return view('dashboard.customers.create');
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|string',
-            'mobile' => 'required|string',
+            'mobile' => 'required|string|unique:users,mobile',
             'password' => 'required|string|min:4',
             'email' => 'required|string|email|unique:users,email',
         ]);
 
         $inputs = $request->all();
         $inputs['password'] = Hash::make($request->password);
-        $inputs['type'] = User::TYPE_ADMIN;
+        $inputs['type'] = User::TYPE_USER;
         $this->userRepository->create($inputs);
         flash(trans('dashboard.created_successfully'), 'green');
 
-        return redirect()->to(route('users.index'));
+        return redirect()->to(route('customers.index'));
     }
 
     public function edit($id)
     {
         $resource = $this->userRepository->find($id);
-        return view('dashboard.users.edit', compact('resource'));
+        return view('dashboard.customers.edit', compact('resource'));
     }
 
     /**
@@ -63,9 +63,12 @@ class UserController extends Controller
     public function update($id, Request $request)
     {
         $resource = $this->userRepository->find($id);
-        $resource->update($request->all());
+
+        $inputs = $request->all();
+        $inputs['password'] = ($request->password) ? Hash::make($request->password) : $resource->password;
+        $resource->update($inputs);
         flash(trans('dashboard.updated_successfully'), 'green');
-        return redirect()->to(route('users.index'));
+        return redirect()->to(route('customers.index'));
     }
 
     /**

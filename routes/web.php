@@ -20,9 +20,10 @@ Route::get('/', function () {
 Auth::routes();
 
 
-
 Route::middleware(['auth:web'])->prefix('admin')->group(function () {
     Route::get('/', [\App\Http\Controllers\Admin\HomeController::class, 'index'])->name('home');
     Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
+    Route::resource('customers', \App\Http\Controllers\Admin\CustomerController::class);
     Route::resource('trips', \App\Http\Controllers\Admin\TripController::class);
+    Route::resource('pages', \App\Http\Controllers\Admin\pageController::class);
 });

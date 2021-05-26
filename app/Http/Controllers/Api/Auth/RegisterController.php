@@ -60,6 +60,7 @@ class RegisterController extends ApiBaseController
         $inputs['email'] = 'user' . random_int(1111, 9999) . '@wanes.com';
         $inputs['activation_code'] = random_int(1111, 9999);
         $inputs['status'] = User::NOT_ACTIVE;
+        $inputs['type'] = User::TYPE_USER;
         $resource = $this->IUserRepository->create($inputs);
         if ($resource) {
             $token = $resource->createToken('auth_token')->plainTextToken;

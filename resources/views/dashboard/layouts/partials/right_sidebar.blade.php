@@ -25,40 +25,42 @@
             </li>
             <li>
                 <a href="{!! url('/admin') !!}">
-                    <i class="zmdi zmdi-home"></i><span>الرئيسية</span>
+                    <i class="zmdi zmdi-home"></i><span>{!! __('dashboard.homePage') !!}</span>
                 </a>
             </li>
             <li>
                 <a href="javascript:void(0);" class="menu-toggle">
                     <em class="zmdi zmdi-pin-drop"></em>
-                    <span>الرحلات</span>
+                    <span>{!! __('dashboard.trips') !!}</span>
                 </a>
                 <ul class="ml-menu">
-                    <li><a href="{!! url('admin/trips') !!}">الرحلات</a></li>
+                    <li><a href="{!! url('admin/trips') !!}">{!! __('dashboard.trips') !!}</a></li>
+                    <li><a href="{!! url('admin/customers') !!}">{!! __('dashboard.customers') !!}</a></li>
                 </ul>
             </li>
             <li>
                 <a href="javascript:void(0);" class="menu-toggle">
                     <em class="zmdi zmdi-accounts"></em>
-                    <span>المستخدمين</span>
+                    <span>{!! __('dashboard.users') !!}</span>
                 </a>
                 <ul class="ml-menu">
-                    <li><a href="{!! url('admin/users') !!}">المستخدمين</a></li>
+                    <li><a href="{!! url('admin/users') !!}">{!! __('dashboard.users') !!}</a></li>
                 </ul>
             </li>
             <li>
                 <a href="javascript:void(0);" class="menu-toggle">
                     <em class="zmdi zmdi-settings"></em>
-                    <span>الإعدادات</span>
+                    <span>{!! __('dashboard.settings') !!}</span>
                 </a>
                 <ul class="ml-menu">
                     <li>
-                        <a disabled="true" href="{!! url('/') !!}">اعدادات التطبيق<</a>
+                        <a disabled="true" href="{!! url('/') !!}">{!! __('dashboard.app_settings') !!}</a>
                     </li>
-                </ul>
-                <ul class="ml-menu">
                     <li>
-                        <a disabled="true" href="{!! url('/') !!}">اعدادات النظام<</a>
+                        <a disabled="true" href="{!! url('/') !!}">{!! __('dashboard.settings') !!}</a>
+                    </li>
+                    <li>
+                        <a disabled="true" href="{!! url('admin/pages') !!}">{!! __('dashboard.pages') !!}</a>
                     </li>
                 </ul>
             </li>
