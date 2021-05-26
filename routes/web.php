@@ -14,9 +14,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return redirect()->to(route('login'));
+    return redirect()->to(url('admin'));
 });
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+Route::middleware(['auth:web'])->prefix('admin')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Admin\HomeController::class, 'index'])->name('home');
+    Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
+    Route::resource('trips', \App\Http\Controllers\Admin\TripController::class);
+});

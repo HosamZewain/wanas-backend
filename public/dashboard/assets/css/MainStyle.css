@@ -1,0 +1,7 @@
+.jconfirm .jconfirm-box div.jconfirm-title-c {
+    text-align: right !important;
+}
+.jconfirm .jconfirm-box div.jconfirm-content-pane .jconfirm-content {
+    overflow: auto;
+    text-align: right;
+}
