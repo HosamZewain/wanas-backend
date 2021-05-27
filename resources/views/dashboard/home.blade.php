@@ -15,34 +15,18 @@
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 col-6 text-center">
-                <div class="card">
+                <div class="card w_data_1">
                     <div class="body">
-                        <label>
-                            <input type="text" class="knob" value="{!! $customers_count ?? 0 !!}" data-linecap="round"
-                                   data-width="100" data-height="100" data-thickness="0.08" data-fgColor="#00adef"
-                                   readonly>
-                            عدد المستخدمين
-                        </label>
-                        {{--                        <div class="d-flex bd-highlight text-center mt-4">--}}
-                        {{--                            <div class="flex-fill bd-highlight">--}}
-                        {{--                                <small class="text-muted">فعال</small>--}}
-                        {{--                                <h5 class="mb-0">254</h5>--}}
-                        {{--                            </div>--}}
-                        {{--                            <div class="flex-fill bd-highlight">--}}
-                        {{--                                <small class="text-muted">غير فعال</small>--}}
-                        {{--                                <h5 class="mb-0">254</h5>--}}
-                        {{--                            </div>--}}
-                        {{--                        </div>--}}
+                        <div class="w_icon indigo"><i class="zmdi zmdi-accounts"></i></div>
+                        <h4 class="mt-3">{!! $customers_count ?? 0 !!}</h4>
+                        <span class="text-muted">عدد المستخدمين</span>
                     </div>
                 </div>
-                <div class="card">
+                <div class="card w_data_1">
                     <div class="body">
-                        <label>
-                            <input type="text" class="knob" value="{!! $trips_count ?? 0 !!}" data-linecap="round"
-                                   data-width="100" data-height="100" data-thickness="0.08" data-fgColor="#00adef"
-                                   readonly>
-                            عدد الرحلات
-                        </label>
+                        <div class="w_icon pink"><i class="zmdi zmdi-pin-drop"></i></div>
+                        <h4 class="mt-3">{!! $trips_count ?? 0 !!}</h4>
+                        <span class="text-muted">عدد الرحلات</span>
                     </div>
                 </div>
             </div>
