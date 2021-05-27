@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Repositories\SQL\UserRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -115,4 +116,35 @@ class LoginController extends ApiBaseController
         }
         return $this->respondWithErrors(__('messages.error'), 422, null, __('messages.error'));
     }
+    public function updatePassword(Request $request)
+    {
+        $resource = $request->user();
+        $messages = [
+            'mobile.required' => 'رقم الهاتف مطلوب',
+            'mobile.exists' => 'رقم الهاتف غير مسجل من قبل ، يرجى تسجيل حساب جديد',
+            'password.required' => 'كلمة المرور  مطلوبة',
+            'password.confirmed' => 'تأكيد كلمة  المرور  مطلوب',
+            'password.min' => 'كلمة المرور يجب ان لا تقل عن 8 أرقام وحروف',
+        ];
+        $validation = Validator::make($request->all(), [
+            'mobile' => 'nullable|unique:users,mobile,' . $resource->id,
+            'password' => 'nullable|confirmed|min:8',
+        ], $messages);
+
+        if ($validation->fails()) {
+            return $this->respondWithErrors($validation->errors(), 422, null, __('messages.complete_empty_values'));
+        }
+
+        if ($request->get('password')) {
+            $resource->update(['password' => Hash::make($request->password)]);
+        }
+        $resource->save();
+        if ($resource) {
+            $resource = new UserResource($request->user());
+            return $this->respondWithSuccess(__('messages.password_changed_successfully'), $resource);
+        }
+        return $this->respondWithErrors(__('messages.error'), 422, null, __('messages.error'));
+    }
+
+
 }

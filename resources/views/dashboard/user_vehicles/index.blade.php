@@ -1,7 +1,6 @@
 @extends('dashboard.layouts.app',[
-    'breadcrumb_1'=>trans('dashboard.customers'),
-    'add_link'=>'admin/customers/create',
-    'add_link_text'=>'Add New User',
+    'breadcrumb_1'=>trans('dashboard.user_vehicles'),
+   (count($resources)) ?  '' :  'add_link'=>'admin/user_vehicles/create?user_id='.$user_id ,
     ])
 @section('content')
     <div class="row clearfix">
@@ -13,9 +12,11 @@
                             <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">{!! trans('dashboard.name') !!}</th>
-                                <th scope="col">{!! trans('dashboard.mobile') !!}</th>
-                                <th scope="col">{!! trans('dashboard.email') !!}</th>
+                                <th scope="col">{!! trans('dashboard.color') !!}</th>
+                                <th scope="col">{!! trans('dashboard.number') !!}</th>
+                                <th scope="col">{!! trans('dashboard.model') !!}</th>
+                                <th scope="col">{!! trans('dashboard.type') !!}</th>
+                                <th scope="col">{!! trans('dashboard.image') !!}</th>
                                 <th scope="col">{!! trans('dashboard.operations') !!}</th>
                             </tr>
                             </thead>
@@ -23,24 +24,26 @@
                             @foreach($resources as $resource)
                                 <tr id="row_{!! $resource->id !!}">
                                     <td><strong>{!! $loop->iteration !!}</strong></td>
-                                    <td>{!! $resource->name !!}</td>
-                                    <td>{!! $resource->mobile !!}</td>
-                                    <td>{!! $resource->email !!}</td>
-
+                                    <td>{!! $resource->color !!}</td>
+                                    <td>{!! $resource->number !!}</td>
+                                    <td>{!! $resource->model !!}</td>
+                                    <td>{!! $resource->VehicleType->name ?? '' !!}</td>
+                                    <td>
+                                        <a data-fancybox="gallery"
+                                           href="{!!asset('storage/' . $resource->image)  !!}">
+                                            <img style="width:50px;" alt="commercial_certificate"
+                                                 src="{!!asset('storage/' . $resource->image)  !!}">
+                                        </a>
+                                    </td>
                                     <td>
                                         <button
-                                            onclick="location.href='{!! url('admin/user_vehicles?user_id='.$resource->id) !!}'"
-                                            class="btn btn-primary btn-sm"
-                                            href="{!! url('admin/user_vehicles?user_id='.$resource->id) !!}">
-                                            <em class="zmdi zmdi-car"></em>
-                                        </button>
-                                        <button onclick="location.href='{!! route('customers.edit',$resource->id) !!}'"
-                                                class="btn btn-default btn-sm"
-                                                href="{!! route('customers.edit',$resource->id) !!}">
+                                            onclick="location.href='{!! route('user_vehicles.edit',$resource->id) !!}'"
+                                            class="btn btn-default btn-sm"
+                                            href="{!! route('user_vehicles.edit',$resource->id) !!}">
                                             <em class="zmdi zmdi-edit"></em>
                                         </button>
                                         <button
-                                            data-route="{!! route('customers.destroy',$resource->id) !!}"
+                                            data-route="{!! route('user_vehicles.destroy',$resource->id) !!}"
                                             data-id="{!!$resource->id !!}"
                                             data-token="{!! csrf_token() !!}"
                                             class="delete btn btn-danger btn-sm">

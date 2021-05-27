@@ -5,3 +5,25 @@
     overflow: auto;
     text-align: right;
 }
+.bootstrap-select.btn-group .btn .filter-option {
+    display: inline-block !important;
+    overflow: hidden !important;
+    width: 100% !important;
+    text-align: right !important;
+}
+
+.bootstrap-select.btn-group .dropdown-toggle .filter-option {
+    float: right;
+}
+.bootstrap-select .dropdown-toggle .filter-option-inner-inner {
+    overflow: hidden;
+    text-align: right;
+}
+.bootstrap-select .dropdown-menu li a {
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    text-align: right;
+}

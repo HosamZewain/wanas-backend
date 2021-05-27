@@ -1,7 +1,5 @@
 @extends('dashboard.layouts.app',[
-    'breadcrumb_1'=>trans('dashboard.customers'),
-    'add_link'=>'admin/customers/create',
-    'add_link_text'=>'Add New User',
+    'breadcrumb_1'=>trans('dashboard.contact_us'),
     ])
 @section('content')
     <div class="row clearfix">
@@ -13,9 +11,11 @@
                             <thead>
                             <tr>
                                 <th scope="col">#</th>
+                                <th scope="col">{!! trans('dashboard.subject') !!}</th>
                                 <th scope="col">{!! trans('dashboard.name') !!}</th>
                                 <th scope="col">{!! trans('dashboard.mobile') !!}</th>
                                 <th scope="col">{!! trans('dashboard.email') !!}</th>
+                                <th scope="col">{!! trans('dashboard.body') !!}</th>
                                 <th scope="col">{!! trans('dashboard.operations') !!}</th>
                             </tr>
                             </thead>
@@ -23,24 +23,14 @@
                             @foreach($resources as $resource)
                                 <tr id="row_{!! $resource->id !!}">
                                     <td><strong>{!! $loop->iteration !!}</strong></td>
+                                    <td>{!! $resource->subject !!}</td>
                                     <td>{!! $resource->name !!}</td>
                                     <td>{!! $resource->mobile !!}</td>
                                     <td>{!! $resource->email !!}</td>
-
+                                    <td>{!! $resource->body !!}</td>
                                     <td>
                                         <button
-                                            onclick="location.href='{!! url('admin/user_vehicles?user_id='.$resource->id) !!}'"
-                                            class="btn btn-primary btn-sm"
-                                            href="{!! url('admin/user_vehicles?user_id='.$resource->id) !!}">
-                                            <em class="zmdi zmdi-car"></em>
-                                        </button>
-                                        <button onclick="location.href='{!! route('customers.edit',$resource->id) !!}'"
-                                                class="btn btn-default btn-sm"
-                                                href="{!! route('customers.edit',$resource->id) !!}">
-                                            <em class="zmdi zmdi-edit"></em>
-                                        </button>
-                                        <button
-                                            data-route="{!! route('customers.destroy',$resource->id) !!}"
+                                            data-route="{!! route('contact_us.destroy',$resource->id) !!}"
                                             data-id="{!!$resource->id !!}"
                                             data-token="{!! csrf_token() !!}"
                                             class="delete btn btn-danger btn-sm">

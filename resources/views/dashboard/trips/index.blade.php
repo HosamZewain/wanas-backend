@@ -40,11 +40,11 @@
                                     <td>{!! $resource->total_trip_cost !!}</td>
 
                                     <td>
-{{--                                        <button onclick="location.href='{!! route('users.edit',$resource->id) !!}'"--}}
-{{--                                                class="btn btn-default btn-sm"--}}
-{{--                                                href="{!! route('trips.edit',$resource->id) !!}">--}}
-{{--                                            <em class="zmdi zmdi-edit"></em>--}}
-{{--                                        </button>--}}
+                                        <button onclick="location.href='{!! route('trips.show',$resource->id) !!}'"
+                                                class="btn btn-default btn-sm"
+                                                href="{!! route('trips.show',$resource->id) !!}">
+                                            <em class="zmdi zmdi-eye"></em>
+                                        </button>
                                         <button
                                             data-route="{!! route('trips.destroy',$resource->id) !!}"
                                             data-id="{!!$resource->id !!}"

@@ -45,7 +45,8 @@ return [
         'book_approved' => '',
         'book_disapproved' => '',
     ],
-    'book_approved'=>'تم الموافقة على طلب حجز الرحلة',
-    'book_disapproved'=>'تم رفض  طلب حجز الرحلة',
+    'book_approved' => 'تم الموافقة على طلب حجز الرحلة',
+    'book_disapproved' => 'تم رفض  طلب حجز الرحلة',
+    'password_changed_successfully' => 'تم تغيير كلمة المرور بنجاح',
 
 ];

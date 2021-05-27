@@ -4,62 +4,153 @@
  //   'add_link_text'=>'Add New User',
     ])
 @section('content')
-<div class="container-fluid">
-    <div class="row clearfix">
-        <div class="col-lg-3 col-md-6 col-sm-6 col-6 text-center">
-            <div class="card">
-                <div class="body">
-                    <label>
-                        <input type="text" class="knob" value="42" data-linecap="round" data-width="100" data-height="100" data-thickness="0.08" data-fgColor="#00adef" readonly>
-                        عدد المستخدمين
-                    </label>
-                    <div class="d-flex bd-highlight text-center mt-4">
-                        <div class="flex-fill bd-highlight">
-                            <small class="text-muted">فعال</small>
-                            <h5 class="mb-0">254</h5>
-                        </div>
-                        <div class="flex-fill bd-highlight">
-                            <small class="text-muted">غير فعال</small>
-                            <h5 class="mb-0">254</h5>
-                        </div>
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-md-12 col-lg-9 col-xl-9">
+                <div class="card">
+                    <div class="body" dir="rtl">
+                        <div id="trips_calendar"></div>
+                        <div id="calendar"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-6 text-center">
+                <div class="card">
+                    <div class="body">
+                        <label>
+                            <input type="text" class="knob" value="{!! $customers_count ?? 0 !!}" data-linecap="round"
+                                   data-width="100" data-height="100" data-thickness="0.08" data-fgColor="#00adef"
+                                   readonly>
+                            عدد المستخدمين
+                        </label>
+                        {{--                        <div class="d-flex bd-highlight text-center mt-4">--}}
+                        {{--                            <div class="flex-fill bd-highlight">--}}
+                        {{--                                <small class="text-muted">فعال</small>--}}
+                        {{--                                <h5 class="mb-0">254</h5>--}}
+                        {{--                            </div>--}}
+                        {{--                            <div class="flex-fill bd-highlight">--}}
+                        {{--                                <small class="text-muted">غير فعال</small>--}}
+                        {{--                                <h5 class="mb-0">254</h5>--}}
+                        {{--                            </div>--}}
+                        {{--                        </div>--}}
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="body">
+                        <label>
+                            <input type="text" class="knob" value="{!! $trips_count ?? 0 !!}" data-linecap="round"
+                                   data-width="100" data-height="100" data-thickness="0.08" data-fgColor="#00adef"
+                                   readonly>
+                            عدد الرحلات
+                        </label>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row clearfix">
-        <div class="col-sm-12 col-md-12 col-lg-12">
-            <div class="card">
-                <div class="header">
-                    <h2>أخر   <strong>الرحلات</strong> </h2>
-                </div>
-                <div class="table-responsive">
-                    <table class="table table-hover c_table">
-                        <thead>
-                            <tr>
-                                <th style="width:60px;">#</th>
-                                <th>إسم المستخدم</th>
-                                <th>نقطة الإنطلاق</th>
-                                <th>نقطة الوصول</th>
-                                <th>التاريخ</th>
-                                <th>الوقت</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>12</td>
-                                <td>Hossein</td>
-                                <td>IPONE-7</td>
-                                <td>Porterfield 508 Virginia Street Chicago, IL 60653</td>
-                                <td>3</td>
-                                <td><span class="badge badge-success">DONE</span></td>
-                            </tr>
 
-                        </tbody>
-                    </table>
+    <!-- Event Edit Modal popup -->
+    <div class="modal fade" id="eventEditModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">بيانات الرحلة</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            المسار
+                        </div>
+                        <div class="col-md-9" id="pick_address"></div>
+                        <div class="col-md-3">
+                            اسم السائق
+                        </div>
+                        <div class="col-md-9" id="userName"></div>
+                        <div class="col-md-3">
+                            التاريخ
+                        </div>
+                        <div class="col-md-9" id="start"></div>
+                        <div class="col-md-3">
+                            وقت الرحلة
+                        </div>
+                        <div class="col-md-9" id="Time"></div>
+                        <div class="col-md-3">
+                            تكلفة الحجز
+                        </div>
+                        <div class="col-md-9" id="CostPerPerson"></div>
+                        <div class="col-md-3">
+                            تكلفة الرحلة
+                        </div>
+                        <div class="col-md-9" id="TotalCost"></div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 @endsection
+
+@push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.0/main.min.js"
+            integrity="sha256-vB0AxkwD8fMGdgwuIfLl+VhH2pFA0ZtJdAJe4OHRKcs=" crossorigin="anonymous"></script>
+    <script
+        src="https://cdn.jsdelivr.net/combine/npm/fullcalendar@5.7.0/main.js,npm/fullcalendar@5.7.0/locales-all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.0/main.js"
+            integrity="sha256-UYwUI07v3ZaBPEu6HOJIokV15Zeh2Xj/bGT+MxtA0l0=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.0/locales-all.min.js"
+            integrity="sha256-6TW9hevn9VV+Dk6OtclSzIjH05B6f2WWhJ/PQgy7m7s=" crossorigin="anonymous"></script>
+
+    <script>
+        const calendarEl = document.getElementById('trips_calendar');
+        //  const calendar = $('#trips_calendar');
+        const appData = @json($trips);
+        const objs = appData.map(function (x) {
+            return {
+                title: x['pickup_address'] + '-' + x['drop_off_address'],
+                start: x['trip_date'] + 'T' + x['trip_time'],
+                allDay: false,
+                className: 'bg-default',
+                extendedProps: {
+                    userName: x['user']['name'],
+                    Date: x['trip_date'],
+                    Time: x['trip_time'],
+                    CostPerPerson: x['trip_cost_per_person'],
+                    TotalCost: x['total_trip_cost'],
+                }
+            };
+        });
+        console.log(objs);
+        document.addEventListener('DOMContentLoaded', function () {
+            const tripsCalendar = new FullCalendar.Calendar(calendarEl, {
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                themeSystem: 'Flatly',
+                editable: false,
+                locale: 'ar',
+                rtl: true,
+                droppable: false,
+                eventLimit: true, // allow "more" link when too many events
+                selectable: false,
+                timeZone: 'local', // the default (unnecessary to specify)
+                events: objs,
+                eventClick: function (calEvent, jsEvent, view) {
+                    console.log(calEvent);
+                    //  const title = prompt('Event Title:', calEvent.title, {buttons: {Ok: true, Cancel: false}});
+                    const eventModal = $('#eventEditModal');
+                    eventModal.modal('show');
+                    eventModal.find('#pick_address').html(calEvent.event.title);
+                    eventModal.find('#start').html(calEvent.event.extendedProps.Date);
+                    eventModal.find('#userName').html(calEvent.event.extendedProps.userName);
+                    eventModal.find('#Time').html(calEvent.event.extendedProps.Time);
+                    eventModal.find('#CostPerPerson').html(calEvent.event.extendedProps.CostPerPerson);
+                    eventModal.find('#TotalCost').html(calEvent.event.extendedProps.TotalCost);
+                }
+            });
+            tripsCalendar.setOption('locale', 'ar');
+            tripsCalendar.render();
+        });
+
+    </script>
+@endpush

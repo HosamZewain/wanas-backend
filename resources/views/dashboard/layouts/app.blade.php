@@ -55,5 +55,7 @@
 </section>
 
 @include('dashboard.layouts.scripts')
+
+@stack('scripts')
 </body>
 </html>

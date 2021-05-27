@@ -11,20 +11,20 @@
         <div class="tab-pane active" id="setting">
             <div class="slim_scroll">
                 <div class="card">
-                    <h6>Theme Option</h6>
+                    <h6>خيارات لوحة التحكم</h6>
                     <div class="light_dark">
                         <div class="radio">
-                            <input type="radio" name="radio1" id="lighttheme" value="light" >
-                            <label for="lighttheme">Light Mode</label>
+                            <input type="radio" name="radio1" id="lighttheme" value="light">
+                            <label for="lighttheme">خلفية لون أبيض</label>
                         </div>
                         <div class="radio mb-0">
                             <input type="radio" name="radio1" id="darktheme" value="dark">
-                            <label for="darktheme">Dark Mode</label>
+                            <label for="darktheme">خلفية لون اسود</label>
                         </div>
                     </div>
                 </div>
                 <div class="card">
-                    <h6>Color Skins</h6>
+                    <h6>خيارات الألوان</h6>
                     <ul class="choose-skin list-unstyled">
                         <li data-theme="purple">
                             <div class="purple"></div>
@@ -47,18 +47,12 @@
                     </ul>
                 </div>
                 <div class="card">
-                    <h6>General Settings</h6>
+                    <h6>إعدادات</h6>
                     <ul class="setting-list list-unstyled">
-                        <li>
-                            <div class="checkbox rtl_support">
-                                <input id="checkbox1" type="checkbox" value="rtl_view">
-                                <label for="checkbox1">RTL Version</label>
-                            </div>
-                        </li>
                         <li>
                             <div class="checkbox ms_bar">
                                 <input id="checkbox2" type="checkbox" value="mini_active">
-                                <label for="checkbox2">Mini Sidebar</label>
+                                <label for="checkbox2">تصغير القائمة</label>
                             </div>
                         </li>
                     </ul>

@@ -23,8 +23,13 @@
                 <form class="card auth_form" method="POST" action="{{ route('login') }}">
                     @csrf
                     <div class="header">
-                        <img class="logo" src="{{ asset('dashboard/assets/images/logo.svg') }}" alt="">
-                        <h5>أهلا بك فى تطبيق ونس</h5>
+                        @if (isset($settings))
+                            <img class="logo" src="{!!  asset('storage/' . $settings->logo) !!}" alt=""/>
+                            <h5>أهلا بك فى  {!! $settings->app_name !!}</h5>
+                        @else
+                            <img class="logo" src="{{ asset('dashboard/assets/images/logo.svg') }}" alt="">
+                            <h5>أهلا بك فى تطبيق ونس</h5>
+                        @endif
                     </div>
                     <div class="body">
                         <div class="input-group mb-3">

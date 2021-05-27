@@ -1,7 +1,7 @@
 @extends('dashboard.layouts.app',[
-    'breadcrumb_1'=>trans('dashboard.customers'),
-    'add_link'=>'admin/customers/create',
-    'add_link_text'=>'Add New User',
+    'breadcrumb_1'=>trans('dashboard.vehicles_types'),
+    'add_link'=>'admin/vehicles_types/create',
+    'add_link_text'=>'Add New Vehicle Type',
     ])
 @section('content')
     <div class="row clearfix">
@@ -14,8 +14,7 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">{!! trans('dashboard.name') !!}</th>
-                                <th scope="col">{!! trans('dashboard.mobile') !!}</th>
-                                <th scope="col">{!! trans('dashboard.email') !!}</th>
+                                <th scope="col">{!! trans('dashboard.logo') !!}</th>
                                 <th scope="col">{!! trans('dashboard.operations') !!}</th>
                             </tr>
                             </thead>
@@ -24,23 +23,22 @@
                                 <tr id="row_{!! $resource->id !!}">
                                     <td><strong>{!! $loop->iteration !!}</strong></td>
                                     <td>{!! $resource->name !!}</td>
-                                    <td>{!! $resource->mobile !!}</td>
-                                    <td>{!! $resource->email !!}</td>
-
+                                    <td>
+                                        <a data-fancybox="gallery"
+                                           href="{!!asset('storage/' . $resource->logo)  !!}">
+                                            <img style="width:50px;" alt="commercial_certificate"
+                                                 src="{!!asset('storage/' . $resource->logo)  !!}">
+                                        </a>
+                                    </td>
                                     <td>
                                         <button
-                                            onclick="location.href='{!! url('admin/user_vehicles?user_id='.$resource->id) !!}'"
-                                            class="btn btn-primary btn-sm"
-                                            href="{!! url('admin/user_vehicles?user_id='.$resource->id) !!}">
-                                            <em class="zmdi zmdi-car"></em>
-                                        </button>
-                                        <button onclick="location.href='{!! route('customers.edit',$resource->id) !!}'"
-                                                class="btn btn-default btn-sm"
-                                                href="{!! route('customers.edit',$resource->id) !!}">
+                                            onclick="location.href='{!! route('vehicles_types.edit',$resource->id) !!}'"
+                                            class="btn btn-default btn-sm"
+                                            href="{!! route('vehicles_types.edit',$resource->id) !!}">
                                             <em class="zmdi zmdi-edit"></em>
                                         </button>
                                         <button
-                                            data-route="{!! route('customers.destroy',$resource->id) !!}"
+                                            data-route="{!! route('vehicles_types.destroy',$resource->id) !!}"
                                             data-id="{!!$resource->id !!}"
                                             data-token="{!! csrf_token() !!}"
                                             class="delete btn btn-danger btn-sm">

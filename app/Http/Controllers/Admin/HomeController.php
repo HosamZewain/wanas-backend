@@ -3,18 +3,21 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Repositories\SQL\TripRepository;
+use App\Repositories\SQL\UserRepository;
 use Illuminate\Contracts\Support\Renderable;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+
+    private $userRepository;
+    private $tripRepository;
+
+    public function __construct(UserRepository $userRepository, TripRepository $tripRepository)
     {
         $this->middleware('auth');
+        $this->userRepository = $userRepository;
+        $this->tripRepository = $tripRepository;
     }
 
     /**
@@ -24,6 +27,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('dashboard.home');
+        $trips = $this->tripRepository->search([], ['user','user.vehicle'], false, false);
+        $trips_count = $trips->count();
+        $customers = $this->userRepository->search([], [], false, false);
+        $customers_count = $customers->count();
+        return view('dashboard.home', compact('customers_count', 'trips_count', 'trips'));
     }
 }
