@@ -5,9 +5,16 @@
             <i class="zmdi zmdi-menu"></i>
         </button>
         <a href="{!! url('/') !!}">
-            <img
-                src="{!! ($settings->logo) ? asset('storage/' .$settings->logo) : asset('dashboard/assets/images/logo.svg') !!}"
-                width="25" alt="Aero">
+            @if (isset($settings->logo))
+                <img
+                    src="{!! ($settings->logo) ? asset('storage/' .$settings->logo) : asset('dashboard/assets/images/logo.svg') !!}"
+                    width="25" alt="Aero">
+
+            @else
+                <img
+                    src="{!!  asset('dashboard/assets/images/logo.svg') !!}"
+                    width="25" alt="Aero">
+            @endif
             <span class="m-l-10">{!! ($settings->app_name) ?  : 'لوحة التحكم' !!}</span>
         </a>
     </div>
