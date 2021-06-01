@@ -35,6 +35,8 @@ return [
     'save_changes' => 'حفط التعديل',
     'vehicles_types' => 'أنواع السيارات ',
     'vehicles' => 'السيارات',
+    'title' => 'عنوان ',
+    'body' => 'المحتوى',
     'user_vehicles' => 'سيارة العميل',
     'number' => 'رقم السيارة',
     'color' => 'لون السيارة',
