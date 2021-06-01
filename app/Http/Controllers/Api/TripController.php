@@ -113,8 +113,14 @@ class TripController extends ApiBaseController
         }
 
 
-        $resource = $this->tripRepository->find($request->trip_id, ['user']);
+        $resource = $this->tripRepository->find($request->trip_id, ['user', 'members']);
         if ($resource) {
+            //check members count
+            if ($resource->members_count <= $resource->members()->count()) {
+                return $this->respondWithErrors(__('messages.trip_complete'), 422, null, __('messages.trip_complete'));
+            }
+
+            //create trip
             $this->tripMemberRepository->create([
                 'user_id' => $request->user()->id,
                 'trip_id' => $resource->id,

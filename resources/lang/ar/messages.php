@@ -48,5 +48,6 @@ return [
     'book_approved' => 'تم الموافقة على طلب حجز الرحلة',
     'book_disapproved' => 'تم رفض  طلب حجز الرحلة',
     'password_changed_successfully' => 'تم تغيير كلمة المرور بنجاح',
+    'trip_complete' => 'تم إكتمال العدد فى الرحلة',
 
 ];
