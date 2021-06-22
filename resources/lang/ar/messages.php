@@ -17,6 +17,7 @@ return [
     'complete_empty_values' => 'يرجى إدخال جميع البيانات و إعادة المحاولة',
     'not_active' => 'غير مفعل',
     'active' => ' نشط',
+    'log_out_success' => 'تم تسجيل الخروج بنجاح',
     'activated_successfully' => 'تم تنشيط الحساب بنجاح',
     'data_found' => 'تم العثور على نتائج',
     'no_data_found' => 'لم يتم العثور على نتائج',

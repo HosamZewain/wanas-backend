@@ -23,6 +23,19 @@ class LoginController extends ApiBaseController
         parent::__construct($UserRepo, UserResource::class);
     }
 
+    public function logout(Request $request)
+    {
+        $resource = $request->user();
+        if (count($resource->fcmTokens)) {
+            $resource->fcmTokens()->delete();
+        }
+        if ($resource) {
+            $resource = new UserResource($request->user());
+            return $this->respondWithSuccess(__('messages.log_out_success'), $resource);
+        }
+        return $this->respondWithErrors(__('messages.error'), 422, null, __('messages.error'));
+    }
+
     public function login(Request $request)
     {
         $messages = [
@@ -116,6 +129,7 @@ class LoginController extends ApiBaseController
         }
         return $this->respondWithErrors(__('messages.error'), 422, null, __('messages.error'));
     }
+
     public function updatePassword(Request $request)
     {
         $resource = $request->user();

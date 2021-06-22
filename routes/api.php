@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [\App\Http\Controllers\Api\HomeController::class, 'index']);
 Route::post('register', [\App\Http\Controllers\Api\Auth\RegisterController::class, 'register']);
 Route::post('login', [\App\Http\Controllers\Api\Auth\LoginController::class, 'login']);
+Route::post('logout', [\App\Http\Controllers\Api\Auth\LoginController::class, 'logout']);
 
 //dynamic modules
 Route::get('vehicle_types', [\App\Http\Controllers\Api\HomeController::class, 'VehicleTypes']);
