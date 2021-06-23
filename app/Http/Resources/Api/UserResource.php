@@ -25,8 +25,10 @@ class UserResource extends JsonResource
             'status_text' => ($this->status == User::ACTIVE) ? __('messages.active') : __('messages.not_active'),
             'status' => $this->status,
             'gender' => $this->gender,
+            'trips_count' => count($this->trips),
             'profile_image' => ($this->profile_image) ? asset('storage/' . $this->profile_image) : null,
             'civil_image' => ($this->civil_image) ? asset('storage/' . $this->civil_image) : null,
+            'vehicle' => new UserVehicleResource($this->vehicle),
             $this->mergeWhen(!empty($this->access_token), [
                 'access_token' => $this->access_token,
                 'token_type' => 'Bearer',

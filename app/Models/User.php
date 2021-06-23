@@ -65,10 +65,20 @@ class User extends Authenticatable
         return $this->hasOne(UserVehicle::class, 'user_id');
     }
 
+    public function trips()
+    {
+        return $this->hasMany(Trip::class, 'user_id');
+    }
+
     public function fcmTokens()
     {
         return $this->hasMany(UserFcmToken::class, 'user_id');
     }
 
     /***************attributes******************/
+
+    public function getIsMemberAttribute()
+    {
+
+    }
 }
