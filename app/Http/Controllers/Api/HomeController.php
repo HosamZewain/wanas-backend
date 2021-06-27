@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\Api\VehicleTypeResource;
 use App\Repositories\SQL\ContactUsRepository;
+use App\Repositories\SQL\PageRepository;
+use App\Repositories\SQL\SettingRepository;
 use App\Repositories\SQL\UserRepository;
 use App\Repositories\SQL\VehicleTypeRepository;
 use Carbon\Carbon;
@@ -16,10 +18,14 @@ class HomeController extends ApiBaseController
     public $IUserRepository;
     private $vehicleTypeRepository;
     private $contactUsRepository;
+    private $pageRepository;
+    private $settingRepository;
 
     public function __construct(VehicleTypeRepository $vehicleTypeRepository, ContactUsRepository $contactUsRepository)
     {
+        $this->settingRepository = app(SettingRepository::class);
         $this->IUserRepository = app(UserRepository::class);
+        $this->pageRepository = app(PageRepository::class);
         $this->vehicleTypeRepository = $vehicleTypeRepository;
         $this->contactUsRepository = $contactUsRepository;
     }
@@ -27,6 +33,42 @@ class HomeController extends ApiBaseController
     public function index()
     {
         return 'documentation';
+    }
+
+    public function pages()
+    {
+        $resources = $this->pageRepository->search([], [], false, false);
+        if ($resources) {
+            return $this->respondWithSuccess(__('messages.data_found'), $resources);
+        }
+        return $this->respondWithErrors(__('messages.no_data_found'), 422, null, __('messages.no_data_found'));
+    }
+
+    public function page($id)
+    {
+        $resources = $this->pageRepository->find($id);
+        if ($resources) {
+            return $this->respondWithSuccess(__('messages.data_found'), $resources);
+        }
+        return $this->respondWithErrors(__('messages.no_data_found'), 422, null, __('messages.no_data_found'));
+    }
+
+    public function termsConditions()
+    {
+        $resources = $this->settingRepository->search([],[],false,false)->first()->terms_conditions;
+        if ($resources) {
+            return $this->respondWithSuccess(__('messages.data_found'), $resources);
+        }
+        return $this->respondWithErrors(__('messages.no_data_found'), 422, null, __('messages.no_data_found'));
+    }
+
+    public function setting()
+    {
+        $resources = $this->settingRepository->search([],[],false,false)->first();
+        if ($resources) {
+            return $this->respondWithSuccess(__('messages.data_found'), $resources);
+        }
+        return $this->respondWithErrors(__('messages.no_data_found'), 422, null, __('messages.no_data_found'));
     }
 
     public function VehicleTypes()

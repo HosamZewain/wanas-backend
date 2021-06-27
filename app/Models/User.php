@@ -32,6 +32,7 @@ class User extends Authenticatable
         'activation_code',
         'password',
         'type',
+        'notifications',
     ];
 
     /**

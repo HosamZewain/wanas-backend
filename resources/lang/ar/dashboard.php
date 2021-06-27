@@ -37,6 +37,7 @@ return [
     'vehicles' => 'السيارات',
     'title' => 'عنوان ',
     'body' => 'المحتوى',
+    'terms_conditions' => 'الشروط والأحكام',
     'user_vehicles' => 'سيارة العميل',
     'number' => 'رقم السيارة',
     'color' => 'لون السيارة',

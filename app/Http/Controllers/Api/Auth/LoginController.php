@@ -119,6 +119,12 @@ class LoginController extends ApiBaseController
         if ($request->get('birth_date')) {
             $resource->update(['birth_date' => $request->birth_date]);
         }
+        if ($request->get('notifications')) {
+            $resource->update(['notifications' => $request->notifications]);
+        }
+        if ($request->get('status')) {
+            $resource->update(['status' => $request->status]);
+        }
         if ($request->get('password')) {
             $resource->update(['password' => Hash::make($request->password)]);
         }

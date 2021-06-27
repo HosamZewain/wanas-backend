@@ -16,6 +16,7 @@ class Setting extends Model
         'mobile',
         'email',
         'about',
+        'terms_conditions',
     ];
 
     /***************scopes******************/

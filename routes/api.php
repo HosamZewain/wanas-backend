@@ -23,6 +23,12 @@ Route::post('logout', [\App\Http\Controllers\Api\Auth\LoginController::class, 'l
 Route::get('vehicle_types', [\App\Http\Controllers\Api\HomeController::class, 'VehicleTypes']);
 Route::get('trip_filters', [\App\Http\Controllers\Api\HomeController::class, 'tripFilters']);
 Route::post('/contact_us', [\App\Http\Controllers\Api\HomeController::class, 'contactUs']);
+Route::get('/pages', [\App\Http\Controllers\Api\HomeController::class, 'pages']);
+Route::get('/page/{id}', [\App\Http\Controllers\Api\HomeController::class, 'page']);
+Route::get('/terms_conditions', [\App\Http\Controllers\Api\HomeController::class, 'termsConditions']);
+Route::get('/setting', [\App\Http\Controllers\Api\HomeController::class, 'setting']);
+
+
 //auth
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('activate_account', [\App\Http\Controllers\Api\Auth\RegisterController::class, 'activateAccount']);

@@ -58,3 +58,14 @@
         @enderror
     </div>
 </div>
+<div class="row mb-2">
+    <div class="col-md-3">
+        {!! Form::label('terms_conditions',trans('dashboard.terms_conditions'), ['class' => 'form-label']) !!}
+    </div>
+    <div class="col-md-9">
+        {!! Form::textarea('terms_conditions',null,['class'=>'form-control','rows'=>4]) !!}
+        @error('terms_conditions')
+        <label id="terms_conditions-error" class="error text-danger float-left" for="terms_conditions">{{ $message }}</label>
+        @enderror
+    </div>
+</div>
