@@ -18,6 +18,7 @@ Route::get('/', [\App\Http\Controllers\Api\HomeController::class, 'index']);
 Route::post('register', [\App\Http\Controllers\Api\Auth\RegisterController::class, 'register']);
 Route::post('login', [\App\Http\Controllers\Api\Auth\LoginController::class, 'login']);
 Route::post('logout', [\App\Http\Controllers\Api\Auth\LoginController::class, 'logout']);
+Route::post('/update_password', [\App\Http\Controllers\Api\Auth\LoginController::class, 'updatePassword']);
 
 //dynamic modules
 Route::get('vehicle_types', [\App\Http\Controllers\Api\HomeController::class, 'VehicleTypes']);
@@ -33,7 +34,6 @@ Route::get('/setting', [\App\Http\Controllers\Api\HomeController::class, 'settin
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('activate_account', [\App\Http\Controllers\Api\Auth\RegisterController::class, 'activateAccount']);
     Route::post('/profile', [\App\Http\Controllers\Api\Auth\LoginController::class, 'profile']);
-    Route::post('/update_password', [\App\Http\Controllers\Api\Auth\LoginController::class, 'updatePassword']);
     Route::post('/add_vehicle', [\App\Http\Controllers\Api\VehicleController::class, 'addVehicle']);
     Route::post('/edit_vehicle', [\App\Http\Controllers\Api\VehicleController::class, 'editVehicle']);
     Route::post('/create_trip', [\App\Http\Controllers\Api\TripController::class, 'createTrip']);

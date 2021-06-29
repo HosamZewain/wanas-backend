@@ -138,7 +138,6 @@ class LoginController extends ApiBaseController
 
     public function updatePassword(Request $request)
     {
-        $resource = $request->user();
         $messages = [
             'mobile.required' => 'رقم الهاتف مطلوب',
             'mobile.exists' => 'رقم الهاتف غير مسجل من قبل ، يرجى تسجيل حساب جديد',
@@ -147,20 +146,20 @@ class LoginController extends ApiBaseController
             'password.min' => 'كلمة المرور يجب ان لا تقل عن 8 أرقام وحروف',
         ];
         $validation = Validator::make($request->all(), [
-            'mobile' => 'nullable|unique:users,mobile,' . $resource->id,
-            'password' => 'nullable|confirmed|min:8',
+            'mobile' => 'required|exists:users,mobile',
+            'password' => 'required|confirmed|min:8',
         ], $messages);
 
         if ($validation->fails()) {
             return $this->respondWithErrors($validation->errors(), 422, null, __('messages.complete_empty_values'));
         }
 
+        $user = $this->IUserRepository->findBy('mobile', $request->mobile);
         if ($request->get('password')) {
-            $resource->update(['password' => Hash::make($request->password)]);
+            $this->IUserRepository->update($user, ['password' => Hash::make($request->password)]);
         }
-        $resource->save();
-        if ($resource) {
-            $resource = new UserResource($request->user());
+        if ($user) {
+            $resource = new UserResource($user);
             return $this->respondWithSuccess(__('messages.password_changed_successfully'), $resource);
         }
         return $this->respondWithErrors(__('messages.error'), 422, null, __('messages.error'));
