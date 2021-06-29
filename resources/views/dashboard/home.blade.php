@@ -19,7 +19,7 @@
                     <div class="body">
                         <div class="w_icon indigo"><i class="zmdi zmdi-accounts"></i></div>
                         <h4 class="mt-3">{!! $customers_count ?? 0 !!}</h4>
-                        <span class="text-muted">عدد المستخدمين</span>
+                        <span class="text-muted">عدد العملاء</span>
                     </div>
                 </div>
                 <div class="card w_data_1">

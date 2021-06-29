@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Repositories\SQL\TripRepository;
 use App\Repositories\SQL\UserRepository;
 use Illuminate\Contracts\Support\Renderable;
@@ -29,7 +30,9 @@ class HomeController extends Controller
     {
         $trips = $this->tripRepository->search([], ['user','user.vehicle'], false, false);
         $trips_count = $trips->count();
-        $customers = $this->userRepository->search([], [], false, false);
+
+        $customersFilters['Type'] = User::TYPE_USER;
+        $customers = $this->userRepository->search($customersFilters, [], false, false);
         $customers_count = $customers->count();
         return view('dashboard.home', compact('customers_count', 'trips_count', 'trips'));
     }

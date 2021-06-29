@@ -130,7 +130,7 @@ class LoginController extends ApiBaseController
         }
         $resource->save();
         if ($resource) {
-            $resource = new UserResource($request->user());
+            $resource = new UserResource($resource);
             return $this->respondWithSuccess(__('messages.data_found'), $resource);
         }
         return $this->respondWithErrors(__('messages.error'), 422, null, __('messages.error'));
