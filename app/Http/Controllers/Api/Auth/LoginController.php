@@ -49,7 +49,7 @@ class LoginController extends ApiBaseController
         $validation = Validator::make($request->all(), [
             'mobile' => 'required|exists:users,mobile',
             'password' => 'required|min:8',
-            'fcm_token' => 'required',
+         //   'fcm_token' => 'required',
         ], $messages);
 
 

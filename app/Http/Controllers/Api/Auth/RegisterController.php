@@ -45,7 +45,7 @@ class RegisterController extends ApiBaseController
             'name' => 'required',
             'mobile' => 'required|unique:users,mobile',
             'gender' => 'required',
-            'fcm_token' => 'required',
+          //  'fcm_token' => 'required',
             'birth_date' => 'nullable|date',
             'password' => 'required|confirmed|min:8',
         ], $messages);
