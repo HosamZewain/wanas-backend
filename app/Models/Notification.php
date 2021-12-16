@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Traits\ModelTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\Trip;
 
 class Notification extends Model
 {
@@ -23,17 +25,25 @@ class Notification extends Model
     /***************scopes******************/
 
     /***************relations**************/
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'to_user');
     }
-    public function Member()
+
+    public function Member(): BelongsTo
     {
         return $this->belongsTo(User::class, 'from_user');
     }
-    public function model()
+
+    /**
+     * @return BelongsTo
+     */
+    public function relatedModel(): BelongsTo
     {
-        return $this->belongsTo(get_class($this->model_type), 'model_id');
+        if ($this->model_type == 'App\Models\Trip') {
+            return $this->belongsTo(Trip::class, 'model_id');
+        }
+        return $this->belongsTo(Trip::class, 'model_id');
     }
     /***************attributes******************/
 }
