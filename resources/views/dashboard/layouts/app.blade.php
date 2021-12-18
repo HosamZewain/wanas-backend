@@ -1,7 +1,7 @@
 <!doctype html>
 <html class="no-js " lang="en">
 @include('dashboard.layouts.head')
-<body class="  rtl">
+<body class="  theme-blush rtl" dir="rtl">
 @include('dashboard.layouts.partials.loader')
 <!-- Overlay For Sidebars -->
 {{--  <div class="overlay"></div>  --}}
@@ -54,6 +54,15 @@
     </div>
 </section>
 
+<!-- Modal -->
+
+<div class="modal fade" id="MainModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
 @include('dashboard.layouts.scripts')
 
 @stack('scripts')

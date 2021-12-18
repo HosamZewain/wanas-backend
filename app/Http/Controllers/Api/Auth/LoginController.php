@@ -95,6 +95,9 @@ class LoginController extends ApiBaseController
         $validation = Validator::make($request->all(), [
             'mobile' => 'nullable|unique:users,mobile,' . $resource->id,
             'password' => 'nullable|confirmed|min:8',
+            'civil_image_front' => 'nullable|image|max:10000',
+            'civil_image_back' => 'nullable|image|max:10000',
+            'profile_image' => 'nullable|image|max:10000',
         ], $messages);
 
         if ($validation->fails()) {
@@ -115,6 +118,12 @@ class LoginController extends ApiBaseController
         }
         if ($request->hasFile('profile_image')) {
             $resource->update(['profile_image' => $request->file('profile_image')->store('users', 'public'),]);
+        }
+        if ($request->hasFile('civil_image_front')) {
+            $resource->update(['civil_image_front' => $request->file('civil_image_front')->store('users', 'public'),]);
+        }
+        if ($request->hasFile('civil_image_back')) {
+            $resource->update(['civil_image_back' => $request->file('civil_image_back')->store('users', 'public'),]);
         }
         if ($request->get('birth_date')) {
             $resource->update(['birth_date' => $request->birth_date]);

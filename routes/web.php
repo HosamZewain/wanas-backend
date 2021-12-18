@@ -31,4 +31,8 @@ Route::middleware(['auth:web'])->prefix('admin')->group(function () {
     Route::resource('vehicles_types', \App\Http\Controllers\Admin\VehicleTypeController::class);
     Route::resource('contact_us', \App\Http\Controllers\Admin\ContactUsController::class);
 
+
+    /**********ajax routes*/
+    Route::get('customers_confirm/{id}', [\App\Http\Controllers\Admin\CustomerController::class, 'confirmForm'])->name('customers.confirmForm');
+    Route::POST('customers_confirm', [\App\Http\Controllers\Admin\CustomerController::class, 'confirm'])->name('customers.confirm');
 });

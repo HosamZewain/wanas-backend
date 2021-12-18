@@ -33,6 +33,10 @@ class User extends Authenticatable
         'password',
         'type',
         'notifications',
+        'civil_image_front',
+        'civil_image_back',
+        'rate',
+        'is_verified'
     ];
 
     /**

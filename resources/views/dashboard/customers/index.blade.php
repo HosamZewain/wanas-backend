@@ -26,17 +26,20 @@
                                     <td>{!! $resource->name !!}</td>
                                     <td>{!! $resource->mobile !!}</td>
                                     <td>{!! $resource->email !!}</td>
-
                                     <td>
                                         <button
-                                            onclick="location.href='{!! url('admin/user_vehicles?user_id='.$resource->id) !!}'"
-                                            class="btn btn-primary btn-sm"
-                                            href="{!! url('admin/user_vehicles?user_id='.$resource->id) !!}">
+                                            data-id="{!! $resource->id !!}"
+                                            data-route="{!! route('customers.confirmForm',$resource->id) !!}"
+                                            class="open_modal btn btn-success btn-sm">
+                                            <em class="zmdi zmdi-check-circle"></em>
+                                        </button>
+                                        <button
+                                            onclick="location.href='{!! route('user_vehicles.index',['user_id'=>$resource->id])!!}'"
+                                            class="btn btn-primary btn-sm">
                                             <em class="zmdi zmdi-car"></em>
                                         </button>
                                         <button onclick="location.href='{!! route('customers.edit',$resource->id) !!}'"
-                                                class="btn btn-default btn-sm"
-                                                href="{!! route('customers.edit',$resource->id) !!}">
+                                                class="btn btn-default btn-sm">
                                             <em class="zmdi zmdi-edit"></em>
                                         </button>
                                         <button

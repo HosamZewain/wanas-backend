@@ -1,0 +1,88 @@
+{
+  "version" : "1.1",
+  "profiles" : [ {
+    "id" : "80867ca5-2a4c-49c0-8273-200814f7d44d",
+    "name" : "Laravel (PHP, BLADE)",
+    "keyNamingPattern" : "SNAKE_CASE_PATTERN",
+    "sink" : {
+      "id" : "ce33d130-be8c-42c2-bda1-b70e7a06b9b3",
+      "type" : "namespaced",
+      "translationsDirectory" : "$PROJECT_DIR$/resources",
+      "fileType" : "javascript",
+      "defaultLocale" : "ar",
+      "namespaces" : [ "app", "bootstrap" ],
+      "outputFilenameTemplate" : "%locale%/%namespace%.js",
+      "nestingType" : "DISABLED",
+      "placeholderFormatterName" : "LARAVEL"
+    },
+    "sources" : [ {
+      "id" : "7662fec1-b376-48e1-b4b7-e48ef55a7483",
+      "type" : "php",
+      "scopeName" : "i18n Ally: Laravel/PHP source",
+      "scopePattern" : "file[wanas]:app//*&&!file[wanas]:app/Broadcasting//*&&!file[wanas]:app/Console//*&&!file[wanas]:app/Events//*&&!file[wanas]:app/Exceptions//*&&!file[wanas]:app/Models//*&&!file[wanas]:app/Providers//*",
+      "replacementTemplate" : "trans('%namespace%.%key%', %map%)",
+      "defaultReplacementTemplate" : "trans('%namespace%.%key%', %map%)",
+      "recognizedReplacementTemplates" : [ ],
+      "skipDefaultNamespace" : false,
+      "sprintfMode" : false
+    }, {
+      "id" : "fe989db7-412f-4640-96ba-5730c1879007",
+      "type" : "blade",
+      "scopeName" : "i18n Ally: Laravel/Blade templates",
+      "scopePattern" : "file[wanas]:resources/views//*",
+      "replacementTemplate" : "trans('%namespace%.%key%', %map%)",
+      "contentReplacementTemplate" : "trans('%namespace%.%key%', %map%)",
+      "attributeReplacementTemplate" : "",
+      "recognizedReplacementTemplates" : [ ],
+      "inlineTagNames" : [ "a", "abbr", "acronym", "b", "bdi", "bdo", "big", "br", "cite", "code", "data", "del", "dfn", "em", "i", "img", "input", "ins", "kbd", "label", "mark", "meter", "output", "progress", "q", "ruby", "s", "samp", "slot", "small", "span", "strong", "sub", "sup", "time", "u", "tt", "var", "wbr" ],
+      "translatableAttributeNames" : [ "title", "alt", "placeholder", "label", "aria-label" ],
+      "skipDefaultNamespace" : false
+    } ]
+  }, {
+    "id" : "bd3d9e19-6cc3-48e6-b12f-81b5cb7bf676",
+    "name" : "Symfony (PHP, TWIG)",
+    "keyNamingPattern" : "SNAKE_CASE_PATTERN",
+    "sink" : {
+      "id" : "79d42f14-142e-4bf9-9a78-6f29db2cb728",
+      "type" : "namespaced",
+      "translationsDirectory" : "$PROJECT_DIR$/resources",
+      "fileType" : "javascript",
+      "defaultLocale" : "js",
+      "namespaces" : [ "app", "bootstrap" ],
+      "outputFilenameTemplate" : "%locale%/%namespace%.js",
+      "nestingType" : "DISABLED",
+      "placeholderFormatterName" : "SYMFONY_REPLACEMENT"
+    },
+    "sources" : [ {
+      "id" : "6bc87a47-8354-402c-924f-cac8ddb9b39a",
+      "type" : "php",
+      "scopeName" : "i18n Ally: Symfony/PHP source",
+      "scopePattern" : "file[wanas]:src//*&&!file[wanas]:src/DataFixtures//*",
+      "replacementTemplate" : "$this->translator->trans('%key%', %map%, '%namespace%')",
+      "defaultReplacementTemplate" : "$this->translator->trans('%key%', %map%, '%namespace%')",
+      "recognizedReplacementTemplates" : [ ],
+      "skipDefaultNamespace" : true,
+      "sprintfMode" : false
+    }, {
+      "id" : "9eadaca2-1d63-49e6-8bf0-28fb44b2d91c",
+      "type" : "twig",
+      "scopeName" : "i18n Ally: Symfony/Twig templates",
+      "scopePattern" : "file[wanas]:templates//*",
+      "replacementTemplate" : "trans(%map%, '%namespace%')",
+      "contentReplacementTemplate" : "trans(%map%, '%namespace%')",
+      "attributeReplacementTemplate" : "",
+      "recognizedReplacementTemplates" : [ ],
+      "inlineTagNames" : [ "a", "abbr", "acronym", "b", "bdi", "bdo", "big", "br", "cite", "code", "data", "del", "dfn", "em", "i", "img", "input", "ins", "kbd", "label", "mark", "meter", "output", "progress", "q", "ruby", "s", "samp", "slot", "small", "span", "strong", "sub", "sup", "time", "u", "tt", "var", "wbr" ],
+      "translatableAttributeNames" : [ "title", "alt", "placeholder", "label", "aria-label" ],
+      "skipDefaultNamespace" : true
+    } ]
+  } ],
+  "ignores" : {
+    "valuesInProject" : [ "use strict" ],
+    "valuesInFile" : { },
+    "filesInProject" : [ ],
+    "unignoredFunctionNames" : [ ],
+    "unignoredFunctionArguments" : { },
+    "ignoredArrayKeys" : [ "class", "selector", "template", "middleware", "layout", "el", "component", "type", "name", "id", "key", "sql", "query", "dateFormat", "date", "condition" ]
+  }
+}

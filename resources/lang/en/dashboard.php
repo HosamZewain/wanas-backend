@@ -45,7 +45,5 @@ return [
     'image' => 'صورة السيارة',
     'model' => 'موديل السيارة',
     'contact_us' => 'رسائل تواصل معنا',
-    'confirm_user_details' => 'تأكيد بيانات العميل',
-    'approve' => 'قبول',
-    'disapprove' => 'رفض '
+    'confirm_user_details'=>'تأكيد بيانات العميل',
 ];

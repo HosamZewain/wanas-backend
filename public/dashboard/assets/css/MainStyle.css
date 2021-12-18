@@ -1,10 +1,12 @@
 .jconfirm .jconfirm-box div.jconfirm-title-c {
     text-align: right !important;
 }
+
 .jconfirm .jconfirm-box div.jconfirm-content-pane .jconfirm-content {
     overflow: auto;
     text-align: right;
 }
+
 .bootstrap-select.btn-group .btn .filter-option {
     display: inline-block !important;
     overflow: hidden !important;
@@ -12,13 +14,19 @@
     text-align: right !important;
 }
 
+.form-label {
+    text-align: right !important;
+}
+
 .bootstrap-select.btn-group .dropdown-toggle .filter-option {
     float: right;
 }
+
 .bootstrap-select .dropdown-toggle .filter-option-inner-inner {
     overflow: hidden;
     text-align: right;
 }
+
 .bootstrap-select .dropdown-menu li a {
     cursor: pointer;
     -webkit-user-select: none;

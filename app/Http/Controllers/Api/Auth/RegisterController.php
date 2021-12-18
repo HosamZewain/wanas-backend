@@ -44,9 +44,7 @@ class RegisterController extends ApiBaseController
         $validation = Validator::make($request->all(), [
             'name' => 'required',
             'mobile' => 'required|unique:users,mobile',
-            'gender' => 'required',
-          //  'fcm_token' => 'required',
-            'birth_date' => 'nullable|date',
+            'fcm_token' => 'required',
             'password' => 'required|confirmed|min:8',
         ], $messages);
 

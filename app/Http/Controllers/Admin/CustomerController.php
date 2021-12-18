@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Api\UserResource;
 use App\Models\User;
 use App\Repositories\SQL\UserRepository;
 use Illuminate\Http\JsonResponse;
@@ -81,5 +82,19 @@ class CustomerController extends Controller
         $resource->delete();
 
         return response()->json(['msg' => trans('dashboard.deleted_successfully')], 200);
+    }
+
+
+    /*********8ajax ************/
+
+    public function confirmForm($id)
+    {
+        $data = $this->userRepository->find($id);
+
+
+        $resource = new UserResource($data);
+
+        $view = view('dashboard.customers.partials._confirm', compact('resource'))->render();
+        return response()->json(['msg' => trans('dashboard.deleted_successfully'), 'data' => $view]);
     }
 }
