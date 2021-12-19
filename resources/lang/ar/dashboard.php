@@ -47,5 +47,13 @@ return [
     'contact_us' => 'رسائل تواصل معنا',
     'confirm_user_details' => 'تأكيد بيانات العميل',
     'approve' => 'قبول',
-    'disapprove' => 'رفض '
+    'disapprove' => 'رفض ',
+    'closeText' => 'إغلاق',
+    'civil_image_front' => 'صورة  واجهة البطاقة الشخصية',
+    'civil_image_back' => 'صورة خلفية البطاقة الشخصية',
+    'profile_image' => 'الصورة الشخصية',
+    'approved' => 'تم الموافقة ',
+    'well_done' => 'شكرا لك',
+    'data_confirmed' => 'تم تأكيد البيانات',
+    'confirm'=>'تأكيد البيانات',
 ];

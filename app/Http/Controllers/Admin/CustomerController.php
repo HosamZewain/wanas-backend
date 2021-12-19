@@ -97,4 +97,18 @@ class CustomerController extends Controller
         $view = view('dashboard.customers.partials._confirm', compact('resource'))->render();
         return response()->json(['msg' => trans('dashboard.deleted_successfully'), 'data' => $view]);
     }
+
+    public function confirm(Request $request)
+    {
+        $customer = $this->userRepository->find($request->customer_id);
+        if ($customer) {
+            $this->userRepository->update($customer, [
+                'is_verified' => true,
+            ]);
+        }
+
+        $resource = new UserResource($customer);
+        return response()->json(['msg' => trans('dashboard.approved')], 200);
+
+    }
 }

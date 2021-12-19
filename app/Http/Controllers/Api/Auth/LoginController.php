@@ -85,20 +85,21 @@ class LoginController extends ApiBaseController
     public function profile(Request $request)
     {
         $resource = $request->user();
-        $messages = [
-            'mobile.required' => 'رقم الهاتف مطلوب',
-            'mobile.exists' => 'رقم الهاتف غير مسجل من قبل ، يرجى تسجيل حساب جديد',
-            'password.required' => 'كلمة المرور  مطلوبة',
-            'password.confirmed' => 'تأكيد كلمة  المرور  مطلوب',
-            'password.min' => 'كلمة المرور يجب ان لا تقل عن 8 أرقام وحروف',
-        ];
+
+//        $messages = [
+//            'mobile.required' => 'رقم الهاتف مطلوب',
+//            'mobile.exists' => 'رقم الهاتف غير مسجل من قبل ، يرجى تسجيل حساب جديد',
+//            'password.required' => 'كلمة المرور  مطلوبة',
+//            'password.confirmed' => 'تأكيد كلمة  المرور  مطلوب',
+//            'password.min' => 'كلمة المرور يجب ان لا تقل عن 8 أرقام وحروف',
+//        ];
         $validation = Validator::make($request->all(), [
             'mobile' => 'nullable|unique:users,mobile,' . $resource->id,
             'password' => 'nullable|confirmed|min:8',
             'civil_image_front' => 'nullable|image|max:10000',
             'civil_image_back' => 'nullable|image|max:10000',
             'profile_image' => 'nullable|image|max:10000',
-        ], $messages);
+        ]);
 
         if ($validation->fails()) {
             return $this->respondWithErrors($validation->errors(), 422, null, __('messages.complete_empty_values'));

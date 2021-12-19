@@ -45,5 +45,9 @@ return [
     'image' => 'صورة السيارة',
     'model' => 'موديل السيارة',
     'contact_us' => 'رسائل تواصل معنا',
-    'confirm_user_details'=>'تأكيد بيانات العميل',
+    'confirm_user_details' => 'تأكيد بيانات العميل',
+    'civil_image_front' => 'صورة  واجهة البطاقة الشخصية',
+    'civil_image_back' => 'صورة خلفية البطاقة الشخصية',
+    'profile_image' => 'الصورة الشخصية',
+    'approved' => 'تم الموافقة ',
 ];

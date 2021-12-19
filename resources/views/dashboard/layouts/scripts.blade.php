@@ -56,8 +56,8 @@
                 console.log(data);
                 $.alert({
                     icon: 'far fa-check-circle',
-                    title: SuccessTitle,
-                    content: data.msg,
+                    title:data.msg,
+                    content: '',
                     backgroundDismiss: true,
                     theme: 'modern',
                     type: 'green',
@@ -71,7 +71,7 @@
                         }
                     },
                 });
-                if (data.data.redirect) {
+                if (data.data && data.data.redirect) {
                     console.log(data.data.redirect);
                     window.location.replace(data.data.redirect);
                 }

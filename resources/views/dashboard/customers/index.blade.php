@@ -27,27 +27,47 @@
                                     <td>{!! $resource->mobile !!}</td>
                                     <td>{!! $resource->email !!}</td>
                                     <td>
+                                        @if($resource->is_verified)
+                                            <span
+                                                data-toggle="tooltip" data-placement="top"
+                                                title="{!! __('dashboard.data_confirmed') !!}"
+                                                class="badge badge-secondary text-success mt-2">
+                                             {{--   {!! __('dashboard.data_confirmed') !!} --}}
+                                                <i class="fas fa-2x fa-user-check"></i>
+                                            </span>
+                                        @else
+                                            <button
+                                                data-toggle="tooltip" data-placement="top"
+                                                title="{!! __('dashboard.confirm') !!}"
+                                                data-id="{!! $resource->id !!}"
+                                                data-route="{!! route('customers.confirmForm',$resource->id) !!}"
+                                                class="open_modal btn btn-secondary btn-sm">
+                                                <i class="far fa-check-circle"></i>
+                                            </button>
+
+                                        @endif
                                         <button
-                                            data-id="{!! $resource->id !!}"
-                                            data-route="{!! route('customers.confirmForm',$resource->id) !!}"
-                                            class="open_modal btn btn-success btn-sm">
-                                            <em class="zmdi zmdi-check-circle"></em>
-                                        </button>
-                                        <button
+                                            data-toggle="tooltip" data-placement="top"
+                                            title="{!! __('dashboard.user_vehicles') !!}"
                                             onclick="location.href='{!! route('user_vehicles.index',['user_id'=>$resource->id])!!}'"
                                             class="btn btn-primary btn-sm">
-                                            <em class="zmdi zmdi-car"></em>
-                                        </button>
-                                        <button onclick="location.href='{!! route('customers.edit',$resource->id) !!}'"
-                                                class="btn btn-default btn-sm">
-                                            <em class="zmdi zmdi-edit"></em>
+                                            <i class="fas fa-car-side"></i>
                                         </button>
                                         <button
+                                            data-toggle="tooltip" data-placement="top"
+                                            title="{!! __('dashboard.edit') !!}"
+                                            onclick="location.href='{!! route('customers.edit',$resource->id) !!}'"
+                                            class="btn btn-default btn-sm">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </button>
+                                        <button
+                                            data-toggle="tooltip" data-placement="top"
+                                            title="{!! __('dashboard.delete') !!}"
                                             data-route="{!! route('customers.destroy',$resource->id) !!}"
                                             data-id="{!!$resource->id !!}"
                                             data-token="{!! csrf_token() !!}"
                                             class="delete btn btn-danger btn-sm">
-                                            <em class="zmdi zmdi-delete"></em>
+                                            <i class="far fa-trash-alt"></i>
                                         </button>
                                     </td>
                                 </tr>

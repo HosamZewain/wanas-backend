@@ -1,4 +1,17 @@
-.jconfirm .jconfirm-box div.jconfirm-title-c {
+body {
+    -moz-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    transition: all 0.5s;
+    font-family: "Tajawal", sans-serif;
+    background-color: #fff;
+    font-weight: 400;
+    direction: rtl !important;
+    font-size: 15px;
+    text-align: right;
+}
+
+jconfirm .jconfirm-box div.jconfirm-title-c {
     text-align: right !important;
 }
 
