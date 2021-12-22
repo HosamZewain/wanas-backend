@@ -44,4 +44,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/accept_member', [\App\Http\Controllers\Api\TripController::class, 'acceptMember']);
     Route::post('/reject_member', [\App\Http\Controllers\Api\TripController::class, 'rejectMember']);
     Route::post('/rate_trip', [\App\Http\Controllers\Api\TripController::class, 'rateTrip']);
+    Route::post('/rate_user', [\App\Http\Controllers\Api\UserController::class, 'rateUser']);
 });

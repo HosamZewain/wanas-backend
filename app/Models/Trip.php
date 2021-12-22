@@ -13,7 +13,7 @@ class Trip extends Model
     public const STATUS_ACTIVE = 1;
     public const STATUS_ENDED = 2;
     protected $table = 'trips';
-    protected $appends = ['is_member'];
+    protected $appends = ['is_member', 'trip_name'];
     protected $fillable = [
         'user_id',
         'pickup_address',
@@ -77,5 +77,10 @@ class Trip extends Model
     public function getIsMemberAttribute()
     {
         return (bool)$this->members()->where('user_id', Request()->user()->id)->first();
+    }
+
+    public function getTripNameAttribute()
+    {
+        return 'الرحلة من  (' . $this->pickup_address . ') إلى  (' . $this->drop_off_address . ')  ميعاد قيام الرحلة :  (' . $this->trip_date . '-' . $this->trip_time . ')';
     }
 }

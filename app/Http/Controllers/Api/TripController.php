@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\Api\TripResource;
+use App\Models\Notification;
 use App\Models\Trip;
 use App\Models\TripMember;
 use App\Repositories\SQL\NotificationRepository;
@@ -113,7 +114,7 @@ class TripController extends ApiBaseController
         }
 
 
-        $resource = $this->tripRepository->find($request->trip_id, ['user', 'members']);
+        $resource = $this->tripRepository->find($request->trip_id, ['user.fcmTokens', 'members']);
         if ($resource) {
             //check members count
             if ($resource->members_count <= $resource->members()->count()) {
@@ -127,14 +128,18 @@ class TripController extends ApiBaseController
                 'status' => TripMember::STATUS_WAITING_APPROVAL,
             ]);
 
-            $title = 'وصلك إشعار جديدة بحجز رحلة جديدة';
-            $body = "طلب حجز على الرحلة رقم {$resource->id}";
-            $parameters['type'] = 'new_trip';
-            $parameters['member_id'] = $request->user()->id;
-            $parameters['model_id'] = $resource->id;
-            $parameters['model_type'] = get_class($resource);
 
-            $this->notificationRepository->sendNotification($resource->user()->with('fcmTokens')->first(), $body, $title, $parameters);
+            if (count($resource->user->fcmTokens)) {
+                $title = 'وصلك إشعار جديدة بحجز رحلة جديدة';
+                $body = "طلب حجز على الرحلة رقم {$resource->id}";
+                $parameters['type'] = Notification::TYPE_NEW_BOOK;
+                $parameters['member_id'] = $request->user()->id;
+                $parameters['model_id'] = $resource->id;
+                $parameters['model_type'] = get_class($resource);
+                foreach ($resource->user->fcmTokens as $token) {
+                    $this->notificationRepository->sendNotification($token['token'], $body, $title, $parameters);
+                }
+            }
             $resource = new TripResource($resource);
             return $this->respondWithSuccess(__('messages.request_sent_successfully'), $resource);
         }
@@ -159,7 +164,7 @@ class TripController extends ApiBaseController
      * @param Request $request
      * @return JsonResponse
      */
-    public function acceptMember(Request $request)
+    public function acceptMember(Request $request): JsonResponse
     {
         $messages = [
             'trip_id.required' => 'رقم الرحلة مطلوبة',
@@ -175,18 +180,30 @@ class TripController extends ApiBaseController
         }
         $resource = $this->tripRepository->find($request->trip_id, ['user']);
         if ($resource) {
-            $member = $resource->members()->where('user_id', $request->member_id)->first();
+            $member = $this->userRepository->find($request->member_id, ['fcmTokens']);
             if ($member) {
-                $member->update([
+                $this->userRepository->update($member, [
                     'status' => TripMember::STATUS_APPROVED,
                 ]);
-                $title = 'تم الموافقة على حجز الرحلة';
-                $body = 'طلب حجز على الرحلة رقم .' . $resource->id;
-                $parameters['type'] = 'book_approved';
-                $parameters['model_id'] = $resource->id;
-                $parameters['model_type'] = get_class($resource);
-                $member = $this->userRepository->find($member->id, ['fcmTokens']);
-                $this->notificationRepository->sendNotification($member, $body, $title, $parameters);
+
+                if (count($member->fcmTokens)) {
+                    $title = 'تم تأكيد  حجز الرحلة ';
+                    $body = "تم تأكيد حجز الرحلة رقم  ('.$resource->trip_name.')  ";
+                    $parameters['type'] = Notification::TYPE_BOOK_APPROVED;
+                    $parameters['member_id'] = $request->user()->id;
+                    $parameters['model_id'] = $member->id;
+                    $parameters['model_type'] = get_class($member);
+                    foreach ($member->fcmTokens as $token) {
+                        $this->notificationRepository->sendNotification($token['token'], $body, $title, $parameters);
+                    }
+                }
+//                $title = 'تم الموافقة على حجز الرحلة';
+//                $body = 'طلب حجز على الرحلة رقم .' . $resource->id;
+//                $parameters['type'] = 'book_approved';
+//                $parameters['model_id'] = $resource->id;
+//                $parameters['model_type'] = get_class($resource);
+//                $member = $this->userRepository->find($member->id, ['fcmTokens']);
+//                $this->notificationRepository->sendNotification($member, $body, $title, $parameters);
                 $resource = new TripResource($resource);
                 return $this->respondWithSuccess(__('messages.book_approved'), $resource);
             }

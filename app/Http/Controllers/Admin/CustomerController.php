@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\UserResource;
+use App\Models\Notification;
 use App\Models\User;
+use App\Repositories\SQL\NotificationRepository;
 use App\Repositories\SQL\UserRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -14,10 +16,12 @@ use Illuminate\Support\Facades\Hash;
 class CustomerController extends Controller
 {
     private $userRepository;
+    private $notificationRepository;
 
     public function __construct(UserRepository $userRepository)
     {
         $this->userRepository = $userRepository;
+        $this->notificationRepository = app(NotificationRepository::class);
     }
 
     public function index()
@@ -98,17 +102,27 @@ class CustomerController extends Controller
         return response()->json(['msg' => trans('dashboard.deleted_successfully'), 'data' => $view]);
     }
 
-    public function confirm(Request $request)
+    public function confirm(Request $request): JsonResponse
     {
-        $customer = $this->userRepository->find($request->customer_id);
+        $customer = $this->userRepository->find($request->customer_id, ['fcmTokens']);
         if ($customer) {
             $this->userRepository->update($customer, [
                 'is_verified' => true,
             ]);
         }
-
+        if (count($customer->fcmTokens)) {
+            $title = 'تم تأكيد بياناتك ';
+            $body = "تم تأكيد بياناتك بنجاح ، يمكنك الان حجز الرحلات المفضلة لديك";
+            $parameters['type'] = Notification::TYPE_CONFIRM_USER;
+            $parameters['member_id'] = $request->user()->id;
+            $parameters['model_id'] = $customer->id;
+            $parameters['model_type'] = get_class($customer);
+            foreach ($customer->fcmTokens as $token) {
+                $this->notificationRepository->sendNotification($token['token'], $body, $title, $parameters);
+            }
+        }
         $resource = new UserResource($customer);
-        return response()->json(['msg' => trans('dashboard.approved')], 200);
+        return response()->json(['msg' => trans('dashboard.approved'), 'data' => $resource], 200);
 
     }
 }
