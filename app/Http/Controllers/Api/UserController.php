@@ -11,6 +11,7 @@ use App\Repositories\SQL\UserVehicleRepository;
 use App\Repositories\SQL\VehicleTypeRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends ApiBaseController
@@ -67,5 +68,19 @@ class UserController extends ApiBaseController
             return $this->respondWithSuccess(__('dashboard.created_successfully'), $resource);
         }
         return $this->respondWithErrors(__('messages.error'), 422, null, __('messages.error'));
+    }
+
+    public function userDetails(Request $request)
+    {
+        $validation = Validator::make($request->all(), [
+            'user_id' => 'required',
+        ]);
+        if ($validation->fails()) {
+            return $this->respondWithErrors($validation->errors(), 422, null, __('messages.complete_empty_values'));
+        }
+
+        $user = $this->userRepository->find($request->user_id, ['rates','vehicle.attachments']);
+        $user = new UserResource($user);
+        return $this->respondWithSuccess(__('messages.data_found'), $user);
     }
 }

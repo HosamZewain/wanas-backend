@@ -32,6 +32,7 @@ Route::get('/setting', [\App\Http\Controllers\Api\HomeController::class, 'settin
 
 //auth
 Route::middleware('auth:sanctum')->group(function () {
+    Route::post('user', [\App\Http\Controllers\Api\UserController::class, 'userDetails']);
     Route::post('activate_account', [\App\Http\Controllers\Api\Auth\RegisterController::class, 'activateAccount']);
     Route::post('/profile', [\App\Http\Controllers\Api\Auth\LoginController::class, 'profile']);
     Route::post('/add_vehicle', [\App\Http\Controllers\Api\VehicleController::class, 'addVehicle']);

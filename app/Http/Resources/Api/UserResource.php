@@ -32,6 +32,7 @@ class UserResource extends JsonResource
             'civil_image' => ($this->civil_image) ? asset('storage/' . $this->civil_image) : null,
             'civil_image_front' => ($this->civil_image_front) ? asset('storage/' . $this->civil_image_front) : null,
             'civil_image_back' => ($this->civil_image_back) ? asset('storage/' . $this->civil_image_back) : null,
+            'rates' => UserRateResource::collection($this->whenLoaded('rates')),
             $this->mergeWhen($this->vehicle, [
                 'vehicle' => new UserVehicleResource($this->vehicle),
             ]),

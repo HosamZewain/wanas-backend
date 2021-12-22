@@ -16,6 +16,7 @@ class UserRate extends Model
         'user_id',
         'rate',
         'comment',
+        'rate_user_id',
     ];
 
 
@@ -35,5 +36,9 @@ class UserRate extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+    public function ratedUser(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'rate_user_id');
     }
 }

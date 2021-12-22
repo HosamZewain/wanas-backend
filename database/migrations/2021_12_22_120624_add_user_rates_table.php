@@ -16,6 +16,7 @@ class AddUserRatesTable extends Migration
         Schema::create('user_rates', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
+            $table->integer('rate_user_id');
             $table->integer('rate');
             $table->text('comment');
             $table->timestamp('updated_at')->nullable();

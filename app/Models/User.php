@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Traits\ModelTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -65,17 +67,22 @@ class User extends Authenticatable
     }
 
     /*****************relations*****************/
-    public function vehicle()
+    public function vehicle(): HasOne
     {
         return $this->hasOne(UserVehicle::class, 'user_id');
     }
 
-    public function trips()
+    public function trips(): HasMany
     {
         return $this->hasMany(Trip::class, 'user_id');
     }
 
-    public function fcmTokens()
+    public function rates(): HasMany
+    {
+        return $this->hasMany(UserRate::class, 'rate_user_id');
+    }
+
+    public function fcmTokens(): HasMany
     {
         return $this->hasMany(UserFcmToken::class, 'user_id');
     }
