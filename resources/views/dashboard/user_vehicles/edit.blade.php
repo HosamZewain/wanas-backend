@@ -16,7 +16,7 @@
                     @include('dashboard.user_vehicles.partials._form')
                     <div class="row">
                         <div class="col-md-12">
-                            {!! Form::submit('Save Changes',['class'=>'btn btn-primary float-right']); !!}
+                            {!! Form::submit(__('dashboard.save_changes'),['class'=>'btn btn-primary float-right']); !!}
                         </div>
                     </div>
                     {!! Form::close() !!}

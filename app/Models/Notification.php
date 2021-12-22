@@ -15,6 +15,9 @@ class Notification extends Model
     public const TYPE_NEW_TRIP = 'new_trip';
     public const TYPE_NEW_BOOK = 'new_book';
     public const TYPE_BOOK_APPROVED = 'book_approved';
+    public const TYPE_BOOK_DISAPPROVED = 'book_disapproved';
+    public const TYPE_CAR_APPROVED = 'car_approved';
+    public const TYPE_CAR_DISAPPROVED = 'car_disapproved';
 
     protected $table = 'notifications';
     protected $fillable = [

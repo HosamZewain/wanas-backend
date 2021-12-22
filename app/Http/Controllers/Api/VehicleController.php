@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\Api\UserVehicleResource;
+use App\Models\UserVehicle;
 use App\Repositories\SQL\UserRepository;
 use App\Repositories\SQL\UserVehicleRepository;
 use App\Repositories\SQL\VehicleTypeRepository;
@@ -42,14 +43,19 @@ class VehicleController extends ApiBaseController
             'number.required' => ' رقم السيارة مطلوب',
             'model.required' => ' موديل السيارة مطلوب',
             'type.required' => ' نوع السيارة مطلوب',
-            'image.required' => ' صورة السيارة مطلوبة',
+            'images.required' => ' صورة السيارة مطلوبة',
         ];
         $validation = Validator::make($request->all(), [
             'color' => 'required',
             'number' => 'required',
             'model' => 'required',
             'type' => 'required|exists:vehicle_types,id',
-            'image' => 'required|image',
+            'images' => 'required|array',
+            'images.*' => 'required|image',
+            'car_license_front' => 'required|image',
+            'car_license_back' => 'required|image',
+            'driver_license_front' => 'required|image',
+            'driver_license_back' => 'required|image',
         ], $messages);
 
         if ($validation->fails()) {
@@ -61,10 +67,31 @@ class VehicleController extends ApiBaseController
         }
         $inputs = $request->all();
         $inputs['user_id'] = $request->user()->id;
+        $inputs['status'] = UserVehicle::STATUS_IN_PROGRESS;
         $resource = $this->userVehicleRepository->create($inputs);
         if ($resource) {
-            if ($request->hasFile('image')) {
-                $resource->update(['image' => $request->file('image')->store('vehicles', 'public'),]);
+            if (!empty($request->images)) {
+                foreach ($request->images as $image) {
+                    $path = $image->store('vehicles', 'public');
+                    $resource->attachments()->create([
+                        'attachment_url' => 'vehicles/' . basename($path),
+                        'original_name' => $image->getClientOriginalName(),
+                        'file_type' => $image->getMimeType(),
+                        'key' => 'vehicle_images'
+                    ]);
+                }
+            }
+            if ($request->hasFile('car_license_front')) {
+                $resource->update(['car_license_front' => $request->file('car_license_front')->store('vehicles', 'public'),]);
+            }
+            if ($request->hasFile('car_license_back')) {
+                $resource->update(['car_license_back' => $request->file('car_license_back')->store('vehicles', 'public'),]);
+            }
+            if ($request->hasFile('driver_license_front')) {
+                $resource->update(['driver_license_front' => $request->file('driver_license_front')->store('vehicles', 'public'),]);
+            }
+            if ($request->hasFile('driver_license_back')) {
+                $resource->update(['driver_license_back' => $request->file('driver_license_back')->store('vehicles', 'public'),]);
             }
             $resource->save();
             $resource = new UserVehicleResource($resource);

@@ -16,10 +16,12 @@ class LoginController extends ApiBaseController
 {
 
     public $IUserRepository;
+    private $userRepository;
 
     public function __construct(UserRepository $UserRepo)
     {
         $this->IUserRepository = $UserRepo;
+        $this->userRepository = $UserRepo;
         parent::__construct($UserRepo, UserResource::class);
     }
 
@@ -140,8 +142,9 @@ class LoginController extends ApiBaseController
         }
         $resource->save();
         if ($resource) {
-            $resource = new UserResource($resource);
-            return $this->respondWithSuccess(__('messages.data_found'), $resource);
+            $user= $this->userRepository->find($request->user()->id,['vehicle.attachments']);
+            $user = new UserResource($user);
+            return $this->respondWithSuccess(__('messages.data_found'), $user);
         }
         return $this->respondWithErrors(__('messages.error'), 422, null, __('messages.error'));
     }

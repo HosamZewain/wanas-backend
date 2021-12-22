@@ -49,5 +49,8 @@ return [
     'civil_image_front' => 'صورة  واجهة البطاقة الشخصية',
     'civil_image_back' => 'صورة خلفية البطاقة الشخصية',
     'profile_image' => 'الصورة الشخصية',
-    'approved' => 'تم الموافقة ',
+    'car_license_front' => 'واجهة رخصة السيارة',
+    'car_license_back' => 'خلفية رخصة السيارة',
+    'driver_license_front' => 'واجهة رخصة القيادة ',
+    'driver_license_back' => 'خلفية رخصة القيادة',
 ];
