@@ -18,6 +18,7 @@ class AddUserRatesTable extends Migration
             $table->integer('user_id');
             $table->integer('rate');
             $table->text('comment');
+            $table->timestamp('updated_at')->nullable();
         });
 
     }

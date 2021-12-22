@@ -64,7 +64,7 @@ class UserController extends ApiBaseController
             }
 
             $resource = new UserResource($user);
-            return $this->respondWithSuccess(__('messages.book_disapproved'), $resource);
+            return $this->respondWithSuccess(__('dashboard.created_successfully'), $resource);
         }
         return $this->respondWithErrors(__('messages.error'), 422, null, __('messages.error'));
     }
