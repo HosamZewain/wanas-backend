@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Traits\ModelTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class TripMember extends Model
 {
@@ -28,7 +29,7 @@ class TripMember extends Model
 
     /************relations*************/
 
-    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
     }

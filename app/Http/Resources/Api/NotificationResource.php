@@ -4,6 +4,7 @@ namespace App\Http\Resources\Api;
 
 use App\Models\Notification;
 use App\Models\TripMember;
+use App\Repositories\SQL\TripMemberRepository;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class NotificationResource extends JsonResource
@@ -22,6 +23,7 @@ class NotificationResource extends JsonResource
             'model_type' => $this->model_type,
             $this->mergeWhen(($this->relatedModel), [
                 'relatedModel' => new TripResource($this->relatedModel),
+                'member_status' => app(TripMemberRepository::class)->checkForMemberApproval($this->from_user, $this->model_id),
             ]),
             $this->mergeWhen($this->user, [
                 'user' => new UserResource($this->user),

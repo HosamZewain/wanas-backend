@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Api;
 
 use App\Models\TripMember;
+use App\Repositories\SQL\TripMemberRepository;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class TripResource extends JsonResource
@@ -22,7 +23,7 @@ class TripResource extends JsonResource
             'members_count' => $this->members_count,
             'trip_cost_per_person' => $this->trip_cost_per_person,
             'total_trip_cost' => $this->total_trip_cost,
-            'is_member' =>  $this->is_member,
+            'is_member' => $this->is_member,
             'rate' => $this->rate,
             'user' => new UserResource($this->user),
             'members' => TripMemberResource::collection($this->members),

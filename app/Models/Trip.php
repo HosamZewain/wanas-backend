@@ -76,7 +76,11 @@ class Trip extends Model
     /***************attributes******************/
     public function getIsMemberAttribute()
     {
-        return (bool)$this->members()->where('user_id', Request()->user()->id)->first();
+        return (bool)$this->members->where('user_id', Request()->user()->id)->where('status', TripMember::STATUS_APPROVED)->first();
+    }
+    public function getIsNotifiationMemberAttribute()
+    {
+        return (bool)$this->members->where('user_id', Request()->user()->id)->where('status', TripMember::STATUS_APPROVED)->first();
     }
 
     public function getTripNameAttribute()
