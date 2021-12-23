@@ -11,7 +11,7 @@ class UserRate extends Model
     use ModelTrait;
 
     protected $table = 'user_rates';
-    protected $filters = ['UserId'];
+    protected $filters = ['UserId', 'UserRateId'];
     protected $fillable = [
         'user_id',
         'rate',
@@ -31,12 +31,22 @@ class UserRate extends Model
         return $query->where('user_id', $value);
     }
 
+    public function scopeOfUserRateId($query, $value)
+    {
+        if (empty($value)) {
+            return $query;
+        }
+
+        return $query->where('rate_user_id', $value);
+    }
+
     /********************relations***************/
 
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
     public function ratedUser(): BelongsTo
     {
         return $this->belongsTo(User::class, 'rate_user_id');

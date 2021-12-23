@@ -51,13 +51,14 @@ class UserController extends ApiBaseController
         $user = $this->userRepository->find($request->user_id);
         if ($user) {
             $this->userRateRepository->create([
-                'user_id' => $user->id,
+                'user_id' =>$request->user()->id,
+                'rate_user_id' => $user->id,
                 'rate' => $request->rate,
                 'comment' => $request->comment,
             ]);
 
 
-            $filters['UserId'] = $user->id;
+            $filters['UserRateId'] = $user->id;
             $CustomersRates = $this->userRateRepository->search($filters, [], false, false, false);
             $CustomersRates = $CustomersRates->AVG('rate');
             if (isset($CustomersRates)) {
