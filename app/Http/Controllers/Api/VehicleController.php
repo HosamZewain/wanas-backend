@@ -121,7 +121,11 @@ class VehicleController extends ApiBaseController
             'number' => 'nullable',
             'model' => 'nullable',
             'type' => 'nullable|exists:vehicle_types,id',
-            'image' => 'nullable|image',
+            'images.*' => 'nullable|image',
+            'car_license_front' => 'nullable|image',
+            'car_license_back' => 'nullable|image',
+            'driver_license_front' => 'nullable|image',
+            'driver_license_back' => 'nullable|image',
         ], $messages);
 
         if ($validation->fails()) {
@@ -133,8 +137,28 @@ class VehicleController extends ApiBaseController
         $resource = $this->userVehicleRepository->find($request->vehicle_id);
         $resource = $this->userVehicleRepository->update($resource,$inputs);
         if ($resource) {
-            if ($request->hasFile('image')) {
-                $resource->update(['image' => $request->file('image')->store('vehicles', 'public'),]);
+            if (!empty($request->images)) {
+                foreach ($request->images as $image) {
+                    $path = $image->store('vehicles', 'public');
+                    $resource->attachments()->create([
+                        'attachment_url' => 'vehicles/' . basename($path),
+                        'original_name' => $image->getClientOriginalName(),
+                        'file_type' => $image->getMimeType(),
+                        'key' => 'vehicle_images'
+                    ]);
+                }
+            }
+            if ($request->hasFile('car_license_front')) {
+                $resource->update(['car_license_front' => $request->file('car_license_front')->store('vehicles', 'public'),]);
+            }
+            if ($request->hasFile('car_license_back')) {
+                $resource->update(['car_license_back' => $request->file('car_license_back')->store('vehicles', 'public'),]);
+            }
+            if ($request->hasFile('driver_license_front')) {
+                $resource->update(['driver_license_front' => $request->file('driver_license_front')->store('vehicles', 'public'),]);
+            }
+            if ($request->hasFile('driver_license_back')) {
+                $resource->update(['driver_license_back' => $request->file('driver_license_back')->store('vehicles', 'public'),]);
             }
             $resource->save();
             $resource = new UserVehicleResource($resource);
