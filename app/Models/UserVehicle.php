@@ -33,7 +33,7 @@ class UserVehicle extends Model
     ];
 
     /******************attributes******************/
-    public function getStatusTextAttribute($query, $value)
+    public function getStatusTextAttribute()
     {
         return __('messages.trip_status');
     }
