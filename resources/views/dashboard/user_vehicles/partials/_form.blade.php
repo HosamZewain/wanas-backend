@@ -41,75 +41,76 @@
         <label id="type-error" class="error text-danger float-left" for="type">{{ $message }}</label>
         @enderror
     </div>
-    <hr>
-    <div class="row mb-2">
-        <div class="col-md-3">
-            {!! Form::label('image',trans('dashboard.image'), ['class' => 'form-label']) !!}
-        </div>
-        @if(isset($resource) && count($resource->attachments))
-            @foreach ($resource->attachments as $attachment)
-                <div class="col-md-3">
-                    <a data-fancybox="gallery" href="{!!asset('storage/' .$attachment['attachment_url'])  !!}">
-                        <img class="img-fluid" src="{!! asset('storage/'.$attachment['attachment_url']) !!}" alt=""/>
-                    </a>
-
-                </div>
-            @endforeach
-        @else
+</div>
+<hr>
+<div class="row mb-2">
+    <div class="col-md-3">
+        {!! Form::label('image',trans('dashboard.image'), ['class' => 'form-label']) !!}
+    </div>
+    @if(isset($resource) && count($resource->attachments))
+        @foreach ($resource->attachments as $attachment)
             <div class="col-md-3">
-                {!! Form::file('image',['class'=>'form-control']) !!}
-                @error('image')
-                <label id="image-error" class="error text-danger float-left" for="image">{{ $message }}</label>
-                @enderror
+                <a data-fancybox="gallery" href="{!!asset('storage/' .$attachment['attachment_url'])  !!}">
+                    <img class="img-fluid" src="{!! asset('storage/'.$attachment['attachment_url']) !!}" alt=""/>
+                </a>
+
             </div>
+        @endforeach
+    @else
+        <div class="col-md-3">
+            {!! Form::file('image',['class'=>'form-control']) !!}
+            @error('image')
+            <label id="image-error" class="error text-danger float-left" for="image">{{ $message }}</label>
+            @enderror
+        </div>
+    @endif
+</div>
+
+<hr>
+<div class="row mb-2">
+    <div class="col-md-3">
+        {!! Form::label('car_license_front',trans('dashboard.car_license_front'), ['class' => 'form-label']) !!}
+    </div>
+    <div class="col-md-3">
+        @if(isset($resource))
+            <a data-fancybox="gallery" href="{!!asset('storage/' .$resource['car_license_front'])  !!}">
+                <img class="img-fluid" src="{!! asset('storage/'.$resource['car_license_front']) !!}" alt=""/>
+            </a>
         @endif
     </div>
-
-    <hr>
-    <div class="row mb-2">
-        <div class="col-md-3">
-            {!! Form::label('car_license_front',trans('dashboard.car_license_front'), ['class' => 'form-label']) !!}
-        </div>
-        <div class="col-md-3">
-            @if(isset($resource))
-                <a data-fancybox="gallery" href="{!!asset('storage/' .$resource['car_license_front'])  !!}">
-                    <img class="img-fluid" src="{!! asset('storage/'.$resource['car_license_front']) !!}" alt=""/>
-                </a>
-            @endif
-        </div>
-        <div class="col-md-3">
-            {!! Form::label('car_license_back',trans('dashboard.car_license_back'), ['class' => 'form-label']) !!}
-        </div>
-        <div class="col-md-3">
-            @if(isset($resource))
-                <a data-fancybox="gallery" href="{!!asset('storage/' .$resource['car_license_back'])  !!}">
-                    <img class="img-fluid" src="{!! asset('storage/'.$resource['car_license_back']) !!}" alt=""/>
-                </a>
-            @endif
-        </div>
+    <div class="col-md-3">
+        {!! Form::label('car_license_back',trans('dashboard.car_license_back'), ['class' => 'form-label']) !!}
     </div>
-
-    <hr>
-    <div class="row mb-2">
-        <div class="col-md-3">
-            {!! Form::label('driver_license_front',trans('dashboard.driver_license_front'), ['class' => 'form-label']) !!}
-        </div>
-        <div class="col-md-3">
-            @if(isset($resource))
-                <a data-fancybox="gallery" href="{!!asset('storage/' .$resource['driver_license_front'])  !!}">
-                    <img class="img-fluid" src="{!! asset('storage/'.$resource['driver_license_front']) !!}"
-                         alt=""/>
-                </a>
-            @endif
-        </div>
-        <div class="col-md-3">
-            {!! Form::label('driver_license_back',trans('dashboard.driver_license_back'), ['class' => 'form-label']) !!}
-        </div>
-        <div class="col-md-3">
-            @if(isset($resource))
-                <a data-fancybox="gallery" href="{!!asset('storage/' .$resource['driver_license_back'])  !!}">
-                    <img class="img-fluid" src="{!! asset('storage/'.$resource['driver_license_back']) !!}" alt=""/>
-                </a>
-            @endif
-        </div>
+    <div class="col-md-3">
+        @if(isset($resource))
+            <a data-fancybox="gallery" href="{!!asset('storage/' .$resource['car_license_back'])  !!}">
+                <img class="img-fluid" src="{!! asset('storage/'.$resource['car_license_back']) !!}" alt=""/>
+            </a>
+        @endif
     </div>
+</div>
+
+<hr>
+<div class="row mb-2">
+    <div class="col-md-3">
+        {!! Form::label('driver_license_front',trans('dashboard.driver_license_front'), ['class' => 'form-label']) !!}
+    </div>
+    <div class="col-md-3">
+        @if(isset($resource))
+            <a data-fancybox="gallery" href="{!!asset('storage/' .$resource['driver_license_front'])  !!}">
+                <img class="img-fluid" src="{!! asset('storage/'.$resource['driver_license_front']) !!}"
+                     alt=""/>
+            </a>
+        @endif
+    </div>
+    <div class="col-md-3">
+        {!! Form::label('driver_license_back',trans('dashboard.driver_license_back'), ['class' => 'form-label']) !!}
+    </div>
+    <div class="col-md-3">
+        @if(isset($resource))
+            <a data-fancybox="gallery" href="{!!asset('storage/' .$resource['driver_license_back'])  !!}">
+                <img class="img-fluid" src="{!! asset('storage/'.$resource['driver_license_back']) !!}" alt=""/>
+            </a>
+        @endif
+    </div>
+</div>

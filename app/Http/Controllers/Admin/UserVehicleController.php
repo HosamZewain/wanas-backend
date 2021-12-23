@@ -103,7 +103,7 @@ class UserVehicleController extends Controller
 
     /*********8ajax ************/
 
-    public function confirmForm($id, Request $request)
+    public function confirmForm($id, Request $request): JsonResponse
     {
         $types = $this->types->pluck('name', 'id')->toArray();
         $resource = $this->userVehicleRepository->find($id);
