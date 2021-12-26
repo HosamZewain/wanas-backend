@@ -73,7 +73,7 @@ class HomeController extends ApiBaseController
 
     public function VehicleTypes()
     {
-        $resources = $this->vehicleTypeRepository->search([], [], false, false);
+        $resources = $this->vehicleTypeRepository->search([], [], false, false, false);
         if ($resources) {
             $resources = VehicleTypeResource::collection($resources);
             return $this->respondWithSuccess(__('messages.data_found'), $resources);

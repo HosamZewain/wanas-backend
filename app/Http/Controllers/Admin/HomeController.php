@@ -28,11 +28,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $trips = $this->tripRepository->search([], ['user','user.vehicle'], false, false);
+        $trips = $this->tripRepository->search([], ['user','user.vehicle'], false, false, false);
         $trips_count = $trips->count();
 
         $customersFilters['Type'] = User::TYPE_USER;
-        $customers = $this->userRepository->search($customersFilters, [], false, false);
+        $customers = $this->userRepository->search($customersFilters, [], false, false, false);
         $customers_count = $customers->count();
         return view('dashboard.home', compact('customers_count', 'trips_count', 'trips'));
     }
