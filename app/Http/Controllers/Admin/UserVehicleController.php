@@ -54,6 +54,7 @@ class UserVehicleController extends Controller
 
         $inputs = $request->all();
         $inputs['user_id'] = $request->user_id;
+        $inputs['status'] = UserVehicle::STATUS_IN_PROGRESS;
         $resource = $this->userVehicleRepository->create($inputs);
 
         if ($request->hasFile('image')) {

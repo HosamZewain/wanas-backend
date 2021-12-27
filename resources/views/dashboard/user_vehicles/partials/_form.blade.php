@@ -4,6 +4,9 @@
     </div>
     <div class="col-md-3">
         {!! Form::text('color',$resource->color ?? null,['class'=>'form-control']) !!}
+        @isset($user_id)
+          {!! Form::hidden('user_id',$user_id) !!}
+        @endisset
         @error('color')
         <label id="color-error" class="error text-danger float-left" for="color">{{ $message }}</label>
         @enderror
