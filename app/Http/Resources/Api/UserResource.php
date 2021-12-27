@@ -27,6 +27,10 @@ class UserResource extends JsonResource
             'is_verified' => $this->is_verified,
             'gender' => $this->gender,
             'rate' => $this->rate,
+            $this->mergeWhen($this->country, [
+                'country' => $this->country,
+            ]),
+            'country_id' => $this->country_id,
             'trips_count' => count($this->trips),
             'profile_image' => ($this->profile_image) ? asset('storage/' . $this->profile_image) : null,
             'civil_image' => ($this->civil_image) ? asset('storage/' . $this->civil_image) : null,
