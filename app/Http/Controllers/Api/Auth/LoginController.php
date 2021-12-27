@@ -137,6 +137,9 @@ class LoginController extends ApiBaseController
         if ($request->get('status')) {
             $resource->update(['status' => $request->status]);
         }
+        if ($request->get('country_id')) {
+            $resource->update(['country_id' => $request->country_id]);
+        }
         if ($request->get('password')) {
             $resource->update(['password' => Hash::make($request->password)]);
         }
