@@ -46,6 +46,7 @@ class RegisterController extends ApiBaseController
             'mobile' => 'required|unique:users,mobile',
             'fcm_token' => 'required',
             'password' => 'required|confirmed|min:8',
+           //'country_id' => 'required',
         ], $messages);
 
         if ($validation->fails()) {

@@ -38,6 +38,7 @@ class User extends Authenticatable
         'civil_image_front',
         'civil_image_back',
         'rate',
+        'country_id',
         'is_verified'
     ];
 
