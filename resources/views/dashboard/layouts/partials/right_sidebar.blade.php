@@ -72,6 +72,9 @@
                         <a disabled="true" href="{!! url('admin/countries') !!}">{!! __('dashboard.countries') !!}</a>
                     </li>
                     <li>
+                        <a disabled="true" href="{!! url('admin/colors') !!}">{!! __('dashboard.colors') !!}</a>
+                    </li>
+                    <li>
                         <a disabled="true" href="{!! url('admin/contact_us') !!}">{!! __('dashboard.contact_us') !!}</a>
                     </li>
                 </ul>

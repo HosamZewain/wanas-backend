@@ -29,6 +29,7 @@ Route::get('/page/{id}', [\App\Http\Controllers\Api\HomeController::class, 'page
 Route::get('/terms_conditions', [\App\Http\Controllers\Api\HomeController::class, 'termsConditions']);
 Route::get('/setting', [\App\Http\Controllers\Api\HomeController::class, 'setting']);
 Route::get('/countries', [\App\Http\Controllers\Api\HomeController::class, 'countries']);
+Route::get('/colors', [\App\Http\Controllers\Api\HomeController::class, 'colors']);
 
 
 //auth

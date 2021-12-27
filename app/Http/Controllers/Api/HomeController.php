@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\Api\VehicleTypeResource;
+use App\Repositories\SQL\ColorRepository;
 use App\Repositories\SQL\ContactUsRepository;
 use App\Repositories\SQL\CountryRepository;
 use App\Repositories\SQL\PageRepository;
@@ -10,6 +11,7 @@ use App\Repositories\SQL\SettingRepository;
 use App\Repositories\SQL\UserRepository;
 use App\Repositories\SQL\VehicleTypeRepository;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -22,6 +24,10 @@ class HomeController extends ApiBaseController
     private $pageRepository;
     private $settingRepository;
     private $countryRepository;
+    /**
+     * @var \Illuminate\Contracts\Foundation\Application|mixed
+     */
+    private $colorRepository;
 
     public function __construct(VehicleTypeRepository $vehicleTypeRepository, ContactUsRepository $contactUsRepository)
     {
@@ -29,16 +35,17 @@ class HomeController extends ApiBaseController
         $this->IUserRepository = app(UserRepository::class);
         $this->pageRepository = app(PageRepository::class);
         $this->countryRepository = app(CountryRepository::class);
+        $this->colorRepository = app(ColorRepository::class);
         $this->vehicleTypeRepository = $vehicleTypeRepository;
         $this->contactUsRepository = $contactUsRepository;
     }
 
-    public function index()
+    public function index(): string
     {
         return 'documentation';
     }
 
-    public function pages(): \Illuminate\Http\JsonResponse
+    public function pages(): JsonResponse
     {
         $resources = $this->pageRepository->search([], [], false, false);
         if ($resources) {
@@ -46,9 +53,17 @@ class HomeController extends ApiBaseController
         }
         return $this->respondWithErrors(__('messages.no_data_found'), 422, null, __('messages.no_data_found'));
     }
-    public function countries(): \Illuminate\Http\JsonResponse
+    public function countries(): JsonResponse
     {
         $resources = $this->countryRepository->search([], [], false, false,false);
+        if ($resources) {
+            return $this->respondWithSuccess(__('messages.data_found'), $resources);
+        }
+        return $this->respondWithErrors(__('messages.no_data_found'), 422, null, __('messages.no_data_found'));
+    }
+    public function colors(): JsonResponse
+    {
+        $resources = $this->colorRepository->search([], [], false, false,false);
         if ($resources) {
             return $this->respondWithSuccess(__('messages.data_found'), $resources);
         }
