@@ -142,7 +142,8 @@ class LoginController extends ApiBaseController
         }
         $resource->save();
         if ($resource) {
-            $user= $this->userRepository->find($request->user()->id,['vehicle.attachments']);
+            $user = $this->userRepository->find($request->user()->id, ['vehicle.attachments', 'vehicle.attachment', 'vehicle.colorModel']);
+
             $user = new UserResource($user);
             return $this->respondWithSuccess(__('messages.data_found'), $user);
         }

@@ -21,7 +21,11 @@ class UserVehicleResource extends JsonResource
             'color' => $this->color,
             'number' => $this->number,
             'model' => $this->model,
-            'image' => ($this->image) ? asset('storage/' . $this->image) : null,
+            'image' => new AttachmentResource($this->attachment),
+            $this->mergeWhen(($this->colorModel), [
+                'color_text' => $this->colorModel->LName ?? '',
+                'color_code' => $this->colorModel->color ?? '',
+            ]),
             'type' => $this->type,
             'status' => $this->status,
             'is_car_verified' => (bool)($this->status == UserVehicle::STATUS_APPROVED),

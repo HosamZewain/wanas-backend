@@ -6,6 +6,7 @@ use App\Traits\ModelTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class UserVehicle extends Model
 {
@@ -51,6 +52,10 @@ class UserVehicle extends Model
     {
         return $this->belongsTo(VehicleType::class, 'type');
     }
+    public function colorModel(): BelongsTo
+    {
+        return $this->belongsTo(Color::class, 'color');
+    }
 
     public function user(): BelongsTo
     {
@@ -61,6 +66,11 @@ class UserVehicle extends Model
     public function attachments(): MorphMany
     {
         return $this->morphMany(Attachment::class, 'attachmentable');
+    }
+
+    public function attachment(): MorphOne
+    {
+        return $this->morphOne(Attachment::class, 'attachmentable');
     }
 
 }
