@@ -28,6 +28,7 @@ Route::get('/pages', [\App\Http\Controllers\Api\HomeController::class, 'pages'])
 Route::get('/page/{id}', [\App\Http\Controllers\Api\HomeController::class, 'page']);
 Route::get('/terms_conditions', [\App\Http\Controllers\Api\HomeController::class, 'termsConditions']);
 Route::get('/setting', [\App\Http\Controllers\Api\HomeController::class, 'setting']);
+Route::get('/countries', [\App\Http\Controllers\Api\HomeController::class, 'countries']);
 
 
 //auth

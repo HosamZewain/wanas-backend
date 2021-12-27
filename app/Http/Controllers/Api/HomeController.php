@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\Api\VehicleTypeResource;
 use App\Repositories\SQL\ContactUsRepository;
+use App\Repositories\SQL\CountryRepository;
 use App\Repositories\SQL\PageRepository;
 use App\Repositories\SQL\SettingRepository;
 use App\Repositories\SQL\UserRepository;
@@ -20,12 +21,14 @@ class HomeController extends ApiBaseController
     private $contactUsRepository;
     private $pageRepository;
     private $settingRepository;
+    private $countryRepository;
 
     public function __construct(VehicleTypeRepository $vehicleTypeRepository, ContactUsRepository $contactUsRepository)
     {
         $this->settingRepository = app(SettingRepository::class);
         $this->IUserRepository = app(UserRepository::class);
         $this->pageRepository = app(PageRepository::class);
+        $this->countryRepository = app(CountryRepository::class);
         $this->vehicleTypeRepository = $vehicleTypeRepository;
         $this->contactUsRepository = $contactUsRepository;
     }
@@ -35,9 +38,17 @@ class HomeController extends ApiBaseController
         return 'documentation';
     }
 
-    public function pages()
+    public function pages(): \Illuminate\Http\JsonResponse
     {
         $resources = $this->pageRepository->search([], [], false, false);
+        if ($resources) {
+            return $this->respondWithSuccess(__('messages.data_found'), $resources);
+        }
+        return $this->respondWithErrors(__('messages.no_data_found'), 422, null, __('messages.no_data_found'));
+    }
+    public function countries(): \Illuminate\Http\JsonResponse
+    {
+        $resources = $this->countryRepository->search([], [], false, false,false)->pluck('LName','id')->toArray();
         if ($resources) {
             return $this->respondWithSuccess(__('messages.data_found'), $resources);
         }

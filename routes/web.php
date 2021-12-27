@@ -30,6 +30,7 @@ Route::middleware(['auth:web'])->prefix('admin')->group(function () {
     Route::resource('settings', \App\Http\Controllers\Admin\SettingController::class);
     Route::resource('vehicles_types', \App\Http\Controllers\Admin\VehicleTypeController::class);
     Route::resource('contact_us', \App\Http\Controllers\Admin\ContactUsController::class);
+    Route::resource('countries', \App\Http\Controllers\Admin\CountryController::class);
 
 
     /**********ajax routes*/
