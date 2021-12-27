@@ -48,7 +48,7 @@ class HomeController extends ApiBaseController
     }
     public function countries(): \Illuminate\Http\JsonResponse
     {
-        $resources = $this->countryRepository->search([], [], false, false,false)->pluck('LName','id')->toArray();
+        $resources = $this->countryRepository->search([], [], false, false,false);
         if ($resources) {
             return $this->respondWithSuccess(__('messages.data_found'), $resources);
         }
