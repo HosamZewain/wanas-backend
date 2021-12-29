@@ -101,6 +101,17 @@ class NotificationRepository extends AbstractModelRepository implements INotific
                 $notification[$key] = $value;
             }
         }
+
+
+        $notifications = Notification::create([
+            'title' => $title,
+            'body' => $body,
+            'to_user' => $user->id,
+            'type' => $paramters['type'],
+            'from_user' => $paramters['member_id'] ?? null,
+            'model_id' => $paramters['model_id'] ?? null,
+            'model_type' => $paramters['model_type'] ?? null,
+        ]);
         foreach ($tokens as $token) {
             $data = [
                 "to" => $token['token'],
