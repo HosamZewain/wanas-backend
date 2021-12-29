@@ -19,10 +19,11 @@ class Notification extends Model
     public const TYPE_BOOK_DISAPPROVED = 'book_disapproved';
     public const TYPE_CAR_APPROVED = 'car_approved';
     public const TYPE_CAR_DISAPPROVED = 'car_disapproved';
+    public const TYPE_NOTIFY_USERS = 'notify_users';
     public const MODEL_TRIP = 'App\Models\Trip';
     public const MODEL_USER = 'App\Models\User';
 
-    protected $filters = ['UserId'];
+    protected $filters = ['UserId','Type'];
     protected $table = 'notifications';
     protected $fillable = [
         'title',
@@ -39,6 +40,10 @@ class Notification extends Model
     public function scopeOfUserId($query, $value)
     {
         return $query->where('to_user', $value);
+    }
+    public function scopeOfType($query, $value)
+    {
+        return $query->where('type', $value);
     }
     /***************relations**************/
     public function user(): BelongsTo

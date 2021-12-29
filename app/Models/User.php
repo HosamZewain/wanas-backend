@@ -21,6 +21,8 @@ class User extends Authenticatable
 
     public const TYPE_USER = 1;
     public const TYPE_ADMIN = 2;
+    public const GENDER_MALE = 1;
+    public const GENDER_FEMALE = 2;
 
     protected $filters = ['Type'];
     protected $fillable = [

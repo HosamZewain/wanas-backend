@@ -129,16 +129,14 @@ class TripController extends ApiBaseController
             ]);
 
 
-            if (count($resource->user->fcmTokens)) {
+            if (empty($resource->user->fcmTokens)) {
                 $title = 'وصلك إشعار جديدة بحجز رحلة جديدة';
                 $body = "طلب حجز على الرحلة رقم {$resource->id}";
                 $parameters['type'] = Notification::TYPE_NEW_BOOK;
                 $parameters['member_id'] = $request->user()->id;
                 $parameters['model_id'] = $resource->id;
                 $parameters['model_type'] = get_class($resource);
-                foreach ($resource->user->fcmTokens as $token) {
-                    $this->notificationRepository->sendNotification($token['token'], $body, $title, $parameters);
-                }
+                $this->notificationRepository->sendNotification($resource->user, $body, $title, $parameters);
             }
             $resource = new TripResource($resource);
             return $this->respondWithSuccess(__('messages.request_sent_successfully'), $resource);
@@ -193,9 +191,8 @@ class TripController extends ApiBaseController
                     $parameters['member_id'] = $request->user()->id;
                     $parameters['model_id'] = $member->id;
                     $parameters['model_type'] = get_class($member);
-                    foreach ($member->fcmTokens as $token) {
-                        $this->notificationRepository->sendNotification($token['token'], $body, $title, $parameters);
-                    }
+                    $this->notificationRepository->sendNotification($member, $body, $title, $parameters);
+
                 }
 //                $title = 'تم الموافقة على حجز الرحلة';
 //                $body = 'طلب حجز على الرحلة رقم .' . $resource->id;

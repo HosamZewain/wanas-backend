@@ -127,9 +127,8 @@ class UserVehicleController extends Controller
             $parameters['member_id'] = $request->user()->id;
             $parameters['model_id'] = $vehicle->id;
             $parameters['model_type'] = get_class($vehicle);
-            foreach ($vehicle->user->fcmTokens as $token) {
-                $this->notificationRepository->sendNotification($token['token'], $body, $title, $parameters);
-            }
+            $this->notificationRepository->sendNotification($vehicle->user, $body, $title, $parameters);
+
         }
         return response()->json(['msg' => trans('dashboard.approved'), 'data' => $vehicle], 200);
 

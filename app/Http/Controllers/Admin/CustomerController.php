@@ -117,9 +117,8 @@ class CustomerController extends Controller
             $parameters['member_id'] = $request->user()->id;
             $parameters['model_id'] = $customer->id;
             $parameters['model_type'] = get_class($customer);
-            foreach ($customer->fcmTokens as $token) {
-                $this->notificationRepository->sendNotification($token['token'], $body, $title, $parameters);
-            }
+            $this->notificationRepository->sendNotification($customer, $body, $title, $parameters);
+
         }
         $resource = new UserResource($customer);
         return response()->json(['msg' => trans('dashboard.approved'), 'data' => $resource], 200);

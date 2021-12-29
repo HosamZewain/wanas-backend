@@ -44,7 +44,6 @@
                 <ul class="ml-menu">
                     <li><a href="{!! url('admin/trips') !!}">{!! __('dashboard.trips') !!}</a></li>
                     <li><a href="{!! url('admin/customers') !!}">{!! __('dashboard.customers') !!}</a></li>
-                    <li><a href="{!! url('admin/vehicles_types') !!}">{!! __('dashboard.vehicles_types') !!}</a></li>
                 </ul>
             </li>
             <li>
@@ -63,11 +62,20 @@
                 </a>
                 <ul class="ml-menu">
                     <li>
+                        <a href="{!! url('admin/vehicles_types') !!}">
+                            {!! __('dashboard.vehicles_types') !!}
+                        </a>
+                    </li>
+                    <li>
                         <a href="{!! url('admin/settings/1/edit') !!}">{!! __('dashboard.settings') !!}</a>
                     </li>
                     <li>
                         <a disabled="true" href="{!! url('admin/pages') !!}">{!! __('dashboard.pages') !!}</a>
                     </li>
+{{--                    <li>--}}
+{{--                        <a disabled="true"--}}
+{{--                           href="{!! url('admin/notifications') !!}">{!! __('dashboard.notifications') !!}</a>--}}
+{{--                    </li>--}}
                     <li>
                         <a disabled="true" href="{!! url('admin/countries') !!}">{!! __('dashboard.countries') !!}</a>
                     </li>

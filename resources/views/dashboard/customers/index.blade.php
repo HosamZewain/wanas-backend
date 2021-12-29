@@ -16,6 +16,9 @@
                                 <th scope="col">{!! trans('dashboard.name') !!}</th>
                                 <th scope="col">{!! trans('dashboard.mobile') !!}</th>
                                 <th scope="col">{!! trans('dashboard.email') !!}</th>
+                                <th scope="col">{!! trans('dashboard.country') !!}</th>
+                                <th scope="col">{!! trans('dashboard.gender') !!}</th>
+                                <th scope="col">{!! trans('dashboard.created_at') !!}</th>
                                 <th scope="col">{!! trans('dashboard.operations') !!}</th>
                             </tr>
                             </thead>
@@ -26,6 +29,9 @@
                                     <td>{!! $resource->name !!}</td>
                                     <td>{!! $resource->mobile !!}</td>
                                     <td>{!! $resource->email !!}</td>
+                                    <td>{!! $resource->country->LName ?? "" !!}</td>
+                                    <td>{!! __("dashboard.gender_list")[$resource->gender] !!}</td>
+                                    <td>{!! $resource->created_at !!}</td>
                                     <td>
                                         @if($resource->is_verified)
                                             <span
