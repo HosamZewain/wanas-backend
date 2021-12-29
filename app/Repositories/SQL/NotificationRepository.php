@@ -112,7 +112,7 @@ class NotificationRepository extends AbstractModelRepository implements INotific
             ];
             $dataString = json_encode($data);
             $headers = [
-                'Authorization: key=' . $this->SERVER_API_KEY,
+                'Authorization: key=AAAAzCuqhw4:APA91bEdPdfkVspSWeSF60RKmz0IrtASyCz3eCpZWPPjbUdDrDdsQsTKOUHtoXM1yF12zifdiCx_cAcOiD7fOeJ3yq3ui4SXJKoo6zCBboM4nAVYqFstN7eUuqJKjJS7VebD386DxAob',
                 'Content-Type: application/json',
             ];
             $ch = curl_init();
