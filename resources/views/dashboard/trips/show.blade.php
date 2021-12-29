@@ -122,13 +122,13 @@
                                                             </div>
                                                             <div class="comment-action">
                                                                 <h5 class="c_name">{!! $member->user->name ?? '' !!}</h5>
+                                                                <div
+                                                                    class="badge badge-primary">{!! $member->user->mobile ?? '' !!}</div>
                                                                 @php
                                                                     $rate = $resource->TripRate()->where('user_id',$member->user->user_id)->first();
                                                                 @endphp
                                                                 @if ($rate)
                                                                     <p class="c_msg mb-0">{!! $rate->comment ?? '' !!}</p>
-                                                                    <div
-                                                                        class="badge badge-primary">{!! $member->user->mobile ?? '' !!}</div>
                                                                     <span class="m-l-10">
                                                                          @for ($i = 1; $i <= 5; $i++)
                                                                             <i class="zmdi zmdi-star @if($rate->rate>=$i)  col-amber @endif"></i>
