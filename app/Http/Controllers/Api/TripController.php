@@ -117,7 +117,7 @@ class TripController extends ApiBaseController
         $resource = $this->tripRepository->find($request->trip_id, ['user.fcmTokens', 'ApprovedMembers']);
         if ($resource) {
             //check members count
-            if ($resource->members_count <= $resource->members()->count()) {
+            if ($resource->members_count <= $resource->members()->where('status', TripMember::STATUS_APPROVED)->count()) {
                 return $this->respondWithErrors(__('messages.trip_complete'), 422, null, __('messages.trip_complete'));
             }
 
