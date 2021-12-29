@@ -23,7 +23,7 @@ class NotificationRepository extends AbstractModelRepository implements INotific
         }
         $users = [];
         foreach ($user->fcmTokens as $token) {
-            $users[] = $token;
+            $users[] = $token['token'];
         }
         $notification = [
             "title" => $title,
