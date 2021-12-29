@@ -129,6 +129,7 @@ class TripController extends ApiBaseController
             ]);
 
 
+            info('user tokens' . json_encode($resource->user->fcmTokens));
             if (empty($resource->user->fcmTokens)) {
                 $title = 'وصلك إشعار جديدة بحجز رحلة جديدة';
                 $body = "طلب حجز على الرحلة رقم {$resource->id}";
