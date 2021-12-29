@@ -22,6 +22,7 @@ class Notification extends Model
     public const MODEL_TRIP = 'App\Models\Trip';
     public const MODEL_USER = 'App\Models\User';
 
+    protected $filters = ['UserId'];
     protected $table = 'notifications';
     protected $fillable = [
         'title',
@@ -33,8 +34,12 @@ class Notification extends Model
         'model_type',
     ];
 
-    /***************scopes******************/
+    /******************scopes******************/
 
+    public function scopeOfUserId($query, $value)
+    {
+        return $query->where('to_user', $value);
+    }
     /***************relations**************/
     public function user(): BelongsTo
     {
