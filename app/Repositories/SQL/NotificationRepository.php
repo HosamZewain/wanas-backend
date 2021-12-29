@@ -39,6 +39,7 @@ class NotificationRepository extends AbstractModelRepository implements INotific
         info('users: ' . json_encode($users));
         $data = [
             "to" => $users,
+            "registration_ids" => $users,
             "priority" => "high",
             "content_available" => true,
             "notification" => $notification,
