@@ -111,7 +111,7 @@
                                                                 @if (isset($member->user->profile_image))
                                                                     <a href="javascript:void(0);">
                                                                         <img class="rounded"
-                                                                             src="{!! asset('storage/'.$member->profile_image)  !!}"
+                                                                             src="{!! asset('storage/'.$member->user->profile_image)  !!}"
                                                                              alt="user" width="60"></a>
                                                                 @else
                                                                     <a href="javascript:void(0);">
