@@ -29,12 +29,14 @@ class HomeController extends ApiBaseController
      */
     private $colorRepository;
 
-    public function __construct(VehicleTypeRepository $vehicleTypeRepository, ContactUsRepository $contactUsRepository)
+    public function __construct(VehicleTypeRepository $vehicleTypeRepository,
+                                CountryRepository $countryRepository,
+                                ContactUsRepository   $contactUsRepository)
     {
         $this->settingRepository = app(SettingRepository::class);
         $this->IUserRepository = app(UserRepository::class);
         $this->pageRepository = app(PageRepository::class);
-        $this->countryRepository = app(CountryRepository::class);
+        $this->countryRepository = $countryRepository;
         $this->colorRepository = app(ColorRepository::class);
         $this->vehicleTypeRepository = $vehicleTypeRepository;
         $this->contactUsRepository = $contactUsRepository;
@@ -55,7 +57,7 @@ class HomeController extends ApiBaseController
     }
     public function countries(): JsonResponse
     {
-        $resources = $this->countryRepository->search([], [], false, false,false);
+        $resources = $this->countryRepository->search([], [], true, false,false,'name_ar','ASC');
         if ($resources) {
             return $this->respondWithSuccess(__('messages.data_found'), $resources);
         }
