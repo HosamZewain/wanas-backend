@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Trip;
 use App\Traits\ModelTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use App\Models\Trip;
 
 class Notification extends Model
 {
