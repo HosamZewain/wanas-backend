@@ -103,7 +103,7 @@ class NotificationRepository extends AbstractModelRepository implements INotific
         }
         foreach ($tokens as $token) {
             $data = [
-                "to" => $token['token'],
+           //     "to" => $token['token'],
                 "registration_ids" => $tokens->pluck('token')->toArray(),
                 "priority" => "high",
                 "content_available" => true,
