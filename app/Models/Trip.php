@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Traits\ModelTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Trip extends Model
 {
@@ -63,14 +65,19 @@ class Trip extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function members()
+    public function members(): HasMany
     {
         return $this->hasMany(TripMember::class, 'trip_id');
     }
 
-    public function TripRate()
+    public function TripRate(): HasMany
     {
         return $this->hasMany(TripRate::class, 'trip_id');
+    }
+
+    public function Notification(): MorphMany
+    {
+        return $this->morphMany(Notification::class, 'model');
     }
 
     /***************attributes******************/
@@ -78,6 +85,7 @@ class Trip extends Model
     {
         return (bool)$this->members->where('user_id', Request()->user()->id)->where('status', TripMember::STATUS_APPROVED)->first();
     }
+
     public function getIsNotifiationMemberAttribute()
     {
         return (bool)$this->members->where('user_id', Request()->user()->id)->where('status', TripMember::STATUS_APPROVED)->first();

@@ -18,9 +18,14 @@ class NotificationsController extends ApiBaseController
         $this->notificationRepository = $notificationRepository;
     }
 
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function notificationList(Request $request)
     {
         $notifications = $this->notificationRepository->search([], ['Member', 'relatedModel', 'user'], true, true, false);
+            //return $notifications;
         if ($notifications) {
             $resources = NotificationResource::collection($notifications);
             $resources = new LengthAwarePaginator($resources, $notifications->total(), $notifications->perPage());

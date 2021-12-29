@@ -30,7 +30,7 @@ Route::get('/terms_conditions', [\App\Http\Controllers\Api\HomeController::class
 Route::get('/setting', [\App\Http\Controllers\Api\HomeController::class, 'setting']);
 Route::get('/countries', [\App\Http\Controllers\Api\HomeController::class, 'countries']);
 Route::get('/colors', [\App\Http\Controllers\Api\HomeController::class, 'colors']);
-
+Route::get('refresh', [\App\Http\Controllers\Api\HomeController::class, 'refresh']);
 
 //auth
 Route::middleware('auth:sanctum')->group(function () {

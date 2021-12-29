@@ -21,9 +21,12 @@ class NotificationResource extends JsonResource
             'type' => $this->type,
             'model_id' => $this->model_id,
             'model_type' => $this->model_type,
-            $this->mergeWhen(($this->relatedModel), [
-                'relatedModel' => new TripResource($this->relatedModel),
+            $this->mergeWhen(($this->model_type == Notification::MODEL_TRIP), [
+                'relatedModel' => new TripResource($this->model),
                 'member_status' => app(TripMemberRepository::class)->checkForMemberApproval($this->from_user, $this->model_id),
+            ]),
+            $this->mergeWhen(($this->model_type == Notification::MODEL_USER), [
+                'relatedModel' => new UserResource($this->model),
             ]),
             $this->mergeWhen($this->user, [
                 'user' => new UserResource($this->user),

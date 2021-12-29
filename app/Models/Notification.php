@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
-use App\Models\Trip;
 use App\Traits\ModelTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\Trip;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Notification extends Model
 {
@@ -18,6 +19,8 @@ class Notification extends Model
     public const TYPE_BOOK_DISAPPROVED = 'book_disapproved';
     public const TYPE_CAR_APPROVED = 'car_approved';
     public const TYPE_CAR_DISAPPROVED = 'car_disapproved';
+    public const MODEL_TRIP = 'App\Models\Trip';
+    public const MODEL_USER = 'App\Models\User';
 
     protected $table = 'notifications';
     protected $fillable = [
@@ -43,15 +46,10 @@ class Notification extends Model
         return $this->belongsTo(User::class, 'from_user');
     }
 
-    /**
-     * @return BelongsTo
-     */
-    public function relatedModel(): BelongsTo
+    public function relatedModel(): MorphTo
     {
-        if ($this->model_type == 'App\Models\Trip') {
-            return $this->belongsTo(Trip::class, 'model_id');
-        }
-        return $this->belongsTo(Trip::class, 'model_id');
+        return $this->morphTo('model');
     }
+
     /***************attributes******************/
 }

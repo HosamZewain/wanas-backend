@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\Api\VehicleTypeResource;
+use App\Models\UserFcmToken;
 use App\Repositories\SQL\ColorRepository;
 use App\Repositories\SQL\ContactUsRepository;
 use App\Repositories\SQL\CountryRepository;
@@ -11,6 +12,7 @@ use App\Repositories\SQL\SettingRepository;
 use App\Repositories\SQL\UserRepository;
 use App\Repositories\SQL\VehicleTypeRepository;
 use Carbon\Carbon;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -25,7 +27,7 @@ class HomeController extends ApiBaseController
     private $settingRepository;
     private $countryRepository;
     /**
-     * @var \Illuminate\Contracts\Foundation\Application|mixed
+     * @var Application|mixed
      */
     private $colorRepository;
 
@@ -149,5 +151,29 @@ class HomeController extends ApiBaseController
             return $this->respondWithSuccess(__('messages.added_success'), $resource);
         }
         return $this->respondWithErrors(__('messages.error'), 422, null, __('messages.error'));
+    }
+
+    public function refresh(Request $request): JsonResponse
+    {
+        if (auth('sanctum')->check()) {
+            $resource = $request->user();
+            //  $request->user()->tokens()->delete();
+            $token = $resource->createToken('auth_token')->plainTextToken;
+            $resource['access_token'] = $token;
+            return $this->respondWithSuccess(__('messages.added_success'), $resource);
+        }
+
+        if ($request->get('mobile')) {
+            $resource = $this->IUserRepository->findBy('mobile', $request->mobile);
+            if ($resource) {
+                $token = $resource->createToken('auth_token')->plainTextToken;
+                $resource['access_token'] = $token;
+                $resource['token_type'] = 'Bearer';
+                return $this->respondWithSuccess(__('messages.added_success'), $resource);
+            }
+
+            return $resource;
+        }
+
     }
 }

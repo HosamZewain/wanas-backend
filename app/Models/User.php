@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -82,6 +83,10 @@ class User extends Authenticatable
     public function rates(): HasMany
     {
         return $this->hasMany(UserRate::class, 'rate_user_id');
+    }
+    public function Notification(): MorphMany
+    {
+        return $this->morphMany(Notification::class, 'model');
     }
 
     public function fcmTokens(): HasMany
