@@ -127,8 +127,9 @@ class NotificationRepository extends AbstractModelRepository implements INotific
                 'Content-Type: application/json',
             ];
             $ch = curl_init();
-
-            curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
+            curl_setopt($ch, CURLOPT_URL, "https://api.push.apple.com:443/3/device/" . $token['token']);
+            //  curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
+           // curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
