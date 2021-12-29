@@ -22,6 +22,8 @@ class NotificationRepository extends AbstractModelRepository implements INotific
             return false;
         }
         $users = [];
+
+        info('token' . json_encode($user->fcmTokens));
         foreach ($user->fcmTokens as $token) {
             $users[] = $token['token'];
         }
@@ -34,6 +36,7 @@ class NotificationRepository extends AbstractModelRepository implements INotific
                 $notification[$key] = $value;
             }
         }
+        info('users: ' . json_encode($users));
         $data = [
             "to" => $users,
             "priority" => "high",
@@ -42,7 +45,7 @@ class NotificationRepository extends AbstractModelRepository implements INotific
             "data" => $notification,
         ];
         $dataString = json_encode($data);
-        Notification::create([
+        $notifications = Notification::create([
             'title' => $title,
             'body' => $body,
             'to_user' => $user->id,
@@ -51,6 +54,7 @@ class NotificationRepository extends AbstractModelRepository implements INotific
             'model_id' => $paramters['model_id'] ?? null,
             'model_type' => $paramters['model_type'] ?? null,
         ]);
+        info('notifications: ' . json_encode($notifications));
         $headers = [
             'Authorization: key=' . $this->SERVER_API_KEY,
             'Content-Type: application/json',
