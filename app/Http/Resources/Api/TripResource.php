@@ -26,7 +26,7 @@ class TripResource extends JsonResource
             'is_member' => $this->is_member,
             'rate' => $this->rate,
             'user' => new UserResource($this->user),
-            'members' => TripMemberResource::collection($this->members),
+            'members' => TripMemberResource::collection($this->ApprovedMembers),
             'member_approval' => $this->members()->where('status', TripMember::STATUS_WAITING_APPROVAL)->first(),
         ];
     }

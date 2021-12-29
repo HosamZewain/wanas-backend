@@ -100,7 +100,7 @@ class TripController extends ApiBaseController
      * @param Request $request
      * @return JsonResponse
      */
-    public function bookTrip(Request $request)
+    public function bookTrip(Request $request): JsonResponse
     {
         $messages = [
             'trip_id.required' => 'رقم الرحلة مطلوبة',
@@ -114,7 +114,7 @@ class TripController extends ApiBaseController
         }
 
 
-        $resource = $this->tripRepository->find($request->trip_id, ['user.fcmTokens', 'members']);
+        $resource = $this->tripRepository->find($request->trip_id, ['user.fcmTokens', 'ApprovedMembers']);
         if ($resource) {
             //check members count
             if ($resource->members_count <= $resource->members()->count()) {

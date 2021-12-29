@@ -70,6 +70,11 @@ class Trip extends Model
         return $this->hasMany(TripMember::class, 'trip_id');
     }
 
+    public function ApprovedMembers(): HasMany
+    {
+        return $this->hasMany(TripMember::class, 'trip_id')->where('status', TripMember::STATUS_APPROVED);
+    }
+
     public function TripRate(): HasMany
     {
         return $this->hasMany(TripRate::class, 'trip_id');
