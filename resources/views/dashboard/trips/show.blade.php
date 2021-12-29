@@ -108,7 +108,7 @@
                                                     @foreach($resource->members as $member)
                                                         <li class="col-12">
                                                             <div class="avatar">
-                                                                @if (isset($member->profile_image))
+                                                                @if (isset($member->user->profile_image))
                                                                     <a href="javascript:void(0);">
                                                                         <img class="rounded"
                                                                              src="{!! asset('storage/'.$member->profile_image)  !!}"
@@ -121,14 +121,14 @@
                                                                 @endif
                                                             </div>
                                                             <div class="comment-action">
-                                                                <h5 class="c_name">{!! $member->name ?? '' !!}</h5>
+                                                                <h5 class="c_name">{!! $member->user->name ?? '' !!}</h5>
                                                                 @php
-                                                                    $rate = $resource->TripRate()->where('user_id',$member->user_id)->first();
+                                                                    $rate = $resource->TripRate()->where('user_id',$member->user->user_id)->first();
                                                                 @endphp
                                                                 @if ($rate)
                                                                     <p class="c_msg mb-0">{!! $rate->comment ?? '' !!}</p>
                                                                     <div
-                                                                        class="badge badge-primary">{!! $member->mobile ?? '' !!}</div>
+                                                                        class="badge badge-primary">{!! $member->user->mobile ?? '' !!}</div>
                                                                     <span class="m-l-10">
                                                                          @for ($i = 1; $i <= 5; $i++)
                                                                             <i class="zmdi zmdi-star @if($rate->rate>=$i)  col-amber @endif"></i>
