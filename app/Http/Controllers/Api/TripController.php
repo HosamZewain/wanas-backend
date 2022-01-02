@@ -227,19 +227,20 @@ class TripController extends ApiBaseController
             return $this->respondWithErrors($validation->errors(), 422, null, __('messages.complete_empty_values'));
         }
         $resource = $this->tripRepository->find($request->trip_id, ['user']);
-        if ($resource) {
-            $member = $resource->members()->where('user_id', $request->member_id)->first();
+        if ($resource->user_id == $request->user()->id) {
+            $member = $resource->members->where('user_id', $request->member_id)->first();
             if ($member) {
                 $member->update([
                     'status' => TripMember::STATUS_DISAPPROVED,
                 ]);
                 $title = 'تم رفض طلبك على حجز الرحلة';
-                $body = 'طلب حجز على الرحلة رقم .' . $resource->id;
+                $body = 'تم رفض طلبك   على  حجز الرحلة رقم .' . $resource->id;
                 $parameters['type'] = 'book_disapproved';
                 $parameters['model_id'] = $resource->id;
+                $parameters['member_id'] = $resource->user_id;
                 $parameters['model_type'] = get_class($resource);
 
-                $member = $this->userRepository->find($member->id, ['fcmTokens']);
+                $member = $this->userRepository->find($request->member_id, ['fcmTokens']);
                 $this->notificationRepository->sendNotification($member, $body, $title, $parameters);
                 $resource = new TripResource($resource);
                 return $this->respondWithSuccess(__('messages.book_disapproved'), $resource);
