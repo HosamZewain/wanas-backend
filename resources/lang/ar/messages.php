@@ -26,7 +26,7 @@ return [
     'added_success' => 'تم الحفظ بنجاح',
     'edit_success' => 'تم التعديل بنجاح',
     'cannot_add_more_than_one_vehicle' => 'لا يمكن إضافة أكثر من سيارة ',
-    'booked_before' => 'قمت بحجز هذا الرحلة من قبل ، بإنتظار الموافةق أو الرفض من صاحب الرحلة',
+    'booked_before' => 'قمت بحجز هذا الرحلة من قبل',
     'trip_status' => [
         \App\Models\Trip::STATUS_ACTIVE => 'نشط',
         \App\Models\Trip::STATUS_ENDED => 'إنتهت',
