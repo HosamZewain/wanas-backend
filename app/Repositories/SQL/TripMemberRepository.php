@@ -13,7 +13,7 @@ class TripMemberRepository extends AbstractModelRepository implements ITripMembe
         $this->model = $model;
     }
 
-    public function checkForMemberApproval($tripId, $memberId): bool
+    public function checkForMemberApproval($notificationId, $tripId, $memberId)
     {
         $check = $this->model->where('user_id', $memberId)->where('trip_id', $tripId)->first();
         if ($check) {

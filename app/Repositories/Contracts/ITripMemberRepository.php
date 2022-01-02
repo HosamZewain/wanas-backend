@@ -5,5 +5,5 @@ namespace App\Repositories\Contracts;
 interface ITripMemberRepository extends IModelRepository
 {
 
-    public function checkForMemberApproval($tripId, $memberId);
+    public function checkForMemberApproval($notificationId,$tripId, $memberId);
 }
