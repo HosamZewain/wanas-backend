@@ -25,7 +25,7 @@ class NotificationsController extends ApiBaseController
     public function notificationList(Request $request)
     {
         $filters['UserId'] = $request->user()->id;
-        $notifications = $this->notificationRepository->search($filters, ['Member', 'relatedModel', 'user'], true, true, false);
+        $notifications = $this->notificationRepository->search($filters, ['Member', 'relatedModel', 'user'], true, true, 10);
             //return $notifications;
         if ($notifications) {
             $resources = NotificationResource::collection($notifications);
