@@ -121,6 +121,11 @@ class TripController extends ApiBaseController
                 return $this->respondWithErrors(__('messages.trip_complete'), 422, null, __('messages.trip_complete'));
             }
 
+
+            $check = $this->tripMemberRepository->findBy(['user_id' => $request->user()->id, 'trip_id' => $resource->id]);
+            if ($check) {
+                return $this->respondWithErrors(__('messages.booked_before'), 422, null, __('messages.booked_before'));
+            }
             //create trip
             $this->tripMemberRepository->create([
                 'user_id' => $request->user()->id,
