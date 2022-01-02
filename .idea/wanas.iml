@@ -119,6 +119,15 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/laracasts/flash" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/laravelcollective/html" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/laravel/telescope" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/web-token/jwt-signature-algorithm-ecdsa" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/web-token/jwt-signature" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/web-token/jwt-key-mgmt" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/web-token/jwt-core" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/spomky-labs/base64url" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/edamov/pushok" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/laravel-notification-channels/apn" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/psr/http-factory" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/fgrosse/phpasn1" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
