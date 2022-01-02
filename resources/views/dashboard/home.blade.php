@@ -20,6 +20,17 @@
                         <div class="w_icon indigo"><i class="zmdi zmdi-accounts"></i></div>
                         <h4 class="mt-3">{!! $customers_count ?? 0 !!}</h4>
                         <span class="text-muted">عدد العملاء</span>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6 class="mt-3">{!! $active_customers_count ?? 0 !!}</h6>
+                                <small class="text-muted">مفعلين</small>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 class="mt-3">{!! $not_active_customers_count ?? 0 !!}</h6>
+                                <small class="text-muted">غير مفعلين</small>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="card w_data_1">
@@ -88,13 +99,14 @@
         //  const calendar = $('#trips_calendar');
         const appData = @json($trips);
         const objs = appData.map(function (x) {
+            const userName = (x['user']) ? x['user']['name'] : 'user';
             return {
                 title: x['pickup_address'] + '-' + x['drop_off_address'],
                 start: x['trip_date'] + 'T' + x['trip_time'],
                 allDay: false,
                 className: 'bg-default',
                 extendedProps: {
-                    userName: x['user']['name'],
+                    userName: userName,
                     Date: x['trip_date'],
                     Time: x['trip_time'],
                     CostPerPerson: x['trip_cost_per_person'],

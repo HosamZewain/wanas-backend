@@ -28,12 +28,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $trips = $this->tripRepository->search([], ['user','user.vehicle'], false, false, false);
+        $trips = $this->tripRepository->search([], ['user', 'user.vehicle'], false, false, false);
         $trips_count = $trips->count();
 
         $customersFilters['Type'] = User::TYPE_USER;
         $customers = $this->userRepository->search($customersFilters, [], false, false, false);
         $customers_count = $customers->count();
-        return view('dashboard.home', compact('customers_count', 'trips_count', 'trips'));
+        $active_customers_count = $customers->where('is_verified', true)->count();
+        $not_active_customers_count = $customers->where('is_verified',false)->count();
+        return view('dashboard.home', compact('customers_count', 'active_customers_count', 'not_active_customers_count', 'trips_count', 'trips'));
     }
 }
