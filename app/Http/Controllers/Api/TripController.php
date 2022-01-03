@@ -191,7 +191,6 @@ class TripController extends ApiBaseController
                     'status' => TripMember::STATUS_APPROVED,
                 ]);
 
-                if (count($member->fcmTokens)) {
                     $title = 'تم تأكيد  حجز الرحلة ';
                     $body = "تم تأكيد حجز الرحلة رقم  ('.$resource->trip_name.')  ";
                     $parameters['type'] = Notification::TYPE_BOOK_APPROVED;
@@ -199,8 +198,6 @@ class TripController extends ApiBaseController
                     $parameters['model_id'] = $member->id;
                     $parameters['model_type'] = get_class($member);
                     $this->notificationRepository->sendNotification($member, $body, $title, $parameters);
-
-                }
 //                $title = 'تم الموافقة على حجز الرحلة';
 //                $body = 'طلب حجز على الرحلة رقم .' . $resource->id;
 //                $parameters['type'] = 'book_approved';
