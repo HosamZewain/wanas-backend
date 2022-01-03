@@ -157,7 +157,7 @@ class NotificationRepository extends AbstractModelRepository implements INotific
         if (!count($deviceTokens)) {
             return false;
         }
-        $certificate_path = asset('DistCert_R65MRFBR74.p12');
+        $certificate_path = base_path('DistCert_R65MRFBR74.p12');
 
         $options = [
             'app_bundle_id' => 'com.roqay.wanas', // The bundle ID for app obtained from Apple developer account
