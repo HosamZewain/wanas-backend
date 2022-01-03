@@ -89,7 +89,6 @@ class NotificationRepository extends AbstractModelRepository implements INotific
             return false;
         }
 
-        info('users fcm tokens : ' . json_encode($tokens));
         $notification = [
             "title" => $title,
             "body" => $body,
@@ -192,11 +191,8 @@ class NotificationRepository extends AbstractModelRepository implements INotific
 
             if ($err) {
                 echo "cURL Error #:" . $err;
-            } else {
-                echo $response;
             }
         }
-
+        return true;
     }
-
 }
