@@ -157,7 +157,7 @@ class NotificationRepository extends AbstractModelRepository implements INotific
         }
 
 
-        $notifications = Notification::create([
+        $notifications = NotificationModel::create([
             'title' => $title,
             'body' => $body,
             'to_user' => $user->id,
