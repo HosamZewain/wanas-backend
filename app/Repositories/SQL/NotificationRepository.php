@@ -159,7 +159,7 @@ class NotificationRepository extends AbstractModelRepository implements INotific
         ]);
         foreach ($deviceTokens as $deviceToken) {
             $payload = array(
-                'to' => 'ExponentPushToken[' . $deviceToken['token'] . ']',
+                'to' =>$deviceToken['token'] ,
                 'sound' => 'default',
                 'badge' => 0,
                 'title' => $title,
