@@ -28,7 +28,7 @@ class TripMember extends Model
 
     public function scopeOfUserId($query, $value)
     {
-        return $query->where('to_user', $value);
+        return $query->where('user_id', $value);
     }
 
     public function scopeOfTripId($query, $value)
