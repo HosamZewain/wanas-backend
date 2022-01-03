@@ -161,7 +161,7 @@ class NotificationRepository extends AbstractModelRepository implements INotific
             'title' => $title,
             'body' => $body,
             'to_user' => $user->id,
-            'type' => $paramters['type'],
+            'type' => $paramters['type'] ?? null,
             'from_user' => $paramters['member_id'] ?? null,
             'model_id' => $paramters['model_id'] ?? null,
             'model_type' => $paramters['model_type'] ?? null,
