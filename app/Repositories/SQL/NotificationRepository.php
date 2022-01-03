@@ -82,15 +82,7 @@ class NotificationRepository extends AbstractModelRepository implements INotific
         return $response;
     }
 
-
-    /**
-     * @param $user
-     * @param null $body
-     * @param string $title
-     * @param array $paramters
-     * @return bool
-     */
-    final public function sendNotificationold2($user, $body = null, string $title = 'Wanes', array $paramters = []): bool
+    public function sendNotificationOld2($user, $body = null, string $title = 'Wanes', array $paramters = []): bool
     {
         $tokens = UserFcmToken::where('user_id', $user->id)->get();
         if (!count($tokens)) {
@@ -147,7 +139,6 @@ class NotificationRepository extends AbstractModelRepository implements INotific
         }
         return true;
     }
-
 
     public function sendNotification($user, $body = null, string $title = 'Wanes', array $paramters = [])
     {
