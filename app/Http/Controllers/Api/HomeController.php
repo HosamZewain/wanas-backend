@@ -53,7 +53,7 @@ class HomeController extends ApiBaseController
     public function sendAPNS($id): void
     {
         $user = $this->IUserRepository->find($id);
-       $result =  $this->notificationRepository->sendEXPO($user, 'test', 'test');
+       $result =  $this->notificationRepository->sendNotification($user, 'test', 'test');
 
     }
 
