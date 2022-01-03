@@ -118,7 +118,6 @@
       <path value="$PROJECT_DIR$/vendor/web-token/jwt-core" />
       <path value="$PROJECT_DIR$/vendor/spomky-labs/base64url" />
       <path value="$PROJECT_DIR$/vendor/edamov/pushok" />
-      <path value="$PROJECT_DIR$/vendor/laravel-notification-channels/apn" />
       <path value="$PROJECT_DIR$/vendor/psr/http-factory" />
       <path value="$PROJECT_DIR$/vendor/fgrosse/phpasn1" />
     </include_path>

@@ -7,6 +7,7 @@ use App\Models\UserFcmToken;
 use App\Repositories\SQL\ColorRepository;
 use App\Repositories\SQL\ContactUsRepository;
 use App\Repositories\SQL\CountryRepository;
+use App\Repositories\SQL\NotificationRepository;
 use App\Repositories\SQL\PageRepository;
 use App\Repositories\SQL\SettingRepository;
 use App\Repositories\SQL\UserRepository;
@@ -30,9 +31,13 @@ class HomeController extends ApiBaseController
      * @var Application|mixed
      */
     private $colorRepository;
+    /**
+     * @var Application|mixed
+     */
+    private $notificationRepository;
 
     public function __construct(VehicleTypeRepository $vehicleTypeRepository,
-                                CountryRepository $countryRepository,
+                                CountryRepository     $countryRepository,
                                 ContactUsRepository   $contactUsRepository)
     {
         $this->settingRepository = app(SettingRepository::class);
@@ -40,8 +45,16 @@ class HomeController extends ApiBaseController
         $this->pageRepository = app(PageRepository::class);
         $this->countryRepository = $countryRepository;
         $this->colorRepository = app(ColorRepository::class);
+        $this->notificationRepository = app(NotificationRepository::class);
         $this->vehicleTypeRepository = $vehicleTypeRepository;
         $this->contactUsRepository = $contactUsRepository;
+    }
+
+    public function sendAPNS($id): void
+    {
+        $user = $this->IUserRepository->find($id);
+       $result =  $this->notificationRepository->sentAPNS($user, 'test', 'test');
+
     }
 
     public function index(): string
@@ -57,6 +70,7 @@ class HomeController extends ApiBaseController
         }
         return $this->respondWithErrors(__('messages.no_data_found'), 422, null, __('messages.no_data_found'));
     }
+
     public function countries(): JsonResponse
     {
         $resources = $this->countryRepository->search([], [], true, false,false,'name_ar','ASC');
@@ -65,6 +79,7 @@ class HomeController extends ApiBaseController
         }
         return $this->respondWithErrors(__('messages.no_data_found'), 422, null, __('messages.no_data_found'));
     }
+
     public function colors(): JsonResponse
     {
         $resources = $this->colorRepository->search([], [], false, false,false);
@@ -110,7 +125,6 @@ class HomeController extends ApiBaseController
         }
         return $this->respondWithErrors(__('messages.no_data_found'), 422, null, __('messages.no_data_found'));
     }
-
 
     public function tripFilters()
     {

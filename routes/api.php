@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+/*test*/
+Route::get('test_apns/{id}', [\App\Http\Controllers\Api\HomeController::class, 'sendAPNS']);
 
 //login & register
 Route::get('/', [\App\Http\Controllers\Api\HomeController::class, 'index']);

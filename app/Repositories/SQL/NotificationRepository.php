@@ -2,17 +2,23 @@
 
 namespace App\Repositories\SQL;
 
-use App\Models\Notification;
+use App\Models\Notification as NotificationModel;
 use App\Models\User;
 use App\Models\UserFcmToken;
 use App\Repositories\Contracts\INotificationRepository;
+use Pushok\AuthProvider;
+use Pushok\Client;
+use Pushok\InvalidPayloadException;
+use Pushok\Notification;
+use Pushok\Payload;
+use Pushok\Payload\Alert;
 
 class NotificationRepository extends AbstractModelRepository implements INotificationRepository
 {
 
     private $SERVER_API_KEY;
 
-    public function __construct(Notification $model)
+    public function __construct(NotificationModel $model)
     {
         parent::__construct($model);
         $this->SERVER_API_KEY = 'AAAAzCuqhw4:APA91bEdPdfkVspSWeSF60RKmz0IrtASyCz3eCpZWPPjbUdDrDdsQsTKOUHtoXM1yF12zifdiCx_cAcOiD7fOeJ3yq3ui4SXJKoo6zCBboM4nAVYqFstN7eUuqJKjJS7VebD386DxAob';
@@ -140,5 +146,81 @@ class NotificationRepository extends AbstractModelRepository implements INotific
             info($response);
         }
         return true;
+    }
+
+    /**
+     * @throws InvalidPayloadException
+     */
+    public function sentAPNS($user, $body = null, string $title = 'Wanes', array $paramters = [])
+    {
+        $deviceTokens = UserFcmToken::where('user_id', $user->id)->get();
+        if (!count($deviceTokens)) {
+            return false;
+        }
+        $certificate_path = asset('DistCert_R65MRFBR74.p12');
+
+        $options = [
+            'app_bundle_id' => 'com.roqay.wanas', // The bundle ID for app obtained from Apple developer account
+            'certificate_path' => $certificate_path, // Path to private key
+            'certificate_secret' => null // Private key secret
+        ];
+        // Be aware of thing that Token will stale after one hour, so you should generate it again.
+        // Can be useful when trying to send pushes during long-running tasks
+        $authProvider = AuthProvider\Certificate::create($options);
+
+        $alert = Alert::create()->setTitle($title);
+        $alert = $alert->setBody($body);
+
+        $payload = Payload::create()->setAlert($alert);
+
+        //set notification sound to default
+        $payload->setSound('default');
+
+        //add custom value to your notification, needs to be customized
+        if (!empty($paramters)) {
+            foreach ($paramters as $key => $value) {
+                $payload->setCustomValue($key, $value);
+            }
+        }
+
+//        $notifications = NotificationModel::create([
+//            'title' => $title,
+//            'body' => $body,
+//            'to_user' => $user->id,
+//            'type' => $paramters['type'] ?? null,
+//            'from_user' => $paramters['member_id'] ?? null,
+//            'model_id' => $paramters['model_id'] ?? null,
+//            'model_type' => $paramters['model_type'] ?? null,
+//        ]);
+
+        foreach ($deviceTokens as $deviceToken) {
+            $notifications[] = new Notification($payload, $deviceToken);
+        }
+
+        // If you have issues with ssl-verification, you can temporarily disable it. Please see attached note.
+        // Disable ssl verification
+        // $client = new Client($authProvider, $production = false, [CURLOPT_SSL_VERIFYPEER=>false] );
+        $client = new Client($authProvider, $production = false);
+        $client->addNotifications($notifications);
+
+
+        $responses = $client->push(); // returns an array of ApnsResponseInterface (one Response per Notification)
+        dd($responses);
+        foreach ($responses as $response) {
+            // The device token
+            $response->getDeviceToken();
+            // A canonical UUID that is the unique ID for the notification. E.g. 123e4567-e89b-12d3-a456-4266554400a0
+            $response->getApnsId();
+
+            // Status code. E.g. 200 (Success), 410 (The device token is no longer active for the topic.)
+            $response->getStatusCode();
+            // E.g. The device token is no longer active for the topic.
+            $response->getReasonPhrase();
+            // E.g. Unregistered
+            $response->getErrorReason();
+            // E.g. The device token is inactive for the specified topic.
+            $response->getErrorDescription();
+            $response->get410Timestamp();
+        }
     }
 }
