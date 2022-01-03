@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\checkUserStatus;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,7 +36,7 @@ Route::get('/colors', [\App\Http\Controllers\Api\HomeController::class, 'colors'
 Route::get('refresh', [\App\Http\Controllers\Api\HomeController::class, 'refresh']);
 
 //auth
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['checkUserStatus', 'auth:sanctum'])->group(function () {
     Route::post('user', [\App\Http\Controllers\Api\UserController::class, 'userDetails']);
     Route::post('activate_account', [\App\Http\Controllers\Api\Auth\RegisterController::class, 'activateAccount']);
     Route::post('/profile', [\App\Http\Controllers\Api\Auth\LoginController::class, 'profile']);
