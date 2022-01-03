@@ -123,7 +123,7 @@ class TripController extends ApiBaseController
 
 
             $check = $this->tripMemberRepository->findByFields(['user_id' => $request->user()->id, 'trip_id' => $resource->id]);
-            if ($check) {
+            if (!empty($check)) {
                 return $this->respondWithErrors(__('messages.booked_before'), 422, null, __('messages.booked_before'));
             }
             //create trip
