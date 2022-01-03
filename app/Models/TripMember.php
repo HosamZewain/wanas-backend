@@ -21,10 +21,20 @@ class TripMember extends Model
     ];
 
 
-    protected $filters = ['PickUpAddress', 'DropOffAddress', 'Date'];
+    protected $filters = ['PickUpAddress', 'DropOffAddress', 'Date', 'UserId', 'TripId'];
 
 
-    /************scopes****************/
+    /******************scopes******************/
+
+    public function scopeOfUserId($query, $value)
+    {
+        return $query->where('to_user', $value);
+    }
+
+    public function scopeOfTripId($query, $value)
+    {
+        return $query->where('trip_id', $value);
+    }
 
 
     /************relations*************/
