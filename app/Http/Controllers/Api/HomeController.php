@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\Api\CityResource;
+use App\Http\Resources\Api\GovernorateResource;
 use App\Http\Resources\Api\VehicleTypeResource;
 use App\Models\UserFcmToken;
+use App\Repositories\SQL\CityRepository;
 use App\Repositories\SQL\ColorRepository;
 use App\Repositories\SQL\ContactUsRepository;
 use App\Repositories\SQL\CountryRepository;
+use App\Repositories\SQL\GovernorateRepository;
 use App\Repositories\SQL\NotificationRepository;
 use App\Repositories\SQL\PageRepository;
 use App\Repositories\SQL\SettingRepository;
@@ -27,14 +31,10 @@ class HomeController extends ApiBaseController
     private $pageRepository;
     private $settingRepository;
     private $countryRepository;
-    /**
-     * @var Application|mixed
-     */
     private $colorRepository;
-    /**
-     * @var Application|mixed
-     */
     private $notificationRepository;
+    private $cityRepository;
+    private $governorateRepository;
 
     public function __construct(VehicleTypeRepository $vehicleTypeRepository,
                                 CountryRepository     $countryRepository,
@@ -46,6 +46,8 @@ class HomeController extends ApiBaseController
         $this->countryRepository = $countryRepository;
         $this->colorRepository = app(ColorRepository::class);
         $this->notificationRepository = app(NotificationRepository::class);
+        $this->governorateRepository = app(GovernorateRepository::class);
+        $this->cityRepository = app(CityRepository::class);
         $this->vehicleTypeRepository = $vehicleTypeRepository;
         $this->contactUsRepository = $contactUsRepository;
     }
@@ -53,7 +55,7 @@ class HomeController extends ApiBaseController
     public function sendAPNS($id): void
     {
         $user = $this->IUserRepository->find($id);
-       $result =  $this->notificationRepository->sendNotification($user, 'test', 'test');
+        $result =  $this->notificationRepository->sendNotification($user, 'test', 'test');
 
     }
 
@@ -82,8 +84,29 @@ class HomeController extends ApiBaseController
 
     public function colors(): JsonResponse
     {
-        $resources = $this->colorRepository->search([], [], false, false,false);
+        $resources = $this->colorRepository->search([], [], false, false, false);
         if ($resources) {
+            return $this->respondWithSuccess(__('messages.data_found'), $resources);
+        }
+        return $this->respondWithErrors(__('messages.no_data_found'), 422, null, __('messages.no_data_found'));
+    }
+
+    public function governorates(): JsonResponse
+    {
+        $resources = $this->governorateRepository->search([], [], false, false, false);
+        if ($resources) {
+            $resources = GovernorateResource::collection($resources);
+            return $this->respondWithSuccess(__('messages.data_found'), $resources);
+        }
+        return $this->respondWithErrors(__('messages.no_data_found'), 422, null, __('messages.no_data_found'));
+    }
+
+    public function cities(Request $request): JsonResponse
+    {
+        $filters['GovernorateId'] = $request->governorate_id;
+        $resources = $this->cityRepository->search($filters, [], false, false, false);
+        if ($resources) {
+            $resources = CityResource::collection($resources);
             return $this->respondWithSuccess(__('messages.data_found'), $resources);
         }
         return $this->respondWithErrors(__('messages.no_data_found'), 422, null, __('messages.no_data_found'));

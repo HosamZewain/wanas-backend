@@ -72,10 +72,22 @@
                     <li>
                         <a disabled="true" href="{!! url('admin/pages') !!}">{!! __('dashboard.pages') !!}</a>
                     </li>
-{{--                    <li>--}}
-{{--                        <a disabled="true"--}}
-{{--                           href="{!! url('admin/notifications') !!}">{!! __('dashboard.notifications') !!}</a>--}}
-{{--                    </li>--}}
+                    <li>
+                        <a disabled="true" href="{!! route('governorates.index') !!}">
+                            {!! __('dashboard.governorates') !!}
+                        </a>
+                    </li>
+                    <li>
+                        <a disabled="true" href="{!! route('cities.index') !!}">
+                            {!! __('dashboard.cities') !!}
+                        </a>
+                    </li>
+
+
+                    {{--                    <li>--}}
+                    {{--                        <a disabled="true"--}}
+                    {{--                           href="{!! url('admin/notifications') !!}">{!! __('dashboard.notifications') !!}</a>--}}
+                    {{--                    </li>--}}
                     <li>
                         <a disabled="true" href="{!! url('admin/countries') !!}">{!! __('dashboard.countries') !!}</a>
                     </li>

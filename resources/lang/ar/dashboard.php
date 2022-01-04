@@ -68,4 +68,9 @@ return [
         \App\Models\User::GENDER_MALE => 'ذكر',
         \App\Models\User::GENDER_FEMALE => 'انثى',
     ],
+    'governorate' => 'المحافظة',
+    'governorates' => 'المحافظات',
+    'cities' => 'المدن',
+    'city' => 'المدينة',
+    'subject' => 'الموضوع',
 ];

@@ -31,8 +31,8 @@
                                     <td><strong>{!! $loop->iteration !!}</strong></td>
                                     <td>{!! $resource->user->name ?? "" !!}</td>
                                     <td>{!! $resource->user->mobile ?? "" !!}</td>
-                                    <td>{!! $resource->pickup_address !!}</td>
-                                    <td>{!! $resource->drop_off_address !!}</td>
+                                    <td>{!! ($resource->fromCity->governorate->lName  ?? '').' - '.($resource->fromCity->lName ?? '') .' <br>  '.$resource->pickup_address !!}</td>
+                                    <td>{!! ($resource->ToCity->governorate->lName  ?? '').' - '.($resource->ToCity->lName ?? '') .' <br>  '.$resource->drop_off_address !!}</td>
                                     <td>{!! $resource->trip_date !!}</td>
                                     <td>{!! $resource->trip_time !!}</td>
                                     <td>{!! $resource->members_count !!}</td>

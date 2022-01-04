@@ -32,6 +32,8 @@ Route::middleware(['auth:web'])->prefix('admin')->group(function () {
     Route::resource('contact_us', \App\Http\Controllers\Admin\ContactUsController::class);
     Route::resource('countries', \App\Http\Controllers\Admin\CountryController::class);
     Route::resource('colors', \App\Http\Controllers\Admin\ColorController::class);
+    Route::resource('governorates', \App\Http\Controllers\Admin\GovernorateController::class);
+    Route::resource('cities', \App\Http\Controllers\Admin\CityController::class);
     Route::resource('notifications', \App\Http\Controllers\Admin\NotificationController::class);
 
 

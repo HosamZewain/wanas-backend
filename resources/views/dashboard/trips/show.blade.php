@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="body">
                     <div class="row">
-                        <div class="col-xl-3 col-lg-4 col-md-12">
+                        <div class="col-xl-2 col-lg-2 col-md-12">
                             <div class="preview preview-pic tab-content">
                                 <div class="tab-pane active" id="product_1">
 
@@ -32,12 +32,14 @@
                             {{--                                </li>--}}
                             {{--                            </ul>--}}
                         </div>
-                        <div class="col-xl-3 col-lg-8 col-md-12">
+                        <div class="col-xl-4 col-lg-4 col-md-12">
                             <div class="product details">
                                 <h5 class="price mt-0">نقطة الإنطلاق <span
-                                        class="col-amber">{!! $resource->pickup_address !!}</span></h5>
+                                        class="col-amber">{!! ($resource->fromCity->governorate->lName  ?? '').' - '.($resource->fromCity->lName ?? '') .' <br>  '.$resource->pickup_address !!}</span>
+                                </h5>
                                 <h5 class="price mt-0">نقطة الوصول <span
-                                        class="col-amber">{!! $resource->drop_off_address !!}</span></h5>
+                                        class="col-amber">{!! ($resource->ToCity->governorate->lName  ?? '').' - '.($resource->ToCity->lName ?? '') .' <br>  '.$resource->drop_off_address !!}</span>
+                                </h5>
                                 <h5 class="price mt-0">تاريخ الرحلة <span
                                         class="col-amber">{!! $resource->trip_date !!}</span></h5>
                                 <h5 class="price mt-0">وقت الرحلة <span
@@ -63,12 +65,15 @@
                             <div class="card">
                                 <div class="body">
                                     <ul class="nav nav-tabs">
-                                        <li class="nav-item"><a class="nav-link active" data-toggle="tab"
-                                                                href="#description">بيانات
-                                                السائق</a>
+                                        <li class="nav-item">
+                                            <a class="nav-link active" data-toggle="tab" href="#description">
+                                                بيانات السائق
+                                            </a>
                                         </li>
-                                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#review">بيانات
-                                                المشتركين</a>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-toggle="tab" href="#review">
+                                                بيانات المشتركين
+                                            </a>
                                         </li>
                                     </ul>
                                 </div>
@@ -93,7 +98,8 @@
                                                     <div class="card">
                                                         <div class="body">
                                                             <small class="text-muted">الإسم</small>
-                                                            <p>{!! $resource->user->name ?? '' !!}</p>
+                                                            <br>
+                                                            <a href="{!! route('customers.edit',$resource->user->id) !!}">{!! $resource->user->name ?? '' !!}</a>
                                                             <hr>
                                                             <small class="text-muted">رقم الهاتف المحمول </small>
                                                             <p>{!! $resource->user->mobile ?? '' !!}</p>
@@ -124,18 +130,16 @@
                                                                 <h5 class="c_name">{!! $member->user->name ?? '' !!}</h5>
                                                                 <div
                                                                     class="badge badge-primary">{!! $member->user->mobile ?? '' !!}</div>
-                                                                @php
-                                                                    $rate = $resource->TripRate()->where('user_id',$member->user->user_id)->first();
-                                                                @endphp
-                                                                @if ($rate)
-                                                                    <p class="c_msg mb-0">{!! $rate->comment ?? '' !!}</p>
+                                                                @if ($member->user->rate)
+                                                                    {{--                                                                    <p class="c_msg mb-0">{!! $rate->comment ?? '' !!}</p>--}}
                                                                     <span class="m-l-10">
                                                                          @for ($i = 1; $i <= 5; $i++)
-                                                                            <i class="zmdi zmdi-star @if($rate->rate>=$i)  col-amber @endif"></i>
+                                                                            <i class="zmdi zmdi-star @if($member->user->rate>=$i)  col-amber @endif"></i>
                                                                         @endfor
                                                                     </span>
-                                                                    <small
-                                                                        class="comment-date float-sm-right">{!! $rate->created_at->format('Y-m-d') !!}</small>
+                                                                    {{--                                                                    <small class="comment-date float-sm-right">--}}
+                                                                    {{--                                                                        {!! $rate->created_at->format('Y-m-d') !!}--}}
+                                                                    {{--                                                                    </small>--}}
                                                                 @endif
                                                             </div>
                                                         </li>

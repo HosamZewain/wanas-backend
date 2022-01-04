@@ -42,10 +42,12 @@ class TripController extends ApiBaseController
      * @param Request $request
      * @return JsonResponse
      */
-    public function tripsList(Request $request)
+    public function tripsList(Request $request): JsonResponse
     {
         $filters['PickUpAddress'] = $request->pickup_address;
         $filters['DropOffAddress'] = $request->drop_off_address;
+        $filters['FromCityId'] = $request->from_city_id;
+        $filters['ToCityId'] = $request->to_city_id;
         $filters['Date'] = $request->date;
         $resources = $this->tripRepository->search($filters, ['user'], false, true, false);
         if ($resources) {
@@ -59,7 +61,7 @@ class TripController extends ApiBaseController
      * @param Request $request
      * @return JsonResponse
      */
-    public function createTrip(Request $request)
+    public function createTrip(Request $request): JsonResponse
     {
         $messages = [
             'pickup_address.required' => 'نقطة الإنطلاق  مطلوبة',

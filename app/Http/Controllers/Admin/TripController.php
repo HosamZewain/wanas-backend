@@ -54,7 +54,7 @@ class TripController extends Controller
 
     public function show($id)
     {
-        $resource = $this->tripRepository->find($id, ['members', 'user', 'user.vehicle','TripRate']);
+        $resource = $this->tripRepository->find($id, ['members.user.rates', 'user', 'user.vehicle', 'TripRate']);
         return view('dashboard.trips.show', compact('resource'));
     }
 

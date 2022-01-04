@@ -26,11 +26,15 @@ class Trip extends Model
         'members_count',
         'trip_cost_per_person',
         'total_trip_cost',
-        'rate'
+        'rate',
+        'from_city_id',
+        'from_governorates_id',
+        'to_city_id',
+        'to_governorates_id'
     ];
 
 
-    protected $filters = ['PickUpAddress', 'DropOffAddress', 'Date'];
+    protected $filters = ['PickUpAddress', 'DropOffAddress', 'Date', 'FromCityId', 'ToCityId'];
 
 
     /************scopes****************/
@@ -58,11 +62,47 @@ class Trip extends Model
         return $query->whereDate('trip_date', $value);
     }
 
+    public function scopeOfFromCityId($query, $value)
+    {
+        if (empty($value)) {
+            return $query;
+        }
+        return $query->whereDate('from_city_id', $value);
+    }
+
+    public function scopeOfToCityId($query, $value)
+    {
+        if (empty($value)) {
+            return $query;
+        }
+        return $query->whereDate('to_city_id', $value);
+    }
+
     /************relations*************/
 
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function fromCity(): BelongsTo
+    {
+        return $this->belongsTo(City::class, 'from_city_id');
+    }
+
+    public function ToCity(): BelongsTo
+    {
+        return $this->belongsTo(City::class, 'to_city_id');
+    }
+
+    public function ToGovernorate(): BelongsTo
+    {
+        return $this->belongsTo(Governorate::class, 'to_governorates_id');
+    }
+
+    public function FromGovernorate(): BelongsTo
+    {
+        return $this->belongsTo(Governorate::class, 'from_governorates_id');
     }
 
     public function members(): HasMany
