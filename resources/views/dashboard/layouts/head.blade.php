@@ -2,8 +2,12 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <meta name="description" content="Responsive Bootstrap 4 and web Application ui kit.">
-
+    <meta name="description" content="Wanas application.">
+    @if (isset($settings->logo))
+        <link rel="icon" type="image/x-icon" href="{!! ($settings->logo) ? asset('storage/' .$settings->logo) : asset('dashboard/assets/images/logo.svg') !!}">
+    @else
+        <link rel="icon" type="image/x-icon" href="{!!  asset('dashboard/assets/images/logo.svg') !!}">
+    @endif
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Laravel') }}</title>
