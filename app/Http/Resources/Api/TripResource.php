@@ -19,6 +19,8 @@ class TripResource extends JsonResource
             'trip_date' => $this->trip_date,
             'trip_time' => $this->trip_time,
             'status' => $this->status,
+            'from_city_id' => $this->from_city_id,
+            'to_city_id' => $this->to_city_id,
             'status_text' => __('messages.trip_status')[$this->status],
             'members_count' => $this->members_count,
             'trip_cost_per_person' => $this->trip_cost_per_person,

@@ -11,6 +11,7 @@ use App\Repositories\SQL\TripMemberRepository;
 use App\Repositories\SQL\TripRateRepository;
 use App\Repositories\SQL\TripRepository;
 use App\Repositories\SQL\UserRepository;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -44,12 +45,15 @@ class TripController extends ApiBaseController
      */
     public function tripsList(Request $request): JsonResponse
     {
-        $filters['PickUpAddress'] = $request->pickup_address;
-        $filters['DropOffAddress'] = $request->drop_off_address;
+       // $filters['PickUpAddress'] = $request->pickup_address;
+       // $filters['DropOffAddress'] = $request->drop_off_address;
         $filters['FromCityId'] = $request->from_city_id;
         $filters['ToCityId'] = $request->to_city_id;
         $filters['Date'] = $request->date;
+        $filters['StatusByDate'] = Carbon::now();
+
         $resources = $this->tripRepository->search($filters, ['user'], false, true, false);
+
         if ($resources) {
             $resources = TripResource::collection($resources);
             return $this->respondWithSuccess(__('messages.data_found'), $resources);

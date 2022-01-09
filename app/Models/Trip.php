@@ -34,16 +34,24 @@ class Trip extends Model
     ];
 
 
-    protected $filters = ['PickUpAddress', 'DropOffAddress', 'Date', 'FromCityId', 'ToCityId'];
+    protected $filters = ['PickUpAddress', 'DropOffAddress', 'Date', 'FromCityId', 'ToCityId', 'StatusByDate'];
 
 
     /************scopes****************/
+    public function scopeOfStatusByDate($query, $value)
+    {
+        if (empty($value)) {
+            return $query;
+        }
+        return $query->whereRaw('concat(trip_date," ",trip_time) >= "' . $value . '"');
+    }
+
     public function scopeOfPickUpAddress($query, $value)
     {
         if (empty($value)) {
             return $query;
         }
-        return $query->where('pickup_address', 'LIKE', '%' . $value . '%');
+        return $query->where('pickup_address', 'LIKE', '"%' . $value . '%"');
     }
 
     public function scopeOfDropOffAddress($query, $value)
@@ -67,7 +75,8 @@ class Trip extends Model
         if (empty($value)) {
             return $query;
         }
-        return $query->whereDate('from_city_id', $value);
+
+        return $query->where('from_city_id', $value);
     }
 
     public function scopeOfToCityId($query, $value)
@@ -75,7 +84,7 @@ class Trip extends Model
         if (empty($value)) {
             return $query;
         }
-        return $query->whereDate('to_city_id', $value);
+        return $query->where('to_city_id', $value);
     }
 
     /************relations*************/

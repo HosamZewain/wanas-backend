@@ -24,8 +24,8 @@ class checkUserStatus
         $response = [
             'status' => 400,
             'code_status' => 1,
-            'errors' => __('api.user_is_not_active'),
-            'message' => __('api.user_is_not_active'),
+            'errors' => __('messages.user_is_not_active'),
+            'message' => __('messages.user_is_not_active'),
             'data' => []
         ];
 

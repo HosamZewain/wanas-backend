@@ -51,5 +51,6 @@ return [
     'book_disapproved' => 'تم رفض  طلب حجز الرحلة',
     'password_changed_successfully' => 'تم تغيير كلمة المرور بنجاح',
     'trip_complete' => 'تم إكتمال العدد فى الرحلة',
+    'user_is_not_active' => 'تم انتهاء الجلسة الخاصة بك ، يرجى تسجيل الدخول مرة أخرى',
 
 ];
