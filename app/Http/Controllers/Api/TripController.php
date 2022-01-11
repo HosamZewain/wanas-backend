@@ -130,7 +130,7 @@ class TripController extends ApiBaseController
 
             $filters['UserId'] = $request->user()->id;
             $filters['TripId'] = $resource->id;
-            $check = $this->tripMemberRepository->search($filters, [], [], false, false, false);
+            $check = $this->tripMemberRepository->search($filters, [],  false, false, false);
             if (count($check)) {
                 return $this->respondWithErrors(__('messages.booked_before'), 422, null, __('messages.booked_before'));
             }
