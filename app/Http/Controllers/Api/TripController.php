@@ -194,8 +194,11 @@ class TripController extends ApiBaseController
             $member = $this->userRepository->find($request->member_id, ['fcmTokens']);
             if ($member) {
 
-                $tripMember = $this->tripMemberRepository->findByFields(['trip_id' => $resource->id, 'user_id' => $member->id]);
-                $this->tripMemberRepository->update($tripMember, [
+                $filters['TripId'] = $resource->id;
+                $filters['UserId'] = $member->id;
+                $tripMember = $this->tripMemberRepository->search($filters, [], false, false, false);
+
+                $this->tripMemberRepository->update($tripMember->first(), [
                     'status' => TripMember::STATUS_APPROVED,
                 ]);
 
