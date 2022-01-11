@@ -20,7 +20,7 @@ class TripMemberRepository extends AbstractModelRepository implements ITripMembe
     {
         $trip = $this->tripRepository->find($tripId, ['members']);
         if ($trip) {
-            return $trip->members->where(function ($query) use ($memberId, $tripId) {
+            return (bool)$trip->members->where(function ($query) use ($memberId, $tripId) {
                 $query->where('user_id', $memberId);
                 $query->where('trip_id', $tripId);
                 $query->whereIn('status', [TripMember::STATUS_APPROVED, TripMember::STATUS_DISAPPROVED]);
