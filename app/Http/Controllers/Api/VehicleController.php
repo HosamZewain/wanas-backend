@@ -17,12 +17,6 @@ class VehicleController extends ApiBaseController
     private $vehicleTypeRepository;
     private $userVehicleRepository;
     private $IUserRepository;
-
-    /**
-     * VehicleController constructor.
-     * @param VehicleTypeRepository $vehicleTypeRepository
-     * @param UserVehicleRepository $userVehicleRepository
-     */
     public function __construct(VehicleTypeRepository $vehicleTypeRepository,
                                 UserVehicleRepository $userVehicleRepository)
     {
@@ -36,7 +30,7 @@ class VehicleController extends ApiBaseController
      * @param Request $request
      * @return JsonResponse
      */
-    public function addVehicle(Request $request)
+    public function addVehicle(Request $request): JsonResponse
     {
         $messages = [
             'color.required' => ' اللون مطلوب',
@@ -56,6 +50,9 @@ class VehicleController extends ApiBaseController
             'car_license_back' => 'required|image',
             'driver_license_front' => 'required|image',
             'driver_license_back' => 'required|image',
+            'car_back' => 'nullable|image',
+            'car_near' => 'nullable|image',
+            'car_front' => 'nullable|image',
         ], $messages);
 
         if ($validation->fails()) {
@@ -81,6 +78,36 @@ class VehicleController extends ApiBaseController
                     ]);
                 }
             }
+            if ($request->hasFile('car_front')) {
+                $car_front = $request->car_front;
+                $car_front_path = $car_front->store('vehicles', 'public');
+                $resource->attachments()->create([
+                    'attachment_url' => 'vehicles/' . basename($car_front_path),
+                    'original_name' => $car_front->getClientOriginalName(),
+                    'file_type' => $car_front->getMimeType(),
+                    'key' => 'car_front'
+                ]);
+            }
+            if ($request->hasFile('car_near')) {
+                $car_near = $request->car_near;
+                $car_near_path = $car_near->store('vehicles', 'public');
+                $resource->attachments()->create([
+                    'attachment_url' => 'vehicles/' . basename($car_near_path),
+                    'original_name' => $car_near->getClientOriginalName(),
+                    'file_type' => $car_near->getMimeType(),
+                    'key' => 'car_near'
+                ]);
+            }
+            if ($request->hasFile('car_back')) {
+                $car_back = $request->car_back;
+                $car_back_path = $car_back->store('vehicles', 'public');
+                $resource->attachments()->create([
+                    'attachment_url' => 'vehicles/' . basename($car_back_path),
+                    'original_name' => $car_back->getClientOriginalName(),
+                    'file_type' => $car_back->getMimeType(),
+                    'key' => 'car_back'
+                ]);
+            }
             if ($request->hasFile('car_license_front')) {
                 $resource->update(['car_license_front' => $request->file('car_license_front')->store('vehicles', 'public'),]);
             }
@@ -104,7 +131,7 @@ class VehicleController extends ApiBaseController
      * @param Request $request
      * @return JsonResponse
      */
-    public function editVehicle(Request $request)
+    public function editVehicle(Request $request): JsonResponse
     {
         $messages = [
             'color.required' => ' اللون مطلوب',
@@ -126,6 +153,9 @@ class VehicleController extends ApiBaseController
             'car_license_back' => 'nullable|image',
             'driver_license_front' => 'nullable|image',
             'driver_license_back' => 'nullable|image',
+            'car_back' => 'nullable|image',
+            'car_near' => 'nullable|image',
+            'car_front' => 'nullable|image',
         ], $messages);
 
         if ($validation->fails()) {
@@ -159,6 +189,40 @@ class VehicleController extends ApiBaseController
             }
             if ($request->hasFile('driver_license_back')) {
                 $resource->update(['driver_license_back' => $request->file('driver_license_back')->store('vehicles', 'public'),]);
+            }
+
+            if ($request->hasFile('car_front')) {
+                $resource->attachments()->where('key', 'car_front')->delete();
+                $car_front = $request->car_front;
+                $car_front_path = $car_front->store('vehicles', 'public');
+                $resource->attachments()->create([
+                    'attachment_url' => 'vehicles/' . basename($car_front_path),
+                    'original_name' => $car_front->getClientOriginalName(),
+                    'file_type' => $car_front->getMimeType(),
+                    'key' => 'car_front'
+                ]);
+            }
+            if ($request->hasFile('car_near')) {
+                $resource->attachments()->where('key', 'car_near')->delete();
+                $car_near = $request->car_near;
+                $car_near_path = $car_near->store('vehicles', 'public');
+                $resource->attachments()->create([
+                    'attachment_url' => 'vehicles/' . basename($car_near_path),
+                    'original_name' => $car_near->getClientOriginalName(),
+                    'file_type' => $car_near->getMimeType(),
+                    'key' => 'car_near'
+                ]);
+            }
+            if ($request->hasFile('car_back')) {
+                $resource->attachments()->where('key', 'car_back')->delete();
+                $car_back = $request->car_back;
+                $car_back_path = $car_back->store('vehicles', 'public');
+                $resource->attachments()->create([
+                    'attachment_url' => 'vehicles/' . basename($car_back_path),
+                    'original_name' => $car_back->getClientOriginalName(),
+                    'file_type' => $car_back->getMimeType(),
+                    'key' => 'car_back'
+                ]);
             }
             $resource->save();
             $resource = new UserVehicleResource($resource);

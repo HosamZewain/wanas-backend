@@ -73,4 +73,19 @@ class UserVehicle extends Model
         return $this->morphOne(Attachment::class, 'attachmentable');
     }
 
+    public function carFront(): MorphOne
+    {
+        return $this->morphOne(Attachment::class, 'attachmentable')->where('key', 'car_front');
+    }
+
+    public function carNear(): MorphOne
+    {
+        return $this->morphOne(Attachment::class, 'attachmentable')->where('key', 'car_near');
+    }
+
+    public function carBack(): MorphOne
+    {
+        return $this->morphOne(Attachment::class, 'attachmentable')->where('key', 'car_back');
+    }
+
 }
