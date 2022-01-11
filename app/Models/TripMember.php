@@ -21,18 +21,31 @@ class TripMember extends Model
     ];
 
 
-    protected $filters = ['PickUpAddress', 'DropOffAddress', 'Date', 'UserId', 'TripId'];
+    protected $filters = ['PickUpAddress', 'DropOffAddress', 'Date', 'UserId', 'TripId', 'StatusIn'];
 
 
     /******************scopes******************/
 
     public function scopeOfUserId($query, $value)
     {
+        if (empty($value)){
+            return $query;
+        }
         return $query->where('user_id', $value);
+    }
+    public function scopeOfStatusIn($query, $value)
+    {
+        if (empty($value)){
+            return $query;
+        }
+        return $query->whereIn('status', $value);
     }
 
     public function scopeOfTripId($query, $value)
     {
+        if (empty($value)){
+            return $query;
+        }
         return $query->where('trip_id', $value);
     }
 
