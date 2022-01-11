@@ -20,7 +20,6 @@ class TripMemberRepository extends AbstractModelRepository implements ITripMembe
     {
         $trip = $this->tripRepository->find($tripId, ['members']);
         if ($trip) {
-            dd($trip);
             $filters['UserId'] = $memberId;
             $filters['TripId'] = $tripId;
             $filters['StatusIn'] = [TripMember::STATUS_APPROVED, TripMember::STATUS_DISAPPROVED];
