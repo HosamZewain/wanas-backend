@@ -197,18 +197,21 @@ class TripController extends ApiBaseController
                 $filters['TripId'] = $resource->id;
                 $filters['UserId'] = $member->id;
                 $tripMember = $this->tripMemberRepository->search($filters, [], false, false, false);
+                if (count($tripMember)) {
+                    if ($tripMember->first()->status != TripMember::STATUS_WAITING_APPROVAL) {
+                        return $this->respondWithErrors(__('messages.error'), 422, null, __('messages.error'));
+                    }
+                    $this->tripMemberRepository->update($tripMember->first(), [
+                        'status' => TripMember::STATUS_APPROVED,
+                    ]);
 
-                $this->tripMemberRepository->update($tripMember->first(), [
-                    'status' => TripMember::STATUS_APPROVED,
-                ]);
-
-                $title = 'تم تأكيد  حجز الرحلة ';
-                $body = "تم تأكيد حجز الرحلة رقم  ('.$resource->trip_name.')  ";
-                $parameters['type'] = Notification::TYPE_BOOK_APPROVED;
-                $parameters['member_id'] = $request->user()->id;
-                $parameters['model_id'] = $member->id;
-                $parameters['model_type'] = get_class($member);
-                $this->notificationRepository->sendNotification($member, $body, $title, $parameters);
+                    $title = 'تم تأكيد  حجز الرحلة ';
+                    $body = "تم تأكيد حجز الرحلة رقم  ('.$resource->trip_name.')  ";
+                    $parameters['type'] = Notification::TYPE_BOOK_APPROVED;
+                    $parameters['member_id'] = $request->user()->id;
+                    $parameters['model_id'] = $member->id;
+                    $parameters['model_type'] = get_class($member);
+                    $this->notificationRepository->sendNotification($member, $body, $title, $parameters);
 //                $title = 'تم الموافقة على حجز الرحلة';
 //                $body = 'طلب حجز على الرحلة رقم .' . $resource->id;
 //                $parameters['type'] = 'book_approved';
@@ -216,8 +219,9 @@ class TripController extends ApiBaseController
 //                $parameters['model_type'] = get_class($resource);
 //                $member = $this->userRepository->find($member->id, ['fcmTokens']);
 //                $this->notificationRepository->sendNotification($member, $body, $title, $parameters);
-                $resource = new TripResource($resource);
-                return $this->respondWithSuccess(__('messages.book_approved'), $resource);
+                    $resource = new TripResource($resource);
+                    return $this->respondWithSuccess(__('messages.book_approved'), $resource);
+                }
             }
         }
         return $this->respondWithErrors(__('messages.error'), 422, null, __('messages.error'));
