@@ -161,10 +161,12 @@ class TripController extends ApiBaseController
      * @param Request $request
      * @return JsonResponse
      */
-    public function tripDetails(Request $request)
+    public function tripDetails(Request $request): JsonResponse
     {
-        $resource = $this->tripRepository->find($request->trip_id, ['user', 'members']);
+        $resource = $this->tripRepository->find($request->trip_id, ['user','user.vehicle.carFront', 'user.vehicle.carNear', 'user.vehicle.carBack', 'members']);
         if ($resource) {
+
+        //    dd($resource);
             $resource = new TripResource($resource);
             return $this->respondWithSuccess(__('messages.data_found'), $resource);
         }

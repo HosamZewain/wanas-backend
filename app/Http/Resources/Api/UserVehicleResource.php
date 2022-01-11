@@ -16,6 +16,7 @@ class UserVehicleResource extends JsonResource
      */
     public function toArray($request)
     {
+
         return [
             'id' => $this->id,
             'color' => $this->color,
@@ -36,13 +37,13 @@ class UserVehicleResource extends JsonResource
             'driver_license_front' => ($this->driver_license_front) ? asset('storage/' . $this->driver_license_front) : null,
             'driver_license_back' => ($this->driver_license_back) ? asset('storage/' . $this->driver_license_back) : null,
             $this->mergeWhen(($this->carFront), [
-                'car_front' => new AttachmentResource($this->carFront),
+                'car_front' =>asset('storage' .  ($this->carFront->full_url?? '' )) ,
             ]),
             $this->mergeWhen(($this->carNear), [
-                'car_near' => new AttachmentResource($this->carNear),
+                'car_near' =>asset('storage' .  ($this->carNear->full_url?? '' )) ,
             ]),
             $this->mergeWhen(($this->carBack), [
-                'car_back' => new AttachmentResource($this->carBack),
+                'car_back' =>asset('storage' .  ($this->carBack->full_url?? '' )) ,
             ]),
         ];
     }

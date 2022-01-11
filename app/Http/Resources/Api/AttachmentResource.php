@@ -18,10 +18,13 @@ class AttachmentResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'attachment_url' => $this->attachment_url,
-            'original_name' => $this->original_name,
-            'file_type' => $this->file_type,
+            $this->mergeWhen((!in_array($this->key,['car_front','car_back','car_near'])), [
+                'attachment_url' => $this->attachment_url,
+                'original_name' => $this->original_name,
+                'file_type' => $this->file_type,
+            ]),
             'full_url' => asset('storage/' . $this->attachment_url),
+
         ];
     }
 }
