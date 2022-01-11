@@ -14,17 +14,20 @@ class TripMemberRepository extends AbstractModelRepository implements ITripMembe
         parent::__construct($model);
         $this->model = $model;
         $this->tripRepository = app(TripRepository::class);
-        $this->TripMemberRepository = app(TripMemberRepository::class);
     }
 
     public function checkForMemberApproval($notificationId, $tripId, $memberId): bool
     {
         $trip = $this->tripRepository->find($tripId, ['members']);
         if ($trip) {
+            dd($trip);
             $filters['UserId'] = $memberId;
             $filters['TripId'] = $tripId;
             $filters['StatusIn'] = [TripMember::STATUS_APPROVED, TripMember::STATUS_DISAPPROVED];
-            return $this->tripRepository->search($filters, [], false, false, false)->exists();
+            $check =  app(__CLASS__)->search($filters, [], false, false, false);
+            if (count($check)) {
+                return true;
+            }
 //            return (bool)$trip->members->where(function ($query) use ($memberId, $tripId) {
 //                $query->where('user_id', $memberId);
 //                $query->where('trip_id', $tripId);
