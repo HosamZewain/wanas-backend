@@ -15,7 +15,7 @@ class Trip extends Model
     public const STATUS_ACTIVE = 1;
     public const STATUS_ENDED = 2;
     protected $table = 'trips';
-    protected $appends = ['is_member', 'trip_name'];
+    protected $appends = ['is_member', 'trip_name','booked'];
     protected $fillable = [
         'user_id',
         'pickup_address',
@@ -138,6 +138,10 @@ class Trip extends Model
     public function getIsMemberAttribute()
     {
         return (bool)$this->members()->where('user_id', Request()->user()->id)->whereIn('status', [TripMember::STATUS_APPROVED, TripMember::STATUS_DISAPPROVED])->first();
+    }
+    public function getBookedAttribute()
+    {
+        return (bool)$this->members()->where('user_id', Request()->user()->id)->exists();
     }
 
     public function getIsNotifiationMemberAttribute()

@@ -37,13 +37,13 @@ class UserVehicleResource extends JsonResource
             'driver_license_front' => ($this->driver_license_front) ? asset('storage/' . $this->driver_license_front) : null,
             'driver_license_back' => ($this->driver_license_back) ? asset('storage/' . $this->driver_license_back) : null,
             $this->mergeWhen(($this->carFront), [
-                'car_front' => asset($this->carFront->full_url),
+                'car_front' => ($this->carFront) ?  asset($this->carFront->full_url): null,
             ]),
             $this->mergeWhen(($this->carNear), [
-                'car_near' => asset($this->carNear->full_url),
+                'car_near' => ($this->carNear) ?  asset($this->carNear->full_url): null,
             ]),
             $this->mergeWhen(($this->carBack), [
-                'car_back' => asset($this->carBack->full_url),
+                'car_back' =>  ($this->carBack) ? asset($this->carBack->full_url): null,
             ]),
         ];
     }

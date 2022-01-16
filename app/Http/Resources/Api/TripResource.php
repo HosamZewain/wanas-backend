@@ -26,6 +26,7 @@ class TripResource extends JsonResource
             'trip_cost_per_person' => $this->trip_cost_per_person,
             'total_trip_cost' => $this->total_trip_cost,
             'is_member' => $this->is_member,
+            'booked' => $this->booked,
             'rate' => $this->rate,
             'user' => new UserResource($this->user),
             'members' => TripMemberResource::collection($this->ApprovedMembers),
