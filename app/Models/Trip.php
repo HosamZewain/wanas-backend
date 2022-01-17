@@ -34,7 +34,7 @@ class Trip extends Model
     ];
 
 
-    protected $filters = ['PickUpAddress', 'DropOffAddress', 'Date', 'FromCityId', 'ToCityId', 'StatusByDate'];
+    protected $filters = ['PickUpAddress', 'DropOffAddress', 'Date', 'FromCityId', 'FromCityIdSearch', 'ToCityId', 'ToCityIdSearch', 'StatusByDate'];
 
 
     /************scopes****************/
@@ -79,12 +79,35 @@ class Trip extends Model
         return $query->where('from_city_id', $value);
     }
 
+    public function scopeOfFromCityIdSearch($query, $value)
+    {
+        if (empty($value)) {
+            return $query;
+        }
+
+        return $query->where('from_city_id', 'LIKE', '%' . $value . '%')->whereHas('fromCity', function ($query) use ($value) {
+            $query->where('name_ar', 'LIKE', '%' . $value . '%');
+            $query->Orwhere('name_en', 'LIKE', '%' . $value . '%');
+        });
+    }
+
     public function scopeOfToCityId($query, $value)
     {
         if (empty($value)) {
             return $query;
         }
         return $query->where('to_city_id', $value);
+    }
+
+    public function scopeOfToCityIdSearch($query, $value)
+    {
+        if (empty($value)) {
+            return $query;
+        }
+        return $query->where('to_city_id', 'LIKE', '%' . $value . '%')->whereHas('ToCity', function ($query) use ($value) {
+            $query->where('name_ar', 'LIKE', '%' . $value . '%');
+            $query->Orwhere('name_en', 'LIKE', '%' . $value . '%');
+        });
     }
 
     /************relations*************/

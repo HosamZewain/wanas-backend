@@ -12,13 +12,14 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/', [\App\Http\Controllers\Website\HomeController::class, 'index']);
 Route::get('/test', [\App\Http\Controllers\HomeController::class, 'test']);
 Route::get('/translate/{lang}/{text}', [\App\Http\Controllers\HomeController::class, 'translate']);
 
 
-Route::get('/', function () {
-    return redirect()->to(url('admin'));
-});
+//Route::get('/', function () {
+//    return redirect()->to(url('admin'));
+//});
 
 Auth::routes();
 
