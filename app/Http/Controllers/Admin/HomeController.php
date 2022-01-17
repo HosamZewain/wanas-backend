@@ -14,6 +14,7 @@ class HomeController extends Controller
     private $userRepository;
     private $tripRepository;
 
+
     public function __construct(UserRepository $userRepository, TripRepository $tripRepository)
     {
         $this->middleware('auth');

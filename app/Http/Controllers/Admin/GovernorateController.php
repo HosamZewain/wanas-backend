@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Repositories\SQL\CountryRepository;
 use App\Repositories\SQL\GovernorateRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -12,10 +13,12 @@ class GovernorateController extends BaseController
 {
 
     private $governorateRepository;
+    private $countryRepository;
 
     public function __construct( GovernorateRepository $governorateRepository)
     {
         $this->governorateRepository = $governorateRepository;
+        $this->countryRepository = app(CountryRepository::class);
 //        $this->middleware(['permission:show_governorates'])->only('index');
 //        $this->middleware(['permission:create_governorates'])->only(['create', 'store']);
 //        $this->middleware(['permission:edit_governorates'])->only(['edit', 'update']);
@@ -25,13 +28,14 @@ class GovernorateController extends BaseController
 
     public function index()
     {
-        $resources = $this->governorateRepository->search([], [], true, true);
+        $resources = $this->governorateRepository->search([], [], true, true, false);
         return view('dashboard.governorates.index', compact('resources'));
     }
 
     public function create()
     {
-        return view('dashboard.governorates.create');
+        $countries = $this->countryRepository->search([], [], true, false, false)->pluck('LName', 'id')->toArray();
+        return view('dashboard.governorates.create', compact('countries'));
     }
 
     public function store(Request $request)
@@ -51,8 +55,9 @@ class GovernorateController extends BaseController
 
     public function edit($id)
     {
+        $countries = $this->countryRepository->search([], [], true, false, false)->pluck('LName', 'id')->toArray();
         $resource = $this->governorateRepository->find($id);
-        return view('dashboard.governorates.edit', compact('resource'));
+        return view('dashboard.governorates.edit', compact('resource','countries'));
     }
 
     /**
