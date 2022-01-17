@@ -140,7 +140,7 @@
                                  class="downloadLinks lazyload me-3" alt="google play">
                         </a>
                         <a href="https://apps.apple.com/ee/app/%D9%88%D9%86-%D8%B3/id1599241085">
-                            <img src="{!! asset('website/assets/img/apple.pn') !!}"
+                            <img src="{!! asset('website/assets/img/apple.png') !!}"
                                  data-src="{!! asset('website/assets/img/apple.png') !!}"
                                  class="downloadLinks lazyload" alt="app store">
                         </a>
@@ -211,48 +211,5 @@
     <!-- end appScreens -->
 
     <!-- start contactUs -->
-    <div id="contactUs" class="py-5 position-relative">
-        <img src="{!! asset('website/assets/img/send.png') !!}" data-src="{!! asset('website/assets/img/send.png') !!}"
-             class="lazyload send1"/>
-        <img src="{!! asset('website/assets/img/send.png') !!}" data-src="{!! asset('website/assets/img/send.png') !!}"
-             class="lazyload send2"/>
-        <img src="{!! asset('website/assets/img/send.png') !!}" data-src="{!! asset('website/assets/img/send.png') !!}"
-             class="lazyload send3"/>
-        <div class="container">
-            <div class="text-center">
-                <h5 class="mainTitle top50 fw-bold my-3">
-                    تواصــــل معنــا
-                </h5>
-            </div>
-
-            <div class="row bg-white py-4 px-3 px-md-5 mt-3 mb-4 mx-0 br25 flex-column-reverse flex-md-row">
-                <div class="col-md-6">
-                    <h6 class="fw-bold mb-3">أرسل رسالتك</h6>
-                    <form action="" class="w-100">
-                        <div class="mb-3">
-                            <input type="text" class="form-control w-100 bg-formControl border-0"
-                                   placeholder="الإسم بالكامل">
-                        </div>
-                        <div class="mb-3">
-                            <input type="email" class="form-control w-100 bg-formControl border-0"
-                                   placeholder="البريد الإلكتروني">
-                        </div>
-                        <div class="mb-3">
-                            <textarea class="form-control w-100 bg-formControl border-0" rows="6"
-                                      placeholder="رسالتك هنا......"></textarea>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-around justify-content-md-end">
-                            <button type="submit" class="btn btn-orange text-white px-5 mt-3 mb-2">أرسل الرسالة</button>
-                        </div>
-                    </form>
-                </div>
-                <div class="col-md-6 d-flex justify-content-end align-items-center">
-                    <img src="{!! asset('website/assets/img/contactUS.png') !!}"
-                         data-src="{!! asset('website/assets/img/contactUS.png') !!}"
-                         class="lazyload contactUSImg"/>
-                </div>
-            </div>
-
-        </div>
-    </div>
+  @include('website.contactUs')
 @endsection

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/', [\App\Http\Controllers\Website\HomeController::class, 'index']);
+Route::POST('contact_us_store', [\App\Http\Controllers\Website\HomeController::class, 'ContactUsStore'])->name('website.ContactUsStore');
 Route::get('/test', [\App\Http\Controllers\HomeController::class, 'test']);
 Route::get('/translate/{lang}/{text}', [\App\Http\Controllers\HomeController::class, 'translate']);
 
