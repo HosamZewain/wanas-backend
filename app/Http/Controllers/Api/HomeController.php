@@ -93,7 +93,7 @@ class HomeController extends ApiBaseController
 
     public function governorates(Request $request): JsonResponse
     {
-        $filters['countryId'] = $request->country_id;
+        $filters['CountryId'] = $request->country_id;
         $resources = $this->governorateRepository->search($filters, [], false, false, false);
         if ($resources) {
             $resources = GovernorateResource::collection($resources);

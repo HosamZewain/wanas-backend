@@ -11,6 +11,7 @@ class Governorate extends Model
     use ModelTrait,LocalizedTrait;
 
     protected $appends = ['LName'];
+    protected $filters = ['CountryId'];
 
     protected $table = 'governorates';
     protected $fillable = [
@@ -20,6 +21,12 @@ class Governorate extends Model
     ];
 
 
+    /********scopes****************/
+
+    public function scopeOfCountryId($query, $value)
+    {
+        return $query->where('country_id', $value);
+    }
     /********attributes****************/
 
     public function getLNameAttribute()
@@ -29,7 +36,5 @@ class Governorate extends Model
 
     /********relations****************/
 
-
-    /********scopes****************/
 
 }
