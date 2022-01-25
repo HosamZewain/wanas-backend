@@ -91,9 +91,10 @@ class HomeController extends ApiBaseController
         return $this->respondWithErrors(__('messages.no_data_found'), 422, null, __('messages.no_data_found'));
     }
 
-    public function governorates(): JsonResponse
+    public function governorates(Request $request): JsonResponse
     {
-        $resources = $this->governorateRepository->search([], [], false, false, false);
+        $filters['countryId'] = $request->country_id;
+        $resources = $this->governorateRepository->search($filters, [], false, false, false);
         if ($resources) {
             $resources = GovernorateResource::collection($resources);
             return $this->respondWithSuccess(__('messages.data_found'), $resources);
