@@ -1,5 +1,5 @@
 {
-  "version" : "1.1",
+  "version" : "1.2",
   "profiles" : [ {
     "id" : "80867ca5-2a4c-49c0-8273-200814f7d44d",
     "name" : "Laravel (PHP, BLADE)",
@@ -20,7 +20,6 @@
       "type" : "php",
       "scopeName" : "i18n Ally: Laravel/PHP source",
       "scopePattern" : "file[wanas]:app//*&&!file[wanas]:app/Broadcasting//*&&!file[wanas]:app/Console//*&&!file[wanas]:app/Events//*&&!file[wanas]:app/Exceptions//*&&!file[wanas]:app/Models//*&&!file[wanas]:app/Providers//*",
-      "replacementTemplate" : "trans('%namespace%.%key%', %map%)",
       "defaultReplacementTemplate" : "trans('%namespace%.%key%', %map%)",
       "recognizedReplacementTemplates" : [ ],
       "skipDefaultNamespace" : false,
@@ -30,9 +29,9 @@
       "type" : "blade",
       "scopeName" : "i18n Ally: Laravel/Blade templates",
       "scopePattern" : "file[wanas]:resources/views//*",
-      "replacementTemplate" : "trans('%namespace%.%key%', %map%)",
-      "contentReplacementTemplate" : "trans('%namespace%.%key%', %map%)",
+      "defaultReplacementTemplate" : "trans('%namespace%.%key%', %map%)",
       "attributeReplacementTemplate" : "",
+      "inlineTagsReplacementTemplate" : "trans('%namespace%.%key%', %map%)",
       "recognizedReplacementTemplates" : [ ],
       "inlineTagNames" : [ "a", "abbr", "acronym", "b", "bdi", "bdo", "big", "br", "cite", "code", "data", "del", "dfn", "em", "i", "img", "input", "ins", "kbd", "label", "mark", "meter", "output", "progress", "q", "ruby", "s", "samp", "slot", "small", "span", "strong", "sub", "sup", "time", "u", "tt", "var", "wbr" ],
       "translatableAttributeNames" : [ "title", "alt", "placeholder", "label", "aria-label" ],
@@ -58,7 +57,6 @@
       "type" : "php",
       "scopeName" : "i18n Ally: Symfony/PHP source",
       "scopePattern" : "file[wanas]:src//*&&!file[wanas]:src/DataFixtures//*",
-      "replacementTemplate" : "$this->translator->trans('%key%', %map%, '%namespace%')",
       "defaultReplacementTemplate" : "$this->translator->trans('%key%', %map%, '%namespace%')",
       "recognizedReplacementTemplates" : [ ],
       "skipDefaultNamespace" : true,
@@ -68,9 +66,9 @@
       "type" : "twig",
       "scopeName" : "i18n Ally: Symfony/Twig templates",
       "scopePattern" : "file[wanas]:templates//*",
-      "replacementTemplate" : "trans(%map%, '%namespace%')",
-      "contentReplacementTemplate" : "trans(%map%, '%namespace%')",
+      "defaultReplacementTemplate" : "trans(%map%, '%namespace%')",
       "attributeReplacementTemplate" : "",
+      "inlineTagsReplacementTemplate" : "trans(%map%, '%namespace%')|raw",
       "recognizedReplacementTemplates" : [ ],
       "inlineTagNames" : [ "a", "abbr", "acronym", "b", "bdi", "bdo", "big", "br", "cite", "code", "data", "del", "dfn", "em", "i", "img", "input", "ins", "kbd", "label", "mark", "meter", "output", "progress", "q", "ruby", "s", "samp", "slot", "small", "span", "strong", "sub", "sup", "time", "u", "tt", "var", "wbr" ],
       "translatableAttributeNames" : [ "title", "alt", "placeholder", "label", "aria-label" ],
@@ -83,6 +81,6 @@
     "filesInProject" : [ ],
     "unignoredFunctionNames" : [ ],
     "unignoredFunctionArguments" : { },
-    "ignoredArrayKeys" : [ "class", "selector", "template", "middleware", "layout", "el", "component", "type", "name", "id", "key", "sql", "query", "dateFormat", "date", "condition" ]
+    "ignoredArrayKeys" : [ "template", "date", "dateFormat", "el", "query", "type", "sql", "layout", "component", "condition", "name", "selector", "id", "class", "key", "middleware" ]
   }
 }

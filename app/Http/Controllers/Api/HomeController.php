@@ -55,7 +55,7 @@ class HomeController extends ApiBaseController
     public function sendAPNS($id): void
     {
         $user = $this->IUserRepository->find($id);
-        $result =  $this->notificationRepository->sendNotification($user, 'test', 'test');
+        $result = $this->notificationRepository->sendNotification($user, 'test', 'test');
 
     }
 
@@ -75,7 +75,7 @@ class HomeController extends ApiBaseController
 
     public function countries(): JsonResponse
     {
-        $resources = $this->countryRepository->search([], [], true, false,false,'name_ar','ASC');
+        $resources = $this->countryRepository->search([], [], true, false, false, 'name_ar', 'ASC');
         if ($resources) {
             return $this->respondWithSuccess(__('messages.data_found'), $resources);
         }
@@ -105,6 +105,7 @@ class HomeController extends ApiBaseController
     public function cities(Request $request): JsonResponse
     {
         $filters['GovernorateId'] = $request->governorate_id;
+        $filters['Keyword'] = $request->keyword;
         $resources = $this->cityRepository->search($filters, [], false, false, false);
         if ($resources) {
             $resources = CityResource::collection($resources);
@@ -124,7 +125,7 @@ class HomeController extends ApiBaseController
 
     public function termsConditions()
     {
-        $resources = $this->settingRepository->search([],[],false,false)->first()->terms_conditions;
+        $resources = $this->settingRepository->search([], [], false, false)->first()->terms_conditions;
         if ($resources) {
             return $this->respondWithSuccess(__('messages.data_found'), $resources);
         }
@@ -133,7 +134,7 @@ class HomeController extends ApiBaseController
 
     public function setting()
     {
-        $resources = $this->settingRepository->search([],[],false,false)->first();
+        $resources = $this->settingRepository->search([], [], false, false)->first();
         if ($resources) {
             return $this->respondWithSuccess(__('messages.data_found'), $resources);
         }

@@ -13,7 +13,7 @@ class City extends Model
 
     protected $appends = ['LName'];
 
-    protected $filters = ['GovernorateId'];
+    protected $filters = ['GovernorateId', 'Keyword'];
     protected $table = 'cities';
     protected $fillable = [
         'name_ar',
@@ -27,6 +27,12 @@ class City extends Model
     {
         return $query->where('governorates_id', $value);
     }
+
+    public function scopeOfKeyword($query, $value)
+    {
+        return $query->where('name_ar', 'LIKE', '%' . $value . '%')->orWhere('name_en', 'LIKE', '%' . $value . '%');
+    }
+
     /********attributes****************/
 
     public function getLNameAttribute()
@@ -38,7 +44,7 @@ class City extends Model
 
     public function governorate(): BelongsTo
     {
-        return $this->belongsTo(Governorate::class,'governorates_id');
+        return $this->belongsTo(Governorate::class, 'governorates_id');
     }
 
 }
