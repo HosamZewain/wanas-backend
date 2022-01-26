@@ -47,8 +47,8 @@ class TripController extends ApiBaseController
     {
          $filters['PickUpAddress'] = $request->pickup_address;
          $filters['DropOffAddress'] = $request->drop_off_address;
-        $filters['FromCityIdSearch'] = $request->from_city_id ?? ($request->pickup_address ?? '');
-        $filters['ToCityIdSearch'] = $request->to_city_id ?? ($request->drop_off_address ?? '');
+       // $filters['FromCityIdSearch'] = $request->from_city_id ?? ($request->pickup_address ?? '');
+    //    $filters['ToCityIdSearch'] = $request->to_city_id ?? ($request->drop_off_address ?? '');
         $filters['Date'] = $request->date;
         $filters['StatusByDate'] = Carbon::now();
         $filters['CountryId'] = $request->user()->country_id ?? null;
