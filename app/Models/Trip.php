@@ -15,7 +15,7 @@ class Trip extends Model
     public const STATUS_ACTIVE = 1;
     public const STATUS_ENDED = 2;
     protected $table = 'trips';
-    protected $appends = ['is_member', 'trip_name','booked'];
+    protected $appends = ['is_member', 'trip_name', 'booked'];
     protected $fillable = [
         'user_id',
         'pickup_address',
@@ -51,7 +51,10 @@ class Trip extends Model
         if (empty($value)) {
             return $query;
         }
-        return $query->where('pickup_address', 'LIKE', '"%' . $value . '%"');
+        return $query->where('pickup_address', 'LIKE', '"%' . $value . '%"')
+            ->orWhereHas('fromCity', function ($query) use ($value) {
+                $query->where('name_ar', 'LIKE', '%' . $value . '%')->orwhere('name_en', 'LIKE', '%' . $value . '%');
+            });
     }
 
     public function scopeOfDropOffAddress($query, $value)
@@ -59,7 +62,10 @@ class Trip extends Model
         if (empty($value)) {
             return $query;
         }
-        return $query->where('drop_off_address', 'LIKE', '%' . $value . '%');
+        return $query->where('drop_off_address', 'LIKE', '%' . $value . '%')
+            ->orWhereHas('ToCity', function ($query) use ($value) {
+                $query->where('name_ar', 'LIKE', '%' . $value . '%')->orwhere('name_en', 'LIKE', '%' . $value . '%');
+            });
     }
 
     public function scopeOfDate($query, $value)
@@ -162,6 +168,7 @@ class Trip extends Model
     {
         return (bool)$this->members()->where('user_id', Request()->user()->id)->whereIn('status', [TripMember::STATUS_APPROVED, TripMember::STATUS_DISAPPROVED])->first();
     }
+
     public function getBookedAttribute()
     {
         return (bool)$this->members()->where('user_id', Request()->user()->id)->exists();
