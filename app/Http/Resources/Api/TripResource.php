@@ -29,6 +29,7 @@ class TripResource extends JsonResource
             'total_trip_cost' => $this->total_trip_cost ?? null,
             'is_member' => $this->is_member ?? null,
             'booked' => $this->booked ?? null,
+            'is_full_booked' => (count($this->ApprovedMembers) == $this->members_count),
             'rate' => $this->rate ?? null,
             'user' => new UserResource($this->user),
             'members' => TripMemberResource::collection($this->ApprovedMembers),
