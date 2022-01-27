@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Auth;
 use App\Http\Controllers\Api\ApiBaseController;
 use App\Http\Resources\Api\UserResource;
 use App\Models\User;
+use App\Models\UserFcmToken;
 use App\Repositories\SQL\UserRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -27,12 +28,9 @@ class LoginController extends ApiBaseController
 
     public function logout(Request $request)
     {
-        $resource = $request->user();
-        if (count($resource->fcmTokens)) {
-            $resource->fcmTokens()->delete();
-        }
+        $resource = UserFcmToken::where('device_id', $request->device_id)->first();
         if ($resource) {
-            $resource = new UserResource($request->user());
+            $resource->delete();
             return $this->respondWithSuccess(__('messages.log_out_success'), $resource);
         }
         return $this->respondWithErrors(__('messages.error'), 422, null, __('messages.error'));
@@ -51,7 +49,7 @@ class LoginController extends ApiBaseController
         $validation = Validator::make($request->all(), [
             'mobile' => 'required|exists:users,mobile',
             'password' => 'required|min:8',
-         //   'fcm_token' => 'required',
+            //   'fcm_token' => 'required',
         ], $messages);
 
 
@@ -71,6 +69,8 @@ class LoginController extends ApiBaseController
             if (Hash::check($request->password, $resource->password)) {
                 $resource->fcmTokens()->create([
                     'token' => $request->fcm_token,
+                    'device_id' => $request->device_id ?? null,
+                    'device_name' => $request->device_name ?? null,
                 ]);
                 $resource = new UserResource($resource);
                 return $this->respondWithSuccess(__('messages.login_success'), $resource);
