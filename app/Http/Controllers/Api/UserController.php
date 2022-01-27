@@ -75,8 +75,8 @@ class UserController extends ApiBaseController
                 $this->userRepository->update($user, ['rate' => $CustomersRates]);
             }
 
-            $resource = new UserResource($user);
-            return $this->respondWithSuccess(__('dashboard.created_successfully'), $resource);
+        //    $resource = new UserResource($user);
+            return $this->respondWithSuccess(__('dashboard.created_successfully'), $CustomersRates);
         }
         return $this->respondWithErrors(__('messages.error'), 422, null, __('messages.error'));
     }
