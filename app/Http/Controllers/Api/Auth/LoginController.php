@@ -27,7 +27,7 @@ class LoginController extends ApiBaseController
 
     public function logout(Request $request): JsonResponse
     {
-        if (auth('sanctum')->check()) {
+        if ($request->user()) {
             $resource = $this->userRepository->find($request->user()->id, ['fcmTokens']);
             (count($resource->fcmTokens())) ? $resource->fcmTokens()->delete() : '';
             if ($resource) {
