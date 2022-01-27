@@ -29,7 +29,7 @@ class LoginController extends ApiBaseController
     {
         if ($request->user()) {
             $resource = $this->userRepository->find($request->user()->id, ['fcmTokens']);
-            (count($resource->fcmTokens())) ? $resource->fcmTokens()->delete() : '';
+            (!empty($resource->fcmTokens())) ? $resource->fcmTokens()->delete() : '';
             if ($resource) {
                 $resource = new UserResource($request->user());
                 return $this->respondWithSuccess(__('messages.log_out_success'), $resource);
