@@ -36,7 +36,10 @@ class UserVehicle extends Model
     /******************attributes******************/
     public function getStatusTextAttribute()
     {
-        return __('messages.trip_status');
+        if ($this->status) {
+            return __('messages.trip_status')[$this->status];
+        }
+        return null;
     }
 
     /******************scopes******************/
@@ -52,6 +55,7 @@ class UserVehicle extends Model
     {
         return $this->belongsTo(VehicleType::class, 'type');
     }
+
     public function colorModel(): BelongsTo
     {
         return $this->belongsTo(Color::class, 'color');
