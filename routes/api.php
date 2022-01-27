@@ -20,7 +20,6 @@ Route::get('test_apns/{id}', [\App\Http\Controllers\Api\HomeController::class, '
 Route::get('/', [\App\Http\Controllers\Api\HomeController::class, 'index']);
 Route::post('register', [\App\Http\Controllers\Api\Auth\RegisterController::class, 'register']);
 Route::post('login', [\App\Http\Controllers\Api\Auth\LoginController::class, 'login']);
-Route::post('logout', [\App\Http\Controllers\Api\Auth\LoginController::class, 'logout']);
 Route::post('/update_password', [\App\Http\Controllers\Api\Auth\LoginController::class, 'updatePassword']);
 
 //dynamic modules
@@ -39,6 +38,7 @@ Route::get('refresh', [\App\Http\Controllers\Api\HomeController::class, 'refresh
 
 //auth
 Route::middleware(['checkUserStatus', 'auth:sanctum'])->group(function () {
+    Route::post('logout', [\App\Http\Controllers\Api\Auth\LoginController::class, 'logout']);
     Route::post('user', [\App\Http\Controllers\Api\UserController::class, 'userDetails']);
     Route::post('activate_account', [\App\Http\Controllers\Api\Auth\RegisterController::class, 'activateAccount']);
     Route::post('/profile', [\App\Http\Controllers\Api\Auth\LoginController::class, 'profile']);
