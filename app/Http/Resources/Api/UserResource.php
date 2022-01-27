@@ -26,7 +26,7 @@ class UserResource extends JsonResource
             'status' => $this->status,
             'is_verified' => $this->is_verified,
             'gender' => $this->gender,
-            'rate' => number_format($this->rate, 2),
+            'rate' => (double)number_format($this->rate, 2),
             $this->mergeWhen($this->country, [
                 'country' => $this->country,
             ]),
