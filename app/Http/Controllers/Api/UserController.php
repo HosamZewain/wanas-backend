@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\Api\TripResource;
+use App\Http\Resources\Api\UserRateResource;
 use App\Http\Resources\Api\UserResource;
 use App\Http\Resources\Api\UserVehicleResource;
 use App\Repositories\SQL\UserRateRepository;
@@ -11,6 +12,7 @@ use App\Repositories\SQL\UserVehicleRepository;
 use App\Repositories\SQL\VehicleTypeRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -69,14 +71,15 @@ class UserController extends ApiBaseController
 
 
             $filters['UserRateId'] = $user->id;
-            $CustomersRates = $this->userRateRepository->search($filters, [], false, false, false);
+            $CustomersRates = $this->userRateRepository->search($filters, [], false, true, false);
             $CustomersRates = $CustomersRates->AVG('rate');
             if (isset($CustomersRates)) {
                 $this->userRepository->update($user, ['rate' => $CustomersRates]);
             }
 
-        //    $resource = new UserResource($user);
-            return $this->respondWithSuccess(__('dashboard.created_successfully'), $CustomersRates);
+            $resources = UserRateResource::collection($CustomersRates);
+            $resources = new LengthAwarePaginator($resources, $CustomersRates->total(), $CustomersRates->perPage());
+            return $this->respondWithSuccess(__('dashboard.created_successfully'), $resources);
         }
         return $this->respondWithErrors(__('messages.error'), 422, null, __('messages.error'));
     }
