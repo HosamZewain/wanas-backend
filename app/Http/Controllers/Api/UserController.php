@@ -50,12 +50,25 @@ class UserController extends ApiBaseController
 
         $user = $this->userRepository->find($request->user_id);
         if ($user) {
-            $this->userRateRepository->create([
-                'user_id' =>$request->user()->id,
+            $userRateFilters['UserId'] = $request->user()->id;
+            $userRateFilters['RateUserId'] = $request->user_id;
+            $check = $this->userRateRepository->findByFields([
+                'user_id' => $request->user()->id,
                 'rate_user_id' => $user->id,
-                'rate' => $request->rate,
-                'comment' => $request->comment,
             ]);
+            if (count($check)) {
+                $this->userRateRepository->update($check, [
+                    'rate' => $request->rate,
+                    'comment' => $request->comment,
+                ]);
+            } else {
+                $this->userRateRepository->create([
+                    'user_id' => $request->user()->id,
+                    'rate_user_id' => $user->id,
+                    'rate' => $request->rate,
+                    'comment' => $request->comment,
+                ]);
+            }
 
 
             $filters['UserRateId'] = $user->id;
@@ -80,7 +93,7 @@ class UserController extends ApiBaseController
             return $this->respondWithErrors($validation->errors(), 422, null, __('messages.complete_empty_values'));
         }
 
-        $user = $this->userRepository->find($request->user_id, ['rates','vehicle.attachments']);
+        $user = $this->userRepository->find($request->user_id, ['rates', 'vehicle.attachments']);
         $user = new UserResource($user);
         return $this->respondWithSuccess(__('messages.data_found'), $user);
     }
