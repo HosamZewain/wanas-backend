@@ -51,18 +51,15 @@ class UserController extends ApiBaseController
         $user = $this->userRepository->find($request->user_id);
         if ($user) {
             $userRateFilters['UserId'] = $request->user()->id;
-            $userRateFilters['RateUserId'] = $request->user_id;
-            $check = $this->userRateRepository->findByFields([
-                'user_id' => $request->user()->id,
-                'rate_user_id' => $user->id,
-            ]);
-            if ($check) {
-                $this->userRateRepository->update($check, [
+            $userRateFilters['UserRateId'] = $request->user_id;
+            $check = $this->userRateRepository->search($userRateFilters, [], false, false, false);
+            if (count($check)) {
+                $this->userRateRepository->update($check->first(), [
                     'rate' => $request->rate,
                     'comment' => $request->comment,
                 ]);
             } else {
-                $this->userRateRepository->create([
+                $check = $this->userRateRepository->create([
                     'user_id' => $request->user()->id,
                     'rate_user_id' => $user->id,
                     'rate' => $request->rate,
