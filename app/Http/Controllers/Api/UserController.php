@@ -77,6 +77,7 @@ class UserController extends ApiBaseController
                 $this->userRepository->update($user, ['rate' => $CustomersRates]);
             }
 
+            $CustomersRates = $this->userRateRepository->search($filters, [], false, true, false);
             $resources = UserRateResource::collection($CustomersRates);
             $resources = new LengthAwarePaginator($resources, $CustomersRates->total(), $CustomersRates->perPage());
             return $this->respondWithSuccess(__('dashboard.created_successfully'), $resources);
