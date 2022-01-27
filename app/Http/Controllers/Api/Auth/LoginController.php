@@ -27,14 +27,15 @@ class LoginController extends ApiBaseController
 
     public function logout(Request $request): JsonResponse
     {
-        $resource = $request->user();
-        if (count($resource->fcmTokens)) {
-            $resource->fcmTokens()->delete();
+        if (auth('sanctum')->check()) {
+            $resource = $this->userRepository->find($request->user()->id, ['fcmTokens']);
+            (count($resource->fcmTokens())) ? $resource->fcmTokens()->delete() : '';
+            if ($resource) {
+                $resource = new UserResource($request->user());
+                return $this->respondWithSuccess(__('messages.log_out_success'), $resource);
+            }
         }
-        if ($resource) {
-            $resource = new UserResource($request->user());
-            return $this->respondWithSuccess(__('messages.log_out_success'), $resource);
-        }
+
         return $this->respondWithErrors(__('messages.error'), 422, null, __('messages.error'));
     }
 
@@ -51,7 +52,7 @@ class LoginController extends ApiBaseController
         $validation = Validator::make($request->all(), [
             'mobile' => 'required|exists:users,mobile',
             'password' => 'required|min:8',
-         //   'fcm_token' => 'required',
+            //   'fcm_token' => 'required',
         ], $messages);
 
 
