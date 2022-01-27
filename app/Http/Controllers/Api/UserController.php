@@ -56,7 +56,7 @@ class UserController extends ApiBaseController
                 'user_id' => $request->user()->id,
                 'rate_user_id' => $user->id,
             ]);
-            if (count($check)) {
+            if ($check) {
                 $this->userRateRepository->update($check, [
                     'rate' => $request->rate,
                     'comment' => $request->comment,
