@@ -72,8 +72,8 @@ class UserController extends ApiBaseController
 
             $filters['UserRateId'] = $user->id;
             $CustomersRates = $this->userRateRepository->search($filters, [], false, true, false);
-            $CustomersRates = $CustomersRates->AVG('rate');
             if (isset($CustomersRates)) {
+                $CustomersRates = $CustomersRates->AVG('rate');
                 $this->userRepository->update($user, ['rate' => $CustomersRates]);
             }
 
