@@ -59,17 +59,14 @@ class HomeController extends ApiBaseController
         $users = $this->IUserRepository->search([], [], [], false, false, false);
         foreach ($users as $resource) {
             if ($resource->profile_image) {
-                $profile_image =asset('storage/'.$resource->profile_image);
 
-                app(AttachmentRepository::class)->specialUpload($profile_image, $resource, 'profile_image', 'user');
+                app(AttachmentRepository::class)->specialUpload($resource->profile_image, $resource, 'profile_image', 'user');
             }
             if ($resource->civil_image_front) {
-                $civil_image_front =asset('storage/'.$resource->civil_image_front);
-                app(AttachmentRepository::class)->specialUpload($civil_image_front, $resource, 'civil_image_front', 'user');
+                app(AttachmentRepository::class)->specialUpload($resource->civil_image_front, $resource, 'civil_image_front', 'user');
             }
             if ($resource->civil_image_back) {
-                $civil_image_back =asset('storage/'.$resource->civil_image_back);
-                app(AttachmentRepository::class)->specialUpload($civil_image_back, $resource, 'civil_image_back', 'user');
+                app(AttachmentRepository::class)->specialUpload($resource->civil_image_back, $resource, 'civil_image_back', 'user');
             }
         }
 

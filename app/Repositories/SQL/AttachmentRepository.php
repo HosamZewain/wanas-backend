@@ -31,11 +31,11 @@ class AttachmentRepository extends AbstractModelRepository implements IAttachmen
 
     public function specialUpload($image, $resource, $key, $folder = 'vehicles'): void
     {
-      //  $resource->attachments()->where('key', $key)->delete();
+      $file = asset('storage/' . $image);
         $resource->attachments()->create([
             'attachment_url' => $image,
-            'original_name' => pathinfo($image,PATHINFO_FILENAME ),
-            'file_type' =>  pathinfo($image,PATHINFO_EXTENSION ),
+            'original_name' => pathinfo($file, PATHINFO_FILENAME),
+            'file_type' => pathinfo($file, PATHINFO_EXTENSION),
             'key' => $key,
             'status' => Attachment::STATUS_UPLOADED
         ]);
