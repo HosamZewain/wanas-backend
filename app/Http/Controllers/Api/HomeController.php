@@ -169,7 +169,7 @@ class HomeController extends ApiBaseController
         setLocale(LC_TIME, 'ar');
 
         $list = [];
-        $period = (new \Carbon\CarbonPeriod)->locale('ar')->create(Carbon::today(), Carbon::today()->addDays(5));
+        $period = (new \Carbon\CarbonPeriod)->locale('ar')->create(Carbon::today(), Carbon::today()->addDays(6));
         foreach ($period as $date) {
             $list[$date->format('Y-m-d')] = __('messages.days_array')[$date->format('D')];
         }
