@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\UserResource;
+use App\Models\Attachment;
 use App\Models\Notification;
 use App\Models\User;
+use App\Repositories\SQL\AttachmentRepository;
 use App\Repositories\SQL\NotificationRepository;
 use App\Repositories\SQL\UserRepository;
 use Illuminate\Http\JsonResponse;
@@ -17,11 +19,13 @@ class CustomerController extends Controller
 {
     private $userRepository;
     private $notificationRepository;
+    private $attachmentRepository;
 
     public function __construct(UserRepository $userRepository)
     {
         $this->userRepository = $userRepository;
         $this->notificationRepository = app(NotificationRepository::class);
+        $this->attachmentRepository = app(AttachmentRepository::class);
     }
 
     public function index(Request $request)
@@ -94,13 +98,27 @@ class CustomerController extends Controller
 
     public function confirmForm($id)
     {
-        $data = $this->userRepository->find($id,['attachments']);
+        $data = $this->userRepository->find($id, ['attachments']);
 
 
         $resource = new UserResource($data);
 
         $view = view('dashboard.customers.partials._confirm', compact('resource'))->render();
         return response()->json(['msg' => trans('dashboard.deleted_successfully'), 'data' => $view]);
+    }
+
+    public function changeStatusAttachment(Request $request)
+    {
+        $file = $this->attachmentRepository->find($request->id);
+
+        if ($file) {
+            $this->attachmentRepository->update($file, [
+                'status' => ($request->status == 'approve') ? Attachment::STATUS_APPROVED : Attachment::STATUS_DISAPPROVED,
+                'status_text' => $request->statusText,
+            ]);
+            return response()->json(['msg' => trans('dashboard.changed_successfully'), 'data' => $file], 200);
+        }
+        return response()->json(['msg' => trans('dashboard.error')], 400);
     }
 
     public function confirm(Request $request): JsonResponse

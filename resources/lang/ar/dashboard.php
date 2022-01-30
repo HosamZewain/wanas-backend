@@ -73,5 +73,6 @@ return [
     'cities' => 'المدن',
     'city' => 'المدينة',
     'subject' => 'الموضوع',
-    'attachments'=>'المرفقات',
+    'attachments' => 'المرفقات',
+    'changed_successfully' => 'تم تغيير البيانات بنجاح',
 ];

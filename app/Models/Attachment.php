@@ -15,7 +15,7 @@ class Attachment extends Model
     public const STATUS_APPROVED = 1;
     public const STATUS_DISAPPROVED = 2;
     public const STATUS_UPLOADED = 3;
-    protected $appends = ['full_url'];
+    protected $appends = ['full_url', 'status_translated'];
     protected $table = 'attachments';
     protected $fillable = [
         'attachment_url',
@@ -34,6 +34,11 @@ class Attachment extends Model
     public function getFullUrlAttribute(): string
     {
         return Storage::url($this->attachment_url);
+    }
+
+    public function getStatusTranslatedAttribute(): string
+    {
+        return __('enums.attachment_status')[$this->status];
     }
     /********relations****************/
 

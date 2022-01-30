@@ -76,7 +76,7 @@
     } ]
   } ],
   "ignores" : {
-    "valuesInProject" : [ "use strict" ],
+    "valuesInProject" : [ "use strict", "أخر تعديل\n                                                        : {!! $attachment->updated_at !!}" ],
     "valuesInFile" : { },
     "filesInProject" : [ ],
     "unignoredFunctionNames" : [ ],

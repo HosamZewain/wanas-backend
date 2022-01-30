@@ -48,15 +48,27 @@
                                             <div class="card-body">
                                                 <h5 class="card-title  text-white bg-secondary p-2">{!! __('enums.attachment_keys')[$attachment->key] !!}</h5>
                                                 <p class="card-text">
-                                                    <small class="text-muted">أخر تعديل
+                                                    <small class="text-muted">
+                                                        أخر تعديل
                                                         : {!! $attachment->updated_at !!}</small>
+                                                    <br>
+                                                    <small class="text-muted statusText{!! $attachment->id !!}">
+                                                        أخر حالة
+                                                        : {!! __('enums.attachment_status')[$attachment->status] !!}
+                                                    </small>
+                                                    <br>
                                                 </p>
-                                                {!! Form::text('status_text',$attachment->status_text,['class'=>'form-control','placeholder'=>'ملاحظات....']) !!}
-                                                <a class="btn btn-success  text-white">
-                                                    تأكيد <i class="far fa-thumbs-up"></i>
+                                                {!! Form::text('status_text',$attachment->status_text,
+['class'=>'form-control','id'=>'statusText'.( $attachment->id ),'placeholder'=>'ملاحظات....']) !!}
+                                                <a onclick="approve('approve','{!! $attachment->id !!}')"
+                                                   class="btn btn-success approve  text-white">
+                                                    تأكيد
+                                                    <i class="far fa-thumbs-up"></i>
                                                 </a>
-                                                <a class="btn btn-danger text-white">
-                                                    رفض <i class="far fa-thumbs-down"></i>
+                                                <a onclick="approve('disapprove','{!! $attachment->id !!}')"
+                                                   class="btn btn-danger disapprove text-white">
+                                                    رفض
+                                                    <i class="far fa-thumbs-down"></i>
                                                 </a>
                                             </div>
                                         </div>
@@ -68,30 +80,67 @@
                 </fieldset>
             </div>
         @endif
-        {{--        <div class="col-md-6">--}}
-        {{--            <fieldset>--}}
-        {{--                <legend>{!! trans('dashboard.civil_image_front') !!}</legend>--}}
-        {{--                <img class="img-fluid w-50" src="{!! asset('storage/' . $resource->civil_image_front) !!}" alt=""/>--}}
-        {{--            </fieldset>--}}
-        {{--        </div>--}}
-        {{--        <div class="col-md-6">--}}
-        {{--            <fieldset>--}}
-        {{--                <legend>{!! trans('dashboard.civil_image_back') !!}</legend>--}}
-        {{--                <img class="img-fluid w-50" src="{!! asset('storage/' . $resource->civil_image_back) !!}" alt=""/>--}}
-        {{--            </fieldset>--}}
-        {{--        </div>--}}
     </div>
-</div>
-<div class="modal-footer">
-    <button type="submit" class="btn btn-primary">
-        {!! __('dashboard.approve') !!}
-    </button>
-    <button type="button" class="btn btn-danger" data-dismiss="modal">
-        {!! __('dashboard.closeText') !!}
-    </button>
 </div>
 {!! Form::close() !!}
 
 <script>
     $('.disabledInputs').attr('disabled', true);
+</script>
+<script>
+    function approve(status, id) {
+        event.preventDefault();
+        const route = '{!! route('customers.attachments.change_status') !!}';
+        const csrf_token = '{!! csrf_token() !!}';
+        const userId = '{!! (auth()->check())  ? auth()->user()->id : 0 !!}';
+        const statusText = $('#statusText' + id).val();
+        // Does some stuff and logs the event to the console
+        $.ajax({
+            url: route,
+            type: "GET",
+            _method: 'GET',
+            data: {
+                id: id,
+                _token: csrf_token,
+                csrf_token: csrf_token,
+                status: status,
+                statusText: statusText,
+            },
+            dataType: 'json',
+            processData: true,
+            contentType: false,
+            success: function (data) {
+                console.log(data);
+                $('.statusText' + id).html(data.data.status_translated);
+                $.dialog({
+                    title: 'أحسنت',
+                    content: data.msg,
+                    theme: 'modern',
+                    type: 'green',
+                    typeAnimated: true,
+                    closeIcon: true,
+                    autoClose: 'close|3000',
+                });
+
+
+            }, error: function (data) {
+                console.log(data.data);
+                $.alert({
+                    title: SomeThingWrong,
+                    content: data.msg,
+                    theme: 'modern',
+                    type: 'red',
+                    typeAnimated: true,
+                    closeIcon: true,
+                    autoClose: 'close|3000',
+                    buttons: {
+                        close: {
+                            title: closeText,
+                            // $.alert('action is canceled');
+                        }
+                    },
+                });
+            }
+        })
+    }
 </script>

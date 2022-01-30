@@ -33,6 +33,13 @@ return [
         'car_front' => 'واجهة  السيارة',
         'car_near' => 'صورة جانبية  للسيارة',
     ],
-
+    'attachment_status' => [
+        \App\Models\Attachment::STATUS_APPROVED => 'تم الموافقة والتأكيد',
+        \App\Models\Attachment::STATUS_DISAPPROVED => 'تم الرفض ',
+        \App\Models\Attachment::STATUS_UPLOADED => 'تم الرفع',
+    ],
+    'attachment_status_' . \App\Models\Attachment::STATUS_APPROVED => 'تم الموافقة والتأكيد',
+    'attachment_status_' . \App\Models\Attachment::STATUS_DISAPPROVED => 'تم الرفض ',
+    'attachment_status_' . \App\Models\Attachment::STATUS_UPLOADED => 'تم الرفع',
 
 ];
