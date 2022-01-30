@@ -28,7 +28,7 @@ class RegisterController extends ApiBaseController
      * @return JsonResponse
      * @throws Exception
      */
-    public function register(Request $request)
+    public function register(Request $request): JsonResponse
     {
         $messages = [
             'mobile.required' => 'رقم الهاتف مطلوب',
@@ -75,7 +75,7 @@ class RegisterController extends ApiBaseController
         return $this->respondWithErrors(__('messages.error'), 422, null, __('messages.error'));
     }
 
-    public function activateAccount(Request $request)
+    public function activateAccount(Request $request): JsonResponse
     {
         $request->user()->update([
             'status' => User::ACTIVE,

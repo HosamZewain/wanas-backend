@@ -24,7 +24,8 @@ class User extends Authenticatable
     public const GENDER_MALE = 1;
     public const GENDER_FEMALE = 2;
 
-    protected $filters = ['Type'];
+    protected $filters = ['Type', 'UnConfirmed'];
+    protected $appends = [ 'UnConfirmed'];
     protected $fillable = [
         'name',
         'email',
@@ -71,6 +72,13 @@ class User extends Authenticatable
         return $query->where('type', $value);
     }
 
+    public function scopeOfUnConfirmed($query, $value)
+    {
+        return $query->whereHas('attachments', function ($query) use ($value) {
+            $query->where('status', Attachment::STATUS_UPLOADED);
+        });
+    }
+
     /*****************relations*****************/
     public function vehicle(): HasOne
     {
@@ -101,10 +109,22 @@ class User extends Authenticatable
         return $this->belongsTo(Country::class, 'country_id');
     }
 
+    public function attachments(): MorphMany
+    {
+        return $this->morphMany(Attachment::class, 'attachmentable');
+    }
+
     /***************attributes******************/
 
     public function getIsMemberAttribute()
     {
 
+    }
+
+    public function getUnConfirmedAttribute()
+    {
+        return (bool)$this->whereHas('attachments', function ($query) {
+            $query->where('status', Attachment::STATUS_UPLOADED);
+        });
     }
 }

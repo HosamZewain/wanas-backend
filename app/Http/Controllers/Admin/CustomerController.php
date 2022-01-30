@@ -24,9 +24,10 @@ class CustomerController extends Controller
         $this->notificationRepository = app(NotificationRepository::class);
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $filters['Type'] = User::TYPE_USER;
+        $filters['UnConfirmed'] = $request->unconfirmed;
         $resources = $this->userRepository->search($filters, [], true, true);
         return view('dashboard.customers.index', compact('resources'));
     }

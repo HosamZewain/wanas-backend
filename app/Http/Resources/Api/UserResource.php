@@ -32,13 +32,25 @@ class UserResource extends JsonResource
             ]),
             'country_id' => $this->country_id,
             'trips_count' => count($this->trips),
-            'profile_image' => ($this->profile_image) ? asset('storage/' . $this->profile_image) : null,
             'civil_image' => ($this->civil_image) ? asset('storage/' . $this->civil_image) : null,
-            'civil_image_front' => ($this->civil_image_front) ? asset('storage/' . $this->civil_image_front) : null,
-            'civil_image_back' => ($this->civil_image_back) ? asset('storage/' . $this->civil_image_back) : null,
             'rates' => UserRateResource::collection($this->whenLoaded('rates')),
             $this->mergeWhen($this->vehicle, [
                 'vehicle' => new UserVehicleResource($this->vehicle),
+            ]),
+            $this->mergeWhen(!is_null($civil_image_front = new AttachmentResource($this->attachments()->where('key', 'civil_image_front')->first())), [
+                'civil_image_front' => asset($civil_image_front['full_url'] ?? null),
+                'civil_image_front_status' =>$civil_image_front['status'] ?? null,
+                'civil_image_front_status_text' =>$civil_image_front['status_text'] ?? null,
+            ]),
+            $this->mergeWhen(!is_null($civil_image_back = new AttachmentResource($this->attachments()->where('key', 'civil_image_back')->first())), [
+                'civil_image_back' => asset($civil_image_back['full_url'] ?? null),
+                'civil_image_back_status' =>$civil_image_back['status'] ?? null,
+                'civil_image_back_status_text' =>$civil_image_back['status_text'] ?? null,
+            ]),
+            $this->mergeWhen(!is_null($profile_image = new AttachmentResource($this->attachments()->where('key', 'profile_image')->first())), [
+                'profile_image' => asset($profile_image['full_url'] ?? null),
+                'profile_image_status' =>$profile_image['status'] ?? null,
+                'profile_image_status_text' =>$profile_image['status_text'] ?? null,
             ]),
             $this->mergeWhen(!empty($this->access_token), [
                 'access_token' => $this->access_token,

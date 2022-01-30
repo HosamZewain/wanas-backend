@@ -44,6 +44,14 @@
                             <em class="zmdi zmdi-plus"></em>
                         </a>
                     @endif
+                    @if(!empty($links))
+                        @foreach ($links as $link)
+                            <a href="{!! $link['url']  ?? '' !!}"
+                               class="btn {!! $link['class'] ?? ''  !!} text-white float-right" type="button">
+                               <em class="  {!! $link['icon'] ?? ''  !!} "></em>   {!! $link['text'] ?? '' !!}
+                            </a>
+                        @endforeach
+                    @endif
                 </div>
             </div>
         </div>

@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 /*test*/
-Route::get('test_apns/{id}', [\App\Http\Controllers\Api\HomeController::class, 'sendAPNS']);
+Route::get('doSomeStuff', [\App\Http\Controllers\Api\HomeController::class, 'doSomeStuff']);
 
 //login & register
 Route::get('/', [\App\Http\Controllers\Api\HomeController::class, 'index']);

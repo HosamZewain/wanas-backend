@@ -6,6 +6,7 @@ use App\Http\Resources\Api\CityResource;
 use App\Http\Resources\Api\GovernorateResource;
 use App\Http\Resources\Api\VehicleTypeResource;
 use App\Models\UserFcmToken;
+use App\Repositories\SQL\AttachmentRepository;
 use App\Repositories\SQL\CityRepository;
 use App\Repositories\SQL\ColorRepository;
 use App\Repositories\SQL\ContactUsRepository;
@@ -18,6 +19,7 @@ use App\Repositories\SQL\UserRepository;
 use App\Repositories\SQL\VehicleTypeRepository;
 use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Http\File;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -52,10 +54,24 @@ class HomeController extends ApiBaseController
         $this->contactUsRepository = $contactUsRepository;
     }
 
-    public function sendAPNS($id): void
+    public function doSomeStuff()
     {
-        $user = $this->IUserRepository->find($id);
-        $result = $this->notificationRepository->sendNotification($user, 'test', 'test');
+        $users = $this->IUserRepository->search([], [], [], false, false, false);
+        foreach ($users as $resource) {
+            if ($resource->profile_image) {
+                $profile_image =asset('storage/'.$resource->profile_image);
+
+                app(AttachmentRepository::class)->specialUpload($profile_image, $resource, 'profile_image', 'user');
+            }
+            if ($resource->civil_image_front) {
+                $civil_image_front =asset('storage/'.$resource->civil_image_front);
+                app(AttachmentRepository::class)->specialUpload($civil_image_front, $resource, 'civil_image_front', 'user');
+            }
+            if ($resource->civil_image_back) {
+                $civil_image_back =asset('storage/'.$resource->civil_image_back);
+                app(AttachmentRepository::class)->specialUpload($civil_image_back, $resource, 'civil_image_back', 'user');
+            }
+        }
 
     }
 

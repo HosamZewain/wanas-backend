@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Auth;
 use App\Http\Controllers\Api\ApiBaseController;
 use App\Http\Resources\Api\UserResource;
 use App\Models\User;
+use App\Repositories\SQL\AttachmentRepository;
 use App\Repositories\SQL\UserRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -87,17 +88,9 @@ class LoginController extends ApiBaseController
      * @param Request $request
      * @return JsonResponse
      */
-    public function profile(Request $request)
+    public function profile(Request $request): JsonResponse
     {
         $resource = $request->user();
-
-//        $messages = [
-//            'mobile.required' => 'رقم الهاتف مطلوب',
-//            'mobile.exists' => 'رقم الهاتف غير مسجل من قبل ، يرجى تسجيل حساب جديد',
-//            'password.required' => 'كلمة المرور  مطلوبة',
-//            'password.confirmed' => 'تأكيد كلمة  المرور  مطلوب',
-//            'password.min' => 'كلمة المرور يجب ان لا تقل عن 8 أرقام وحروف',
-//        ];
         $validation = Validator::make($request->all(), [
             'mobile' => 'nullable|unique:users,mobile,' . $resource->id,
             'password' => 'nullable|confirmed|min:8',
@@ -105,7 +98,6 @@ class LoginController extends ApiBaseController
             'civil_image_back' => 'nullable|image|max:10000',
             'profile_image' => 'nullable|image|max:10000',
         ]);
-
         if ($validation->fails()) {
             return $this->respondWithErrors($validation->errors(), 422, null, __('messages.complete_empty_values'));
         }
@@ -123,13 +115,13 @@ class LoginController extends ApiBaseController
             $resource->update(['civil_image' => $request->file('civil_image')->store('users', 'public'),]);
         }
         if ($request->hasFile('profile_image')) {
-            $resource->update(['profile_image' => $request->file('profile_image')->store('users', 'public'),]);
+            app(AttachmentRepository::class)->upload($request, $resource, 'profile_image', 'user');
         }
         if ($request->hasFile('civil_image_front')) {
-            $resource->update(['civil_image_front' => $request->file('civil_image_front')->store('users', 'public'),]);
+            app(AttachmentRepository::class)->upload($request, $resource, 'civil_image_front', 'user');
         }
         if ($request->hasFile('civil_image_back')) {
-            $resource->update(['civil_image_back' => $request->file('civil_image_back')->store('users', 'public'),]);
+            app(AttachmentRepository::class)->upload($request, $resource, 'civil_image_back', 'user');
         }
         if ($request->get('birth_date')) {
             $resource->update(['birth_date' => $request->birth_date]);
@@ -148,7 +140,7 @@ class LoginController extends ApiBaseController
         }
         $resource->save();
         if ($resource) {
-            $user = $this->userRepository->find($request->user()->id, ['country', 'vehicle.attachments', 'vehicle.attachment', 'vehicle.colorModel']);
+            $user = $this->userRepository->find($request->user()->id, ['country', 'attachments', 'vehicle.attachments', 'vehicle.attachment', 'vehicle.colorModel']);
 
             $user = new UserResource($user);
             return $this->respondWithSuccess(__('messages.data_found'), $user);
@@ -156,7 +148,7 @@ class LoginController extends ApiBaseController
         return $this->respondWithErrors(__('messages.error'), 422, null, __('messages.error'));
     }
 
-    public function updatePassword(Request $request)
+    public function updatePassword(Request $request): JsonResponse
     {
         $messages = [
             'mobile.required' => 'رقم الهاتف مطلوب',

@@ -24,6 +24,8 @@ class AttachmentResource extends JsonResource
                 'file_type' => $this->file_type,
             ]),
             'full_url' => asset('storage/' . $this->attachment_url),
+            'status' => $this->status,
+            'status_text' => $this->status_text,
 
         ];
     }

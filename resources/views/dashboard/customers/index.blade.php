@@ -2,6 +2,14 @@
     'breadcrumb_1'=>trans('dashboard.customers'),
     'add_link'=>'admin/customers/create',
     'add_link_text'=>'Add New User',
+    'links'=>[
+        1=>[
+            'url'=>route('customers.index',['unconfirmed'=>true]),
+            'class'=>' btn-default',
+           'icon'=>'zmdi zmdi-accounts-list zmdi-hc-fw animated infinite wobble',
+            'text'=>'تأكيد بيانات المستخدمين',
+]
+]
     ])
 @section('content')
     <div class="row clearfix">
@@ -33,7 +41,7 @@
                                     <td>{!! __("dashboard.gender_list")[$resource->gender] !!}</td>
                                     <td>{!! $resource->created_at !!}</td>
                                     <td>
-                                        @if($resource->is_verified)
+                                        @if(!$resource->UnConfirmed)
                                             <span
                                                 data-toggle="tooltip" data-placement="top"
                                                 title="{!! __('dashboard.data_confirmed') !!}"
