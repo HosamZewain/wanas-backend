@@ -25,5 +25,14 @@ return [
         \App\Models\UserVehicle::STATUS_DISAPPROVED => 'تم رفض الطلب',
     ],
 
+    'attachment_keys' => [
+        'civil_image_back' => 'خلفية البطاقة الشخصية',
+        'civil_image_front' => 'واجهة البطاقة الشخصية',
+        'profile_image' => ' الصورة الشخصية',
+        'car_back' => 'خلفية  السيارة',
+        'car_front' => 'واجهة  السيارة',
+        'car_near' => 'صورة جانبية  للسيارة',
+    ],
+
 
 ];

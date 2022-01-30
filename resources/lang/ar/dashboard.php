@@ -73,4 +73,5 @@ return [
     'cities' => 'المدن',
     'city' => 'المدينة',
     'subject' => 'الموضوع',
+    'attachments'=>'المرفقات',
 ];

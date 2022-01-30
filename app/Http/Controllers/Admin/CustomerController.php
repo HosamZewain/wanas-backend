@@ -94,7 +94,7 @@ class CustomerController extends Controller
 
     public function confirmForm($id)
     {
-        $data = $this->userRepository->find($id);
+        $data = $this->userRepository->find($id,['attachments']);
 
 
         $resource = new UserResource($data);
