@@ -15,7 +15,7 @@
                 </a>
             </li> -->
             <li>
-                <a href="https://www.facebook.com/search/top?q=%D9%88%D9%86%D8%B3%20wanas">
+                <a href="https://www.facebook.com/wanasappcom">
                     <i class="fab fa-facebook-f"></i>
                 </a>
             </li>
