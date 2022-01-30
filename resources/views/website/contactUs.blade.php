@@ -1,10 +1,10 @@
 <div id="contactUs" class="py-5 position-relative">
     <img src="{!! asset('website/assets/img/send.png') !!}" data-src="{!! asset('website/assets/img/send.png') !!}"
-         class="lazyload send1"/>
+         class="lazyload send1" alt=""/>
     <img src="{!! asset('website/assets/img/send.png') !!}" data-src="{!! asset('website/assets/img/send.png') !!}"
-         class="lazyload send2"/>
+         class="lazyload send2" alt=""/>
     <img src="{!! asset('website/assets/img/send.png') !!}" data-src="{!! asset('website/assets/img/send.png') !!}"
-         class="lazyload send3"/>
+         class="lazyload send3" alt=""/>
     <div class="container">
         <div class="text-center">
             <h5 class="mainTitle top50 fw-bold my-3">
@@ -45,7 +45,7 @@
             <div class="col-md-6 d-flex justify-content-end align-items-center">
                 <img src="{!! asset('website/assets/img/contactUS.png') !!}"
                      data-src="{!! asset('website/assets/img/contactUS.png') !!}"
-                     class="lazyload contactUSImg"/>
+                     class="lazyload contactUSImg" alt=""/>
             </div>
         </div>
 
