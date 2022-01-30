@@ -31,8 +31,7 @@ class AttachmentRepository extends AbstractModelRepository implements IAttachmen
 
     public function specialUpload($image, $resource, $key, $folder = 'vehicles'): void
     {
-        $resource->attachments()->where('key', $key)->delete();
-      //  $path = $image->store($folder, 'public');
+      //  $resource->attachments()->where('key', $key)->delete();
         $resource->attachments()->create([
             'attachment_url' => $image,
             'original_name' => pathinfo($image,PATHINFO_FILENAME ),
