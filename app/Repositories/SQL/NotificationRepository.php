@@ -139,7 +139,7 @@ class NotificationRepository extends AbstractModelRepository implements INotific
         return true;
     }
 
-    public function sendNotificationsendNotification($user, $body = null, string $title = 'Wanes', array $paramters = [])
+    public function sendNotification($user, $body = null, string $title = 'Wanes', array $paramters = [])
     {
         $deviceTokens = UserFcmToken::where('user_id', $user->id)->get();
         if (!count($deviceTokens)) {
