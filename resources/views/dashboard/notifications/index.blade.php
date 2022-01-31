@@ -14,6 +14,7 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">{!! trans('dashboard.title') !!}</th>
+                                <th scope="col">{!! trans('dashboard.body') !!}</th>
                                 <th scope="col">{!! trans('dashboard.operations') !!}</th>
                             </tr>
                             </thead>
@@ -22,12 +23,8 @@
                                 <tr id="row_{!! $resource->id !!}">
                                     <td><strong>{!! $loop->iteration !!}</strong></td>
                                     <td>{!! $resource->title !!}</td>
+                                    <td>{!! $resource->body !!}</td>
                                     <td>
-                                        <button onclick="location.href='{!! route('notifications.edit',$resource->id) !!}'"
-                                                class="btn btn-default btn-sm"
-                                                href="{!! route('notifications.edit',$resource->id) !!}">
-                                            <em class="far fa-edit"></em>
-                                        </button>
                                         <button
                                             data-route="{!! route('notifications.destroy',$resource->id) !!}"
                                             data-id="{!!$resource->id !!}"

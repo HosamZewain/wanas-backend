@@ -133,27 +133,29 @@ class CustomerController extends Controller
                     $parameters['model_type'] = get_class($user);
                     $this->notificationRepository->sendNotification($user, $body, $title, $parameters);
                 }
+                return response()->json(['msg' => trans('dashboard.data_confirmed'), 'data' => $file], 200);
             }
             if ($user && $request->status == 'disapprove' && count($user->fcmTokens)) {
                 $title = __('dashboard.attachment_disapproved', ['name' => $fileName, 'username' => $user->name]);
                 $body = __('dashboard.attachment_disapproved_body', ['name' => $fileName, 'notes' => $request->statusText]);
-                $parameters['type'] = Notification::TYPE_CONFIRM_USER;
+                $parameters['type'] = Notification::TYPE_BOOK_DISAPPROVED;
                 $parameters['member_id'] = $request->user()->id;
                 $parameters['model_id'] = $user->id;
                 $parameters['model_type'] = get_class($user);
                 $this->notificationRepository->sendNotification($user, $body, $title, $parameters);
+                return response()->json(['msg' => trans('dashboard.un_confirm_attachments', ['name' => $fileName]), 'data' => $file], 200);
             }
 
-            if ($user && $request->status == 'approve' && count($user->fcmTokens)) {
-                $title = __('dashboard.attachment_approved', ['name' => $fileName, 'username' => $user->name]);
-                $body = __('dashboard.attachment_approved_body', ['name' => $fileName, 'notes' => $request->statusText]);
-                $parameters['type'] = Notification::TYPE_CONFIRM_USER;
-                $parameters['member_id'] = $request->user()->id;
-                $parameters['model_id'] = $user->id;
-                $parameters['model_type'] = get_class($user);
-                $this->notificationRepository->sendNotification($user, $body, $title, $parameters);
-            }
-            return response()->json(['msg' => trans('dashboard.changed_successfully'), 'data' => $file], 200);
+//            if ($user && $request->status == 'approve' && count($user->fcmTokens)) {
+//                $title = __('dashboard.attachment_approved', ['name' => $fileName, 'username' => $user->name]);
+//                $body = __('dashboard.attachment_approved_body', ['name' => $fileName, 'notes' => $request->statusText]);
+//                $parameters['type'] = Notification::TYPE_CONFIRM_USER;
+//                $parameters['member_id'] = $request->user()->id;
+//                $parameters['model_id'] = $user->id;
+//                $parameters['model_type'] = get_class($user);
+//                $this->notificationRepository->sendNotification($user, $body, $title, $parameters);
+//            }
+            return response()->json(['msg' => trans('dashboard.confirm', ['name' => $fileName]), 'data' => $file], 200);
         }
         return response()->json(['msg' => trans('dashboard.error')], 400);
     }

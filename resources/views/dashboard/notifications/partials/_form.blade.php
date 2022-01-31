@@ -3,7 +3,7 @@
         {!! Form::label('user_id',trans('dashboard.customers'), ['class' => 'form-label']) !!}
     </div>
     <div class="col-md-9">
-        {!! Form::select('user_id[]',$customers??[],'',['class'=>'form-control selectPicker ms','placeholder'=>'Select','multiple'=>'true']) !!}
+        {!! Form::select('user_id[]',$customers??[],'',['class'=>'form-control selectPicker ms','placeholder'=>'إختر المستخدمين','multiple'=>'true']) !!}
         @error('user_id')
         <label id="title-error" class="error text-danger float-left" for="user_id">{{ $message }}</label>
         @enderror

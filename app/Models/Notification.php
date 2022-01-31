@@ -13,6 +13,8 @@ class Notification extends Model
     use ModelTrait;
 
     public const TYPE_CONFIRM_USER = 'confirm_user';
+    public const TYPE_APPROVE_ATTACHMENTS = 'approve_attachments';
+    public const TYPE_DISAPPROVE_ATTACHMENTS = 'disapprove_attachments';
     public const TYPE_NEW_TRIP = 'new_trip';
     public const TYPE_NEW_BOOK = 'new_book';
     public const TYPE_BOOK_APPROVED = 'book_approved';

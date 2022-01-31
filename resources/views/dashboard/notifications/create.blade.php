@@ -14,12 +14,14 @@
                     {!! Form::open([
                      'method'=>'post',
                      'files'=>true,
+                     'id'=>'form-submit',
+                     'redirect'=>route('notifications.index'),
                      'class'=>'form-horizontal',
                      'route'=>['notifications.store']]) !!}
                     @include('dashboard.notifications.partials._form')
                     <div class="row">
                         <div class="col-md-12">
-                            {!! Form::submit('Save',['class'=>'btn btn-primary float-right']); !!}
+                            {!! Form::submit(__('dashboard.save'),['class'=>'btn btn-primary float-right']); !!}
                         </div>
                     </div>
                     {!! Form::close() !!}

@@ -123,33 +123,36 @@
                 }
 
                 $.dialog({
-                    title: 'أحسنت',
+                    title:data.msg,
                     content: data.msg,
-                    theme: 'modern',
-                    type: 'green',
-                    typeAnimated: true,
-                    closeIcon: true,
-                    autoClose: 'close|3000',
+                    rtl: true,
                 });
 
 
             }, error: function (data) {
                 console.log(data.data);
-                $.alert({
-                    title: SomeThingWrong,
+
+
+                $.dialog({
+                    title:data.msg,
                     content: data.msg,
-                    theme: 'modern',
-                    type: 'red',
-                    typeAnimated: true,
-                    closeIcon: true,
-                    autoClose: 'close|3000',
-                    buttons: {
-                        close: {
-                            title: closeText,
-                            // $.alert('action is canceled');
-                        }
-                    },
+                    rtl: true,
                 });
+                // $.alert({
+                //     title: SomeThingWrong,
+                //     content: data.msg,
+                //     theme: 'modern',
+                //     type: 'red',
+                //     typeAnimated: true,
+                //     closeIcon: true,
+                //     autoClose: 'close|3000',
+                //     buttons: {
+                //         close: {
+                //             title: closeText,
+                //             // $.alert('action is canceled');
+                //         }
+                //     },
+                // });
             }
         })
     }

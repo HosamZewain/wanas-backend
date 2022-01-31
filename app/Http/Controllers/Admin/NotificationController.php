@@ -15,10 +15,11 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
-class NotificationController extends Controller
+class NotificationController extends BaseController
 {
     private $INotificationRepository;
     private $userRepository;
+    private $notificationRepository;
 
     public function __construct(UserRepository $userRepository)
     {
@@ -52,37 +53,34 @@ class NotificationController extends Controller
 
     /**
      * @param Request $request
-     * @return RedirectResponse
+     * @return JsonResponse
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request): JsonResponse
     {
         $request->validate([
-            'customer_id' => 'required_if:receiver,1|array',
-            'captain_id' => 'required_if:receiver,2|array',
+            'user_id' => 'required|array',
             'title' => 'required|string|max:255',
             'body' => 'required|string',
         ]);
-        if (!empty($request->customer_id)) {
-            foreach ($request->customer_id as $key => $value) {
+        if (!empty($request->user_id)) {
+            foreach ($request->user_id as $key => $value) {
                 if (!is_null($value)) {
-                    $user = $this->userRepository->find($value);
-                    //  $fcm = new SendFCM();
-                    //  $msg = $fcm->sendNotification($user, null, $request->body, $request->title, []);
+                    $user = $this->userRepository->find($value, ['fcmTokens']);
+                    if (count($user->fcmTokens)) {
+                        $title = $request->title;
+                        $body = $request->body;
+                        $parameters['type'] = Notification::TYPE_NOTIFY_USERS;
+                        $parameters['member_id'] = $request->user()->id;
+                        $parameters['model_id'] = $user->id;
+                        $parameters['model_type'] = get_class($user);
+                        $this->INotificationRepository->sendNotification($user, $body, $title, $parameters);
+                    }
                 }
 
             }
+            return $this->ResponseJsonSuccess(trans('dashboard.created_successfully'), []);
         }
-        if (!empty($request->captain_id)) {
-            foreach ($request->captain_id as $key => $value) {
-                if (!is_null($value)) {
-                    $user = $this->userRepository->find($value);
-                    //  $fcm = new SendFCM();
-                    //  $msg = $fcm->sendNotification($user, null, $request->body, $request->title, []);
-                }
-            }
-        }
-        flash(trans('dashboard.sent_successfully'), 'green');
-        return redirect()->to(route('notifications.index'));
+        return $this->ResponseJsonError(trans('dashboard.SomeThingWrong'));
     }
 
     /**

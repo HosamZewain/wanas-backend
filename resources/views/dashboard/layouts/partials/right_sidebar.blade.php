@@ -84,10 +84,10 @@
                     </li>
 
 
-                    {{--                    <li>--}}
-                    {{--                        <a disabled="true"--}}
-                    {{--                           href="{!! url('admin/notifications') !!}">{!! __('dashboard.notifications') !!}</a>--}}
-                    {{--                    </li>--}}
+                    <li>
+                        <a disabled="true"
+                           href="{!! url('admin/notifications') !!}">{!! __('dashboard.notifications') !!}</a>
+                    </li>
                     <li>
                         <a disabled="true" href="{!! url('admin/countries') !!}">{!! __('dashboard.countries') !!}</a>
                     </li>
