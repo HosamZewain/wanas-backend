@@ -112,6 +112,7 @@ class CustomerController extends Controller
         $file = $this->attachmentRepository->find($request->id);
 
         if ($file) {
+            $fileName = __('enums.attachment_keys')[$file->key];
             $this->attachmentRepository->update($file, [
                 'status' => ($request->status == 'approve') ? Attachment::STATUS_APPROVED : Attachment::STATUS_DISAPPROVED,
                 'status_text' => $request->statusText,
@@ -135,7 +136,6 @@ class CustomerController extends Controller
             }
             if ($user && $request->status == 'disapprove') {
 
-                $fileName = __('enums.attachment_keys')[$file->key];
                 if (count($user->fcmTokens)) {
                     $title = __('dashboard.attachment_disapproved', ['name' => $fileName, 'username' => $user->name]);
                     $body = __('dashboard.attachment_disapproved_body', ['name' => $fileName, 'notes' => $request->statusText]);
