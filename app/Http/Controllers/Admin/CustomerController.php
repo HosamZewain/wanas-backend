@@ -134,20 +134,17 @@ class CustomerController extends Controller
                     $this->notificationRepository->sendNotification($user, $body, $title, $parameters);
                 }
             }
-            if ($user && $request->status == 'disapprove') {
-
-                if (count($user->fcmTokens)) {
-                    $title = __('dashboard.attachment_disapproved', ['name' => $fileName, 'username' => $user->name]);
-                    $body = __('dashboard.attachment_disapproved_body', ['name' => $fileName, 'notes' => $request->statusText]);
-                    $parameters['type'] = Notification::TYPE_CONFIRM_USER;
-                    $parameters['member_id'] = $request->user()->id;
-                    $parameters['model_id'] = $user->id;
-                    $parameters['model_type'] = get_class($user);
-                    $this->notificationRepository->sendNotification($user, $body, $title, $parameters);
-                }
+            if ($user && $request->status == 'disapprove' && count($user->fcmTokens)) {
+                $title = __('dashboard.attachment_disapproved', ['name' => $fileName, 'username' => $user->name]);
+                $body = __('dashboard.attachment_disapproved_body', ['name' => $fileName, 'notes' => $request->statusText]);
+                $parameters['type'] = Notification::TYPE_CONFIRM_USER;
+                $parameters['member_id'] = $request->user()->id;
+                $parameters['model_id'] = $user->id;
+                $parameters['model_type'] = get_class($user);
+                $this->notificationRepository->sendNotification($user, $body, $title, $parameters);
             }
 
-            if (count($user->fcmTokens)) {
+            if ($user && $request->status == 'approve' && count($user->fcmTokens)) {
                 $title = __('dashboard.attachment_approved', ['name' => $fileName, 'username' => $user->name]);
                 $body = __('dashboard.attachment_approved_body', ['name' => $fileName, 'notes' => $request->statusText]);
                 $parameters['type'] = Notification::TYPE_CONFIRM_USER;
