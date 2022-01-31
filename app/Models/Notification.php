@@ -20,6 +20,8 @@ class Notification extends Model
     public const TYPE_CAR_APPROVED = 'car_approved';
     public const TYPE_CAR_DISAPPROVED = 'car_disapproved';
     public const TYPE_NOTIFY_USERS = 'notify_users';
+
+
     public const MODEL_TRIP = 'App\Models\Trip';
     public const MODEL_USER = 'App\Models\User';
 

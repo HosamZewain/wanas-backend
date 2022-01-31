@@ -76,5 +76,7 @@ return [
     'attachments' => 'المرفقات',
     'changed_successfully' => 'تم تغيير البيانات بنجاح',
     'attachment_disapproved' => 'عزيزي :username ، يرجى العلم ان (:name) مخالفة لشروط ومعايير الأمان لدى ونـس',
-    'attachment_disapproved_body' => 'شكرًا لك على الوقت الذي استغرقته لإرفاق (:name) ولكنها تخالف معايير الأمان لدى ونس  يرجى إرفاق صورة أخرى',
+    'attachment_disapproved_body' => 'شكرًا لك على الوقت الذي استغرقته لإرفاق (:name) ولكنها تخالف معايير الأمان لدى ونس  يرجى إرفاق صورة أخرى،  (:notes)',
+    'attachment_approved' => 'عزيزي :username ، يرجى العلم انه تمت تأكيد والموافقة على  (:name)  لدى ونـس',
+    'attachment_approved_body' => ' تم الموافقة وتأكيد  (:name)  شكرًا لك  ،  (:notes)',
 ];
