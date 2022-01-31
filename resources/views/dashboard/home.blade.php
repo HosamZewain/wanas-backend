@@ -54,9 +54,13 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-3">
-                            المسار
+                            نقطة الإنطلاق
                         </div>
                         <div class="col-md-9" id="pick_address"></div>
+                        <div class="col-md-3">
+                            نقطة الوصول
+                        </div>
+                        <div class="col-md-9" id="drop_address"></div>
                         <div class="col-md-3">
                             اسم السائق
                         </div>
@@ -101,14 +105,16 @@
         const objs = appData.map(function (x) {
             const userName = (x['user']) ? x['user']['name'] : 'user';
             return {
-                title: x['pickup_address'] + '-' + x['drop_off_address'],
+                title: x['DropText'],
                 start: x['trip_date'] + 'T' + x['trip_time'],
                 allDay: false,
-                className: 'bg-default',
+                className: 'bg-dark',
                 extendedProps: {
                     userName: userName,
                     Date: x['trip_date'],
                     Time: x['trip_time'],
+                    PickUpText: x['PickUpText'],
+                    DropText:x['DropText'],
                     CostPerPerson: x['trip_cost_per_person'],
                     TotalCost: x['total_trip_cost'],
                 }
@@ -136,7 +142,8 @@
                     //  const title = prompt('Event Title:', calEvent.title, {buttons: {Ok: true, Cancel: false}});
                     const eventModal = $('#eventEditModal');
                     eventModal.modal('show');
-                    eventModal.find('#pick_address').html(calEvent.event.title);
+                    eventModal.find('#pick_address').html(calEvent.event.extendedProps.PickUpText);
+                    eventModal.find('#drop_address').html(calEvent.event.extendedProps.DropText);
                     eventModal.find('#start').html(calEvent.event.extendedProps.Date);
                     eventModal.find('#userName').html(calEvent.event.extendedProps.userName);
                     eventModal.find('#Time').html(calEvent.event.extendedProps.Time);

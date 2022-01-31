@@ -12,5 +12,9 @@ class UserFcmToken extends Model
         'token',
         'device_id',
         'device_name',
+        'brand',
+        'osVersion',
+        'deviceName',
+        'DeviceType',
     ];
 }

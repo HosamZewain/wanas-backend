@@ -73,8 +73,12 @@ class LoginController extends ApiBaseController
             if (Hash::check($request->password, $resource->password)) {
                 $resource->fcmTokens()->create([
                     'token' => $request->fcm_token,
-                    'device_id' => $request->device_id ?? null,
-                    'device_name' => $request->device_name ?? null,
+                    'device_id' => (!empty($request->device)) ? $request->device[0]->id : null,
+                    'device_name' => (!empty($request->device)) ? $request->device[0]->deviceName : null,
+                    'brand' => (!empty($request->device)) ? $request->device[0]->brand : null,
+                    'osVersion' => (!empty($request->device)) ? $request->device[0]->osVersion : null,
+                    'deviceName' => (!empty($request->device)) ? $request->device[0]->deviceName : null,
+                    'DeviceType' => (!empty($request->device)) ? $request->device[0]->DeviceType : null,
                 ]);
                 $resource = new UserResource($resource);
                 return $this->respondWithSuccess(__('messages.login_success'), $resource);

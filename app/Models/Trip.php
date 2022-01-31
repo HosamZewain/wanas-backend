@@ -15,7 +15,7 @@ class Trip extends Model
     public const STATUS_ACTIVE = 1;
     public const STATUS_ENDED = 2;
     protected $table = 'trips';
-    protected $appends = ['is_member', 'trip_name', 'booked'];
+    protected $appends = ['is_member', 'trip_name', 'booked', 'PickUpText','DropText'];
     protected $fillable = [
         'user_id',
         'pickup_address',
@@ -164,6 +164,15 @@ class Trip extends Model
     }
 
     /***************attributes******************/
+    public function getPickUpTextAttribute()
+    {
+        return ($this->fromCity->LName ?? '') . ',' . $this->pickup_address;
+    }
+    public function getDropTextAttribute()
+    {
+        return ($this->ToCity->LName ?? '') . ',' . $this->drop_off_address;
+    }
+
     public function getIsMemberAttribute()
     {
         return (bool)$this->members()->where('user_id', Request()->user()->id)->whereIn('status', [TripMember::STATUS_APPROVED, TripMember::STATUS_DISAPPROVED])->first();

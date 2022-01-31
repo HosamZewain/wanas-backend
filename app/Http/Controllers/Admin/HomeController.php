@@ -29,7 +29,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $trips = $this->tripRepository->search([], ['user', 'user.vehicle'], false, false, false);
+        $trips = $this->tripRepository->search([], ['user', 'user.vehicle','fromCity','ToCity'], false, false, false);
         $trips_count = $trips->count();
 
         $customersFilters['Type'] = User::TYPE_USER;
