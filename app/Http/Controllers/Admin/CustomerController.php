@@ -107,7 +107,7 @@ class CustomerController extends Controller
         return response()->json(['msg' => trans('dashboard.deleted_successfully'), 'data' => $view]);
     }
 
-    public function changeStatusAttachment(Request $request)
+    public function changeStatusAttachment(Request $request): JsonResponse
     {
         $file = $this->attachmentRepository->find($request->id);
 
@@ -116,6 +116,37 @@ class CustomerController extends Controller
                 'status' => ($request->status == 'approve') ? Attachment::STATUS_APPROVED : Attachment::STATUS_DISAPPROVED,
                 'status_text' => $request->statusText,
             ]);
+            $user = $this->userRepository->find($request->userId, ['fcmTokens']);
+            if ($user && !$user->UnConfirmed) {
+                $this->userRepository->update($user, [
+                    'status' => User::ACTIVE,
+                    'is_verified' => true,
+                ]);
+
+                if (count($user->fcmTokens)) {
+                    $title = 'تم تأكيد بياناتك ';
+                    $body = "تم تأكيد بياناتك بنجاح ، يمكنك ألإن حجز الرحلات المفضلة لديك";
+                    $parameters['type'] = Notification::TYPE_CONFIRM_USER;
+                    $parameters['member_id'] = $request->user()->id;
+                    $parameters['model_id'] = $user->id;
+                    $parameters['model_type'] = get_class($user);
+                    $this->notificationRepository->sendNotification($user, $body, $title, $parameters);
+                }
+            }
+
+            if ($user && $request->status == 'disapprove') {
+
+                $fileName = __('enums.attachment_keys')[$file->key];
+                if (count($user->fcmTokens)) {
+                    $title = __('dashboard.attachment_disapproved', ['name' => $fileName, 'username' => $user->name]);
+                    $body = __('dashboard.attachment_disapproved_body', ['name' => $fileName]);
+                    $parameters['type'] = Notification::TYPE_CONFIRM_USER;
+                    $parameters['member_id'] = $request->user()->id;
+                    $parameters['model_id'] = $user->id;
+                    $parameters['model_type'] = get_class($user);
+                    $this->notificationRepository->sendNotification($user, $body, $title, $parameters);
+                }
+            }
             return response()->json(['msg' => trans('dashboard.changed_successfully'), 'data' => $file], 200);
         }
         return response()->json(['msg' => trans('dashboard.error')], 400);
@@ -137,8 +168,9 @@ class CustomerController extends Controller
             $parameters['model_id'] = $customer->id;
             $parameters['model_type'] = get_class($customer);
             $this->notificationRepository->sendNotification($customer, $body, $title, $parameters);
-
         }
+
+
         $resource = new UserResource($customer);
         return response()->json(['msg' => trans('dashboard.approved'), 'data' => $resource], 200);
 

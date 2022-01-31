@@ -75,4 +75,6 @@ return [
     'subject' => 'الموضوع',
     'attachments' => 'المرفقات',
     'changed_successfully' => 'تم تغيير البيانات بنجاح',
+    'attachment_disapproved' => 'عزيزي :username ، يرجى العلم ان (:name) مخالفة لشروط ومعايير الأمان لدى ونـس',
+    'attachment_disapproved_body' => 'شكرًا لك على الوقت الذي استغرقته لإرفاق (:name) ولكنها تخالف معايير الأمان لدى ونس  يرجى إرفاق صورة أخرى',
 ];

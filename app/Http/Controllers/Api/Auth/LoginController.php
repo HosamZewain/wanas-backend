@@ -116,12 +116,15 @@ class LoginController extends ApiBaseController
         }
         if ($request->hasFile('profile_image')) {
             app(AttachmentRepository::class)->upload($request, $resource, 'profile_image', 'user');
+            $resource->update(['status' => User::NOT_ACTIVE]);
         }
         if ($request->hasFile('civil_image_front')) {
             app(AttachmentRepository::class)->upload($request, $resource, 'civil_image_front', 'user');
+            $resource->update(['status' => User::NOT_ACTIVE]);
         }
         if ($request->hasFile('civil_image_back')) {
             app(AttachmentRepository::class)->upload($request, $resource, 'civil_image_back', 'user');
+            $resource->update(['status' => User::NOT_ACTIVE]);
         }
         if ($request->get('birth_date')) {
             $resource->update(['birth_date' => $request->birth_date]);

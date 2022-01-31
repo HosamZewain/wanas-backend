@@ -49,27 +49,30 @@
                                                 <h5 class="card-title  text-white bg-secondary p-2">{!! __('enums.attachment_keys')[$attachment->key] !!}</h5>
                                                 <p class="card-text">
                                                     <small class="text-muted">
-                                                        أخر تعديل
+                                                        <span> أخر تعديل</span>
                                                         : {!! $attachment->updated_at !!}</small>
                                                     <br>
                                                     <small class="text-muted statusText{!! $attachment->id !!}">
-                                                        أخر حالة
+                                                        <span>أخر حالة</span>
                                                         : {!! __('enums.attachment_status')[$attachment->status] !!}
                                                     </small>
                                                     <br>
                                                 </p>
                                                 {!! Form::text('status_text',$attachment->status_text,
-['class'=>'form-control','id'=>'statusText'.( $attachment->id ),'placeholder'=>'ملاحظات....']) !!}
-                                                <a onclick="approve('approve','{!! $attachment->id !!}')"
-                                                   class="btn btn-success approve  text-white">
-                                                    تأكيد
-                                                    <i class="far fa-thumbs-up"></i>
-                                                </a>
-                                                <a onclick="approve('disapprove','{!! $attachment->id !!}')"
-                                                   class="btn btn-danger disapprove text-white">
-                                                    رفض
-                                                    <i class="far fa-thumbs-down"></i>
-                                                </a>
+                                                        ['class'=>'form-control','id'=>'statusText'.( $attachment->id ),'placeholder'=>'ملاحظات....']) !!}
+                                                <div class="row actionButtons_{!! $attachment->id !!}"
+                                                     @if($attachment->status == \App\Models\Attachment::STATUS_APPROVED) style="display: none" @endif>
+                                                    <a onclick="approve('approve','{!! $attachment->id !!}')"
+                                                       class="btn btn-success approve  text-white">
+                                                        تأكيد
+                                                        <i class="far fa-thumbs-up"></i>
+                                                    </a>
+                                                    <a onclick="approve('disapprove','{!! $attachment->id !!}')"
+                                                       class="btn btn-danger disapprove text-white">
+                                                        رفض
+                                                        <i class="far fa-thumbs-down"></i>
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -88,11 +91,13 @@
     $('.disabledInputs').attr('disabled', true);
 </script>
 <script>
+
     function approve(status, id) {
         event.preventDefault();
+        const actionsButtons = $('.actionButtons_' + id);
         const route = '{!! route('customers.attachments.change_status') !!}';
         const csrf_token = '{!! csrf_token() !!}';
-        const userId = '{!! (auth()->check())  ? auth()->user()->id : 0 !!}';
+        const userId = '{!! $resource->id !!}';
         const statusText = $('#statusText' + id).val();
         // Does some stuff and logs the event to the console
         $.ajax({
@@ -103,6 +108,7 @@
                 id: id,
                 _token: csrf_token,
                 csrf_token: csrf_token,
+                userId: userId,
                 status: status,
                 statusText: statusText,
             },
@@ -110,8 +116,12 @@
             processData: true,
             contentType: false,
             success: function (data) {
-                console.log(data);
+                actionsButtons.show();
                 $('.statusText' + id).html(data.data.status_translated);
+                if (data.data.status == '{!! \App\Models\Attachment::STATUS_APPROVED !!}') {
+                    actionsButtons.hide();
+                }
+
                 $.dialog({
                     title: 'أحسنت',
                     content: data.msg,
