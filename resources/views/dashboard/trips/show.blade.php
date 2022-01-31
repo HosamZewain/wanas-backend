@@ -10,7 +10,6 @@
                         <div class="col-xl-2 col-lg-2 col-md-12">
                             <div class="preview preview-pic tab-content">
                                 <div class="tab-pane active" id="product_1">
-
                                     @if (isset(optional(optional($resource->user)->vehicle)->image))
                                         <img
                                             src="{!! asset('storage/'.optional(optional($resource->user)->vehicle)->image ?? '') !!}"
@@ -34,22 +33,43 @@
                         </div>
                         <div class="col-xl-4 col-lg-4 col-md-12">
                             <div class="product details">
-                                <h5 class="price mt-0">نقطة الإنطلاق <span
-                                        class="col-amber">{!! ($resource->fromCity->governorate->lName  ?? '').' - '.($resource->fromCity->lName ?? '') .' <br>  '.$resource->pickup_address !!}</span>
+                                <h5 class="price mt-0">نقطة الانطلاق
+                                    <br>
+                                    <span class="col-amber">
+                                        {!! ($resource->fromCity->governorate->lName  ?? '').' - '.($resource->fromCity->lName ?? '') .' <br>  '.$resource->pickup_address !!}
+                                    </span>
                                 </h5>
-                                <h5 class="price mt-0">نقطة الوصول <span
-                                        class="col-amber">{!! ($resource->ToCity->governorate->lName  ?? '').' - '.($resource->ToCity->lName ?? '') .' <br>  '.$resource->drop_off_address !!}</span>
+                                <h5 class="price mt-0">نقطة الوصول
+                                    <br>
+                                    <span class="col-amber">
+                                        {!! ($resource->ToCity->governorate->lName  ?? '').' - '.($resource->ToCity->lName ?? '') .' <br>  '.$resource->drop_off_address !!}
+                                    </span>
                                 </h5>
-                                <h5 class="price mt-0">تاريخ الرحلة <span
-                                        class="col-amber">{!! $resource->trip_date !!}</span></h5>
-                                <h5 class="price mt-0">وقت الرحلة <span
-                                        class="col-amber">{!! $resource->trip_time !!}</span></h5>
-                                <h5 class="price mt-0">عدد المشتركين <span
-                                        class="col-amber">{!! $resource->members_count !!}</span></h5>
-                                <h5 class="price mt-0">تكلفة الرحلة للفرد <span
-                                        class="col-amber">{!! $resource->trip_cost_per_person !!}</span></h5>
-                                <h5 class="price mt-0">تكلفة الرحلة <span
-                                        class="col-amber">{!! $resource->total_trip_cost !!}</span></h5>
+                                <h5 class="price mt-0">تاريخ الرحلة
+                                    <span class="col-amber">
+                                        {!! $resource->trip_date !!}
+                                    </span>
+                                </h5>
+                                <h5 class="price mt-0">وقت الرحلة
+                                    <span class="col-amber">
+                                        {!! $resource->trip_time !!}
+                                    </span>
+                                </h5>
+                                <h5 class="price mt-0">عدد المشتركين
+                                    <span class="col-amber">
+                                        {!! $resource->members_count !!}
+                                    </span>
+                                </h5>
+                                <h5 class="price mt-0">تكلفة الرحلة للفرد
+                                    <span class="col-amber">
+                                        {!! $resource->trip_cost_per_person !!}
+                                    </span>
+                                </h5>
+                                <h5 class="price mt-0">تكلفة الرحلة
+                                    <span class="col-amber">
+                                        {!! $resource->total_trip_cost !!}
+                                    </span>
+                                </h5>
                                 <h5 class="price mt-0">التقييم</h5>
                                 <div class="rating">
                                     <div class="stars">
@@ -115,21 +135,27 @@
                                                         <li class="col-12">
                                                             <div class="avatar">
                                                                 @if (isset($member->user->profile_image))
-                                                                    <a href="javascript:void(0);">
+                                                                    <a href="{!! route('customers.show',$member->user->id) !!}">
                                                                         <img class="rounded"
                                                                              src="{!! asset('storage/'.$member->user->profile_image)  !!}"
                                                                              alt="user" width="60"></a>
                                                                 @else
-                                                                    <a href="javascript:void(0);">
-                                                                        <img class="rounded"
+                                                                    <a href="{!! route('customers.show',$member->user->id) !!}">
+                                                                    <img class="rounded"
                                                                              src="{!! asset( 'dashboard/assets/images/profile.jpg') !!}"
                                                                              alt="user" width="60"></a>
                                                                 @endif
                                                             </div>
                                                             <div class="comment-action">
                                                                 <h5 class="c_name">{!! $member->user->name ?? '' !!}</h5>
-                                                                <div
-                                                                    class="badge badge-primary">{!! $member->user->mobile ?? '' !!}</div>
+                                                                <div class="badge badge-primary">
+                                                                    {!! $member->user->mobile ?? '' !!}
+                                                                </div>
+                                                                <br>
+                                                                <div class="badge badge-default">
+                                                                    {!! __("enums.members_status")[$member->status] !!}
+                                                                </div>
+                                                                <br>
                                                                 @if ($member->user->rate)
                                                                     {{--                                                                    <p class="c_msg mb-0">{!! $rate->comment ?? '' !!}</p>--}}
                                                                     <span class="m-l-10">
@@ -137,9 +163,9 @@
                                                                             <i class="zmdi zmdi-star @if($member->user->rate>=$i)  col-amber @endif"></i>
                                                                         @endfor
                                                                     </span>
-                                                                    {{--                                                                    <small class="comment-date float-sm-right">--}}
-                                                                    {{--                                                                        {!! $rate->created_at->format('Y-m-d') !!}--}}
-                                                                    {{--                                                                    </small>--}}
+                                                                    <small class="comment-date float-sm-right">
+                                                                        {!! $member->created_at->format('Y-m-d') !!}
+                                                                    </small>
                                                                 @endif
                                                             </div>
                                                         </li>

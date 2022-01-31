@@ -38,6 +38,11 @@ return [
         \App\Models\Attachment::STATUS_DISAPPROVED => 'تم الرفض ',
         \App\Models\Attachment::STATUS_UPLOADED => 'تم الرفع',
     ],
+    'members_status' => [
+        \App\Models\TripMember::STATUS_APPROVED => 'تم الموافقة والتأكيد',
+        \App\Models\TripMember::STATUS_WAITING_APPROVAL => 'جارى المعالجة  ',
+        \App\Models\TripMember::STATUS_DISAPPROVED => 'تم الرفض',
+    ],
     'attachment_status_' . \App\Models\Attachment::STATUS_APPROVED => 'تم الموافقة والتأكيد',
     'attachment_status_' . \App\Models\Attachment::STATUS_DISAPPROVED => 'تم الرفض ',
     'attachment_status_' . \App\Models\Attachment::STATUS_UPLOADED => 'تم الرفع',

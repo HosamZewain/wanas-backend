@@ -8,6 +8,7 @@ use App\Models\Attachment;
 use App\Models\Notification;
 use App\Models\User;
 use App\Repositories\SQL\AttachmentRepository;
+use App\Repositories\SQL\CountryRepository;
 use App\Repositories\SQL\NotificationRepository;
 use App\Repositories\SQL\UserRepository;
 use Illuminate\Http\JsonResponse;
@@ -20,12 +21,14 @@ class CustomerController extends Controller
     private $userRepository;
     private $notificationRepository;
     private $attachmentRepository;
+    private $countryRepository;
 
     public function __construct(UserRepository $userRepository)
     {
         $this->userRepository = $userRepository;
         $this->notificationRepository = app(NotificationRepository::class);
         $this->attachmentRepository = app(AttachmentRepository::class);
+        $this->countryRepository = app(CountryRepository::class);
     }
 
     public function index(Request $request)
@@ -38,7 +41,8 @@ class CustomerController extends Controller
 
     public function create()
     {
-        return view('dashboard.customers.create');
+        $countries = $this->countryRepository->search([], [], true, true);
+        return view('dashboard.customers.create', compact('countries'));
     }
 
     public function store(Request $request)
@@ -62,7 +66,16 @@ class CustomerController extends Controller
     public function edit($id)
     {
         $resource = $this->userRepository->find($id);
-        return view('dashboard.customers.edit', compact('resource'));
+        $countries = $this->countryRepository->search([], [], true, true);
+        return view('dashboard.customers.edit', compact('resource','countries'));
+    }
+    public function show($id)
+    {
+        $resource = $this->userRepository->find($id);
+
+
+        $countries = $this->countryRepository->search([], [], true, true);
+        return view('dashboard.customers.show', compact('resource','countries'));
     }
 
     /**
