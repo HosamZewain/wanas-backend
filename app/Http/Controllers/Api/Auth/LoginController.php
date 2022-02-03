@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\ApiBaseController;
 use App\Http\Resources\Api\UserResource;
 use App\Models\User;
 use App\Repositories\SQL\AttachmentRepository;
+use App\Repositories\SQL\UserFcmTokenRepository;
 use App\Repositories\SQL\UserRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -18,11 +19,13 @@ class LoginController extends ApiBaseController
 
     public $IUserRepository;
     private $userRepository;
+    private $userFcmTokenRepository;
 
     public function __construct(UserRepository $UserRepo)
     {
         $this->IUserRepository = $UserRepo;
         $this->userRepository = $UserRepo;
+        $this->userFcmTokenRepository = app(UserFcmTokenRepository::class);
         parent::__construct($UserRepo, UserResource::class);
     }
 
@@ -71,7 +74,8 @@ class LoginController extends ApiBaseController
                 return $this->respondWithErrors(__('messages.account_not_active'), 401, $resource, __('messages.account_not_active'));
             }
             if (Hash::check($request->password, $resource->password)) {
-                $resource->fcmTokens()->create([
+                $this->userFcmTokenRepository->create([
+                    'user_id'=> $resource->id,
                     'token' => $request->fcm_token,
                     'device_id' => null,
                     'device_name' => $request->device->modelName ?? null,
