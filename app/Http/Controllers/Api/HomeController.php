@@ -117,6 +117,7 @@ class HomeController extends ApiBaseController
 
     public function cities(Request $request): JsonResponse
     {
+        $filters['CountryId'] = ($request->user() !== null)  ? $request->user()->country_id : null;
         $filters['GovernorateId'] = $request->governorate_id;
         $filters['Keyword'] = $request->keyword;
         $resources = $this->cityRepository->search($filters, [], false, false, false);

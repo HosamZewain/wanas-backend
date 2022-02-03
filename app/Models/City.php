@@ -13,7 +13,7 @@ class City extends Model
 
     protected $appends = ['LName'];
 
-    protected $filters = ['GovernorateId', 'Keyword'];
+    protected $filters = ['CountryId', 'GovernorateId', 'Keyword'];
     protected $table = 'cities';
     protected $fillable = [
         'name_ar',
@@ -22,6 +22,11 @@ class City extends Model
     ];
 
     /******************scopes******************/
+
+    public function scopeOfCountryId($query, $value)
+    {
+        return $query->whereRelation('governorate', 'country_id', $value);
+    }
 
     public function scopeOfGovernorateId($query, $value)
     {
