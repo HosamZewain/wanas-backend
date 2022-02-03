@@ -130,6 +130,7 @@ class CustomerController extends Controller
                 'status' => ($request->status == 'approve') ? Attachment::STATUS_APPROVED : Attachment::STATUS_DISAPPROVED,
                 'status_text' => $request->statusText,
             ]);
+
             $user = $this->userRepository->find($request->userId, ['fcmTokens']);
             if ($user && $request->status == 'disapprove' && count($user->fcmTokens)) {
                 $title = __('dashboard.attachment_disapproved', ['name' => $fileName, 'username' => $user->name]);
@@ -142,7 +143,8 @@ class CustomerController extends Controller
                 return response()->json(['msg' => trans('dashboard.un_confirm_attachments', ['name' => $fileName]), 'data' => $file], 200);
             }
 
-            $unVerifiedAttachmentsFilters['UserId'] = $user->id;
+            $unVerifiedAttachmentsFilters['ModelId'] = $user->id;
+            $unVerifiedAttachmentsFilters['ModelClass'] = get_class($user);
             $unVerifiedAttachmentsFilters['StatusIn'] = [Attachment::STATUS_UPLOADED, Attachment::STATUS_DISAPPROVED];
             $unVerifiedAttachments = $this->attachmentRepository->search($unVerifiedAttachmentsFilters, [], false, false, false);
             if (!count($unVerifiedAttachments)) {

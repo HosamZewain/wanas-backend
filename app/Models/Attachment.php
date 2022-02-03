@@ -16,7 +16,7 @@ class Attachment extends Model
     public const STATUS_DISAPPROVED = 2;
     public const STATUS_UPLOADED = 3;
     protected $appends = ['full_url', 'status_translated'];
-    protected $filters = ['StatusIn'];
+    protected $filters = ['StatusIn', 'ModelId','ModelClass'];
     protected $table = 'attachments';
     protected $fillable = [
         'attachment_url',
@@ -36,6 +36,21 @@ class Attachment extends Model
             return $query;
         }
         return $query->whereIn('status', $value);
+    }
+
+    public function scopeOfModelId($query, $value)
+    {
+        if (empty($value)) {
+            return $query;
+        }
+        return $query->where('attachmentable_id', $value);
+    }
+    public function scopeOfModelClass($query, $value)
+    {
+        if (empty($value)) {
+            return $query;
+        }
+        return $query->where('attachmentable_type', $value);
     }
 
     /********attributes****************/
