@@ -124,7 +124,7 @@ class User extends Authenticatable
     public function getUnConfirmedAttribute()
     {
         return (bool)$this->whereHas('attachments', function ($query) {
-            $query->where('status', Attachment::STATUS_UPLOADED);
+            $query->whereIn('status', [Attachment::STATUS_UPLOADED, Attachment::STATUS_DISAPPROVED]);
         });
     }
 }
