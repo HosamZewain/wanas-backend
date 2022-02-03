@@ -73,7 +73,7 @@ class LoginController extends ApiBaseController
             if (Hash::check($request->password, $resource->password)) {
                 $resource->fcmTokens()->create([
                     'token' => $request->fcm_token,
-                    'device_id' => (!empty($request->device)) ? $request->device[0]->id : null,
+                    'device_id' => null,
                     'device_name' => (!empty($request->device)) ? $request->device[0]->deviceName : null,
                     'brand' => (!empty($request->device)) ? $request->device[0]->brand : null,
                     'osVersion' => (!empty($request->device)) ? $request->device[0]->osVersion : null,
