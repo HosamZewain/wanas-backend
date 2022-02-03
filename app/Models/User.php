@@ -75,7 +75,7 @@ class User extends Authenticatable
     public function scopeOfUnConfirmed($query, $value)
     {
         return $query->whereHas('attachments', function ($query) use ($value) {
-            $query->where('status', Attachment::STATUS_UPLOADED);
+            $query->whereIn('status', [Attachment::STATUS_UPLOADED, Attachment::STATUS_DISAPPROVED]);
         });
     }
 
