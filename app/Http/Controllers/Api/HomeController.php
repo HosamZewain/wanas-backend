@@ -128,6 +128,27 @@ class HomeController extends ApiBaseController
         return $this->respondWithErrors(__('messages.no_data_found'), 422, null, __('messages.no_data_found'));
     }
 
+    public function addCity(Request $request): JsonResponse
+    {
+        $validation = Validator::make($request->all(), [
+            'name_en' => 'required|string',
+            'name_ar' => 'required|string',
+            'governorates_id' => 'required',
+        ]);
+
+        if ($validation->fails()) {
+            return $this->respondWithErrors($validation->errors(), 422, null, __('messages.complete_empty_values'));
+        }
+
+        $inputs = $request->all();
+        $resource = $this->cityRepository->create($inputs);
+        if ($resource) {
+            $resources = new CityResource($resource);
+            return $this->respondWithSuccess(__('messages.added_success'), $resources);
+        }
+        return $this->respondWithErrors(__('messages.error'), 422, null, __('messages.error'));
+    }
+
     public function page($id)
     {
         $resources = $this->pageRepository->find($id);
