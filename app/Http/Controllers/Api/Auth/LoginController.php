@@ -74,10 +74,10 @@ class LoginController extends ApiBaseController
                 $resource->fcmTokens()->create([
                     'token' => $request->fcm_token,
                     'device_id' => null,
-                    'device_name' => (!empty($request->device)) ? $request->device[0]->deviceName : null,
+                    'device_name' => (!empty($request->device)) ? $request->device[0]->modelName : null,
                     'brand' => (!empty($request->device)) ? $request->device[0]->brand : null,
                     'osVersion' => (!empty($request->device)) ? $request->device[0]->osVersion : null,
-                    'deviceName' => (!empty($request->device)) ? $request->device[0]->deviceName : null,
+                    'deviceName' => (!empty($request->device)) ? $request->device[0]->modelName : null,
                     'DeviceType' => (!empty($request->device)) ? $request->device[0]->DeviceType : null,
                 ]);
                 $resource = new UserResource($resource);

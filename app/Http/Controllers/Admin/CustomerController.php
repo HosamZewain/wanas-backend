@@ -136,7 +136,6 @@ class CustomerController extends Controller
                     'status' => User::ACTIVE,
                     'is_verified' => true,
                 ]);
-
                 if (count($user->fcmTokens)) {
                     $title = 'تم تأكيد بياناتك ';
                     $body = "تم تأكيد بياناتك بنجاح ، يمكنك ألإن حجز الرحلات المفضلة لديك";
