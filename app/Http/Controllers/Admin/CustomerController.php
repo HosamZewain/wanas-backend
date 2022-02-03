@@ -146,20 +146,15 @@ class CustomerController extends Controller
             $unVerifiedAttachmentsFilters['StatusIn'] = [Attachment::STATUS_UPLOADED, Attachment::STATUS_DISAPPROVED];
             $unVerifiedAttachments = $this->attachmentRepository->search($unVerifiedAttachmentsFilters, [], false, false, false);
             if (!count($unVerifiedAttachments)) {
-                $this->userRepository->update($user, [
-                    'status' => User::ACTIVE,
-                    'is_verified' => true,
-                ]);
-                if (count($user->fcmTokens)) {
-                    $title = 'تم تأكيد بياناتك ';
-                    $body = "تم تأكيد بياناتك بنجاح ، يمكنك ألإن حجز الرحلات المفضلة لديك";
-                    $parameters['type'] = Notification::TYPE_CONFIRM_USER;
-                    $parameters['member_id'] = $request->user()->id;
-                    $parameters['model_id'] = $user->id;
-                    $parameters['model_type'] = get_class($user);
-                    $this->notificationRepository->sendNotification($user, $body, $title, $parameters);
-                }
-                return response()->json(['msg' => trans('dashboard.data_confirmed'), 'data' => $file], 200);
+                $this->userRepository->update($user, ['status' => User::ACTIVE, 'is_verified' => true,]);
+                $title = 'تم تأكيد بياناتك ';
+                $body = "تم تأكيد بياناتك بنجاح ، يمكنك ألإن حجز الرحلات المفضلة لديك";
+                $parameters['type'] = Notification::TYPE_CONFIRM_USER;
+                $parameters['member_id'] = $request->user()->id;
+                $parameters['model_id'] = $user->id;
+                $parameters['model_type'] = get_class($user);
+                $this->notificationRepository->sendNotification($user, $body, $title, $parameters);
+              //  return response()->json(['msg' => trans('dashboard.data_confirmed'), 'data' => $file], 200);
             }
 //            if ($user && $request->status == 'approve' && count($user->fcmTokens)) {
 //                $title = __('dashboard.attachment_approved', ['name' => $fileName, 'username' => $user->name]);
