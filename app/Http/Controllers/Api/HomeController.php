@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\Api\CityResource;
+use App\Http\Resources\Api\CountryResource;
 use App\Http\Resources\Api\GovernorateResource;
 use App\Http\Resources\Api\VehicleTypeResource;
 use App\Models\UserFcmToken;
@@ -90,6 +91,7 @@ class HomeController extends ApiBaseController
     {
         $resources = $this->countryRepository->search([], [], true, false, false, 'name_ar', 'ASC');
         if ($resources) {
+            $resources = CountryResource::collection($resources);
             return $this->respondWithSuccess(__('messages.data_found'), $resources);
         }
         return $this->respondWithErrors(__('messages.no_data_found'), 422, null, __('messages.no_data_found'));
