@@ -23,6 +23,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\File;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Validator;
 
 class HomeController extends ApiBaseController
@@ -60,7 +61,6 @@ class HomeController extends ApiBaseController
         $users = $this->IUserRepository->search([], [], [], false, false, false);
         foreach ($users as $resource) {
             if ($resource->profile_image) {
-
                 app(AttachmentRepository::class)->specialUpload($resource->profile_image, $resource, 'profile_image', 'user');
             }
             if ($resource->civil_image_front) {
@@ -92,6 +92,9 @@ class HomeController extends ApiBaseController
         $resources = $this->countryRepository->search([], [], true, false, false, 'name_ar', 'ASC');
         if ($resources) {
             $resources = CountryResource::collection($resources);
+
+
+        //    $resources = new LengthAwarePaginator($resources, $notifications->total(), $notifications->perPage());
             return $this->respondWithSuccess(__('messages.data_found'), $resources);
         }
         return $this->respondWithErrors(__('messages.no_data_found'), 422, null, __('messages.no_data_found'));

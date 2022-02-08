@@ -11,6 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class RegisterController extends ApiBaseController
 {
@@ -56,7 +57,7 @@ class RegisterController extends ApiBaseController
 
         $inputs = $request->all();
         $inputs['password'] = Hash::make($request->password);
-        $inputs['email'] = 'user' . random_int(1111, 9999) . '@wanes.com';
+        $inputs['email'] = 'user' . Str::uuid(). '@wanes.com';
         $inputs['activation_code'] = random_int(1111, 9999);
         $inputs['status'] = User::NOT_ACTIVE;
         $inputs['type'] = User::TYPE_USER;
