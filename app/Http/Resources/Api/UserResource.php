@@ -28,7 +28,7 @@ class UserResource extends JsonResource
             'gender' => $this->gender,
             'rate' => (double)number_format($this->rate, 2),
             $this->mergeWhen($this->country, [
-                'country' => $this->country,
+                'country' => new CountryResource($this->country),
             ]),
             'country_id' => $this->country_id,
             'trips_count' => count($this->trips),

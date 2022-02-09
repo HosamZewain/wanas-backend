@@ -88,7 +88,7 @@ class UserController extends ApiBaseController
     public function userDetails(Request $request)
     {
         $validation = Validator::make($request->all(), [
-            'user_id' => 'required',
+            'user_id' => 'required|exists:users,id',
         ]);
         if ($validation->fails()) {
             return $this->respondWithErrors($validation->errors(), 422, null, __('messages.complete_empty_values'));
