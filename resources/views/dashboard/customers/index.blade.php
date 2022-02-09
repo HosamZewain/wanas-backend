@@ -8,6 +8,12 @@
             'class'=>' btn-default',
            'icon'=>'zmdi zmdi-accounts-list zmdi-hc-fw animated infinite wobble',
             'text'=>'تأكيد بيانات المستخدمين',
+],
+        2=>[
+            'url'=>route('customers.index',['unconfirmed'=>false]),
+            'class'=>' btn-success',
+           'icon'=>'zmdi zmdi-account-box-mail zmdi-hc-fw animated infinite wobble',
+            'text'=>'  مستخدمين تم تأكيدهم',
 ]
 ]
     ])
