@@ -71,6 +71,7 @@ class LoginController extends ApiBaseController
         $resource['token_type'] = 'Bearer';
         if ($resource) {
             if ($resource->status == User::NOT_ACTIVE) {
+                $resource = new UserResource($resource);
                 return $this->respondWithErrors(__('messages.account_not_active'), 401, $resource, __('messages.account_not_active'));
             }
             if (Hash::check($request->password, $resource->password)) {
