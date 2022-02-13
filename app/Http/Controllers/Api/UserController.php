@@ -98,4 +98,23 @@ class UserController extends ApiBaseController
         $user = new UserResource($user);
         return $this->respondWithSuccess(__('messages.data_found'), $user);
     }
+
+    public function getUser(Request $request)
+    {
+        $validation = Validator::make($request->all(), [
+            'mobile' => 'required|exists:users,mobile',
+        ]);
+        if ($validation->fails()) {
+            return $this->respondWithErrors($validation->errors(), 422, null, __('messages.complete_empty_values'));
+        }
+
+        $user = $this->userRepository->findBy('mobile', $request->mobile);
+        if ($user){
+            $user = new UserResource($user);
+            return $this->respondWithSuccess(__('messages.data_found'), $user);
+        }
+        return $this->respondWithErrors(__('messages.error'), 400, null, __('messages.no_data_found'));
+    }
+
+
 }

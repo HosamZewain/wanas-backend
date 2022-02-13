@@ -35,6 +35,7 @@ Route::get('/colors', [\App\Http\Controllers\Api\HomeController::class, 'colors'
 Route::get('/cities', [\App\Http\Controllers\Api\HomeController::class, 'cities']);
 Route::get('/governorates', [\App\Http\Controllers\Api\HomeController::class, 'governorates']);
 Route::get('refresh', [\App\Http\Controllers\Api\HomeController::class, 'refresh']);
+Route::get('get_user', [\App\Http\Controllers\Api\UserController::class, 'getUser']);
 
 //auth
 Route::middleware(['checkUserStatus', 'auth:sanctum'])->group(function () {
