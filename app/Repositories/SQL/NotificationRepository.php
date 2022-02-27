@@ -141,10 +141,7 @@ class NotificationRepository extends AbstractModelRepository implements INotific
 
     public function sendNotification($user, $body = null, string $title = 'Wanes', array $paramters = [])
     {
-        $deviceTokens = UserFcmToken::where('user_id', $user->id)->get();
-        if (!count($deviceTokens)) {
-            return false;
-        }
+
 
 
         $notifications = NotificationModel::create([
@@ -156,6 +153,11 @@ class NotificationRepository extends AbstractModelRepository implements INotific
             'model_id' => $paramters['model_id'] ?? null,
             'model_type' => $paramters['model_type'] ?? null,
         ]);
+
+        $deviceTokens = UserFcmToken::where('user_id', $user->id)->get();
+        if (!count($deviceTokens)) {
+            return false;
+        }
         foreach ($deviceTokens as $deviceToken) {
             $payload = array(
                 'to' =>$deviceToken['token'] ,
