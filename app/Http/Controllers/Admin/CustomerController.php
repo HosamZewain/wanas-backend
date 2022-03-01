@@ -132,7 +132,7 @@ class CustomerController extends Controller
             ]);
 
             $user = $this->userRepository->find($request->userId, ['fcmTokens']);
-            if ($user && $request->status == 'disapprove' && count($user->fcmTokens)) {
+            if ($user && $request->status == 'disapprove' ) {
                 $title = __('dashboard.attachment_disapproved', ['name' => $fileName, 'username' => $user->name]);
                 $body = __('dashboard.attachment_disapproved_body', ['name' => $fileName, 'notes' => $request->statusText]);
                 $parameters['type'] = Notification::TYPE_BOOK_DISAPPROVED;
@@ -180,7 +180,6 @@ class CustomerController extends Controller
                 'is_verified' => true,
             ]);
         }
-        if (count($customer->fcmTokens)) {
             $title = 'تم تأكيد بياناتك ';
             $body = "تم تأكيد بياناتك بنجاح ، يمكنك الان حجز الرحلات المفضلة لديك";
             $parameters['type'] = Notification::TYPE_CONFIRM_USER;
@@ -188,7 +187,6 @@ class CustomerController extends Controller
             $parameters['model_id'] = $customer->id;
             $parameters['model_type'] = get_class($customer);
             $this->notificationRepository->sendNotification($customer, $body, $title, $parameters);
-        }
 
 
         $resource = new UserResource($customer);

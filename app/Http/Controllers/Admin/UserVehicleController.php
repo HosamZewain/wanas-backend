@@ -120,7 +120,6 @@ class UserVehicleController extends Controller
                 'status' => UserVehicle::STATUS_APPROVED,
             ]);
         }
-        if (count($vehicle->user->fcmTokens)) {
             $title = 'تم تأكيد بيانات السيارة ، وتم الموافقة على الطلب ';
             $body = "تم تأكيد بياناتك بنجاح ، يمكنك الان إنشاء الرحلات المفضلة لديك";
             $parameters['type'] = Notification::TYPE_CAR_APPROVED;
@@ -129,7 +128,6 @@ class UserVehicleController extends Controller
             $parameters['model_type'] = get_class($vehicle);
             $this->notificationRepository->sendNotification($vehicle->user, $body, $title, $parameters);
 
-        }
         return response()->json(['msg' => trans('dashboard.approved'), 'data' => $vehicle], 200);
 
     }
