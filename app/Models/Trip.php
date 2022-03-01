@@ -15,7 +15,7 @@ class Trip extends Model
     public const STATUS_ACTIVE = 1;
     public const STATUS_ENDED = 2;
     protected $table = 'trips';
-    protected $appends = ['is_member', 'trip_name', 'booked', 'PickUpText','DropText'];
+    protected $appends = ['is_member', 'trip_name', 'booked', 'PickUpText', 'DropText'];
     protected $fillable = [
         'user_id',
         'pickup_address',
@@ -168,6 +168,7 @@ class Trip extends Model
     {
         return ($this->fromCity->LName ?? '') . ',' . $this->pickup_address;
     }
+
     public function getDropTextAttribute()
     {
         return ($this->ToCity->LName ?? '') . ',' . $this->drop_off_address;
@@ -190,6 +191,14 @@ class Trip extends Model
 
     public function getTripNameAttribute()
     {
-        return 'الرحلة من  (' . $this->pickup_address . ') إلى  (' . $this->drop_off_address . ')  ميعاد قيام الرحلة :  (' . $this->trip_date . '-' . $this->trip_time . ')';
+        return 'الرحلة من  '
+            . ($this->fromCity->LName ?? '') . ','
+            . $this->pickup_address
+            . ' إلى  '
+            . ($this->ToCity->LName ?? '')
+            . ',' . $this->drop_off_address
+            . '  ميعاد قيام الرحلة :  '
+            . $this->trip_date
+            . '-' . $this->trip_time;
     }
 }
