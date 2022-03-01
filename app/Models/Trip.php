@@ -200,6 +200,6 @@ class Trip extends Model
             . ',' . $this->drop_off_address
             . '  ميعاد قيام الرحلة :  '
             . Carbon::parse($this->trip_date)->format('Y-m-d')
-            . '-' . Carbon::parse($this->trip_time)->format('h:i:s');
+            . ' - (' . $this->trip_time . ')';
     }
 }
