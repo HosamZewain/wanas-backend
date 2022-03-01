@@ -207,7 +207,7 @@ class TripController extends ApiBaseController
                     ]);
 
                     $title = 'تم تأكيد  حجز الرحلة ';
-                    $body = "تم تأكيد حجز الرحلة'.$resource->trip_name.'";
+                    $body = " تم تأكيد حجز الرحلة $resource->trip_name ";
                     $parameters['type'] = Notification::TYPE_BOOK_APPROVED;
                     $parameters['member_id'] = $request->user()->id;
                     $parameters['model_id'] = $member->id;
