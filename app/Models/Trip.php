@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\ModelTrait;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -198,7 +199,7 @@ class Trip extends Model
             . ($this->ToCity->LName ?? '')
             . ',' . $this->drop_off_address
             . '  ميعاد قيام الرحلة :  '
-            . $this->trip_date
-            . '-' . $this->trip_time;
+            . Carbon::parse($this->trip_date)->format('Y-m-d')
+            . '-' . Carbon::parse($this->trip_time)->format('h:i:s');
     }
 }
