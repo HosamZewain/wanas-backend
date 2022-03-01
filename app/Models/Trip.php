@@ -191,7 +191,7 @@ class Trip extends Model
 
     public function getTripNameAttribute()
     {
-        return 'الرحلة من  '
+        return ' من  '
             . ($this->fromCity->LName ?? '') . ','
             . $this->pickup_address
             . ' إلى  '
