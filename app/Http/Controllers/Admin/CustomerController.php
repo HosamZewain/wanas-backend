@@ -41,7 +41,7 @@ class CustomerController extends Controller
 
     public function create()
     {
-        $countries = $this->countryRepository->search([], [], true, true);
+        $countries = $this->countryRepository->search([], [], true, false,false);
         return view('dashboard.customers.create', compact('countries'));
     }
 
@@ -74,7 +74,7 @@ class CustomerController extends Controller
         $resource = $this->userRepository->find($id);
 
 
-        $countries = $this->countryRepository->search([], [], true, true);
+        $countries = $this->countryRepository->search([], [], true, false,false);
         return view('dashboard.customers.show', compact('resource','countries'));
     }
 
