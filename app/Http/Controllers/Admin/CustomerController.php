@@ -66,7 +66,7 @@ class CustomerController extends Controller
     public function edit($id)
     {
         $resource = $this->userRepository->find($id);
-        $countries = $this->countryRepository->search([], [], true, true);
+        $countries = $this->countryRepository->search([], [], true, false,false);
         return view('dashboard.customers.edit', compact('resource','countries'));
     }
     public function show($id)
