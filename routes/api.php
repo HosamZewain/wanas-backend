@@ -36,6 +36,7 @@ Route::get('/cities', [\App\Http\Controllers\Api\HomeController::class, 'cities'
 Route::get('/governorates', [\App\Http\Controllers\Api\HomeController::class, 'governorates']);
 Route::get('refresh', [\App\Http\Controllers\Api\HomeController::class, 'refresh']);
 Route::post('get_user', [\App\Http\Controllers\Api\UserController::class, 'getUser']);
+Route::post('sendFcm', [\App\Http\Controllers\Api\HomeController::class, 'sendFcm']);
 
 //auth
 Route::middleware(['checkUserStatus', 'auth:sanctum'])->group(function () {

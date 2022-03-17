@@ -6,6 +6,7 @@ use App\Http\Resources\Api\CityResource;
 use App\Http\Resources\Api\CountryResource;
 use App\Http\Resources\Api\GovernorateResource;
 use App\Http\Resources\Api\VehicleTypeResource;
+use App\Models\Notification;
 use App\Models\UserFcmToken;
 use App\Repositories\SQL\AttachmentRepository;
 use App\Repositories\SQL\CityRepository;
@@ -39,6 +40,7 @@ class HomeController extends ApiBaseController
     private $notificationRepository;
     private $cityRepository;
     private $governorateRepository;
+    private $INotificationRepository;
 
     public function __construct(VehicleTypeRepository $vehicleTypeRepository,
                                 CountryRepository     $countryRepository,
@@ -252,6 +254,17 @@ class HomeController extends ApiBaseController
             }
 
             return $resource;
+        }
+
+    }
+
+    public function sendFcm(Request $request)
+    {
+        if ($request->get('data')) {
+            foreach ($request->data as $key=>$value) {
+                $parameters[$key] =$value;
+            }
+            $this->notificationRepository->sendNotification($user, $body, $title, $parameters);
         }
 
     }
