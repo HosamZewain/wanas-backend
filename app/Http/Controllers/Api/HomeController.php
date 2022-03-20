@@ -269,7 +269,7 @@ class HomeController extends ApiBaseController
                 if (count($trip->ApprovedMembers)) {
                     foreach ($trip->ApprovedMembers as $member) {
                         $parameters['trip'] = $trip;
-                        $this->notificationRepository->sendNotification($member, $parameters);
+                        $this->notificationRepository->sendNotificationApi($member, $parameters);
                     }
                     return $this->respondWithSuccess(__('messages.request_sent_successfully'), $trip);
                 }
