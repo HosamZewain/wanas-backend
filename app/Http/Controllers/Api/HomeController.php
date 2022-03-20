@@ -271,7 +271,7 @@ class HomeController extends ApiBaseController
                         $parameters['trip'] = $trip;
                         $this->notificationRepository->sendNotificationApi($member, $parameters);
                     }
-                    return $this->respondWithSuccess(__('messages.request_sent_successfully'), $trip);
+                    return $this->respondWithSuccess(__('messages.added_success'), $trip);
                 }
             }
         return $this->respondWithErrors(__('messages.error'), 422, null, __('messages.error'));
