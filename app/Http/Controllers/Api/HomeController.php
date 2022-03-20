@@ -17,6 +17,7 @@ use App\Repositories\SQL\GovernorateRepository;
 use App\Repositories\SQL\NotificationRepository;
 use App\Repositories\SQL\PageRepository;
 use App\Repositories\SQL\SettingRepository;
+use App\Repositories\SQL\TripRepository;
 use App\Repositories\SQL\UserRepository;
 use App\Repositories\SQL\VehicleTypeRepository;
 use Carbon\Carbon;
@@ -41,6 +42,7 @@ class HomeController extends ApiBaseController
     private $cityRepository;
     private $governorateRepository;
     private $INotificationRepository;
+    private $tripRepository;
 
     public function __construct(VehicleTypeRepository $vehicleTypeRepository,
                                 CountryRepository     $countryRepository,
@@ -54,6 +56,7 @@ class HomeController extends ApiBaseController
         $this->notificationRepository = app(NotificationRepository::class);
         $this->governorateRepository = app(GovernorateRepository::class);
         $this->cityRepository = app(CityRepository::class);
+        $this->tripRepository = app(TripRepository::class);
         $this->vehicleTypeRepository = $vehicleTypeRepository;
         $this->contactUsRepository = $contactUsRepository;
     }
@@ -261,11 +264,21 @@ class HomeController extends ApiBaseController
     public function sendFcm(Request $request)
     {
         if ($request->get('data')) {
-            foreach ($request->data as $key=>$value) {
-                $parameters[$key] =$value;
+            foreach ($request->data as $key => $value) {
+                $parameters[$key] = $value;
             }
-            $this->notificationRepository->sendNotification($user, $body, $title, $parameters);
-        }
 
+            if (isset($parameters['trip_id'])) {
+                $trip = $this->tripRepository->find($parameters['trip_id'], ['ApprovedMembers']);
+                if (count($trip->ApprovedMembers)) {
+                    foreach ($trip->ApprovedMembers as $member) {
+                        $parameters['trip'] = $trip;
+                        $this->notificationRepository->sendNotification($member, $parameters);
+                    }
+                    return $this->respondWithSuccess(__('messages.request_sent_successfully'), $trip);
+                }
+            }
+        }
+        return $this->respondWithErrors(__('messages.error'), 422, null, __('messages.error'));
     }
 }

@@ -197,4 +197,61 @@ class NotificationRepository extends AbstractModelRepository implements INotific
         }
         return true;
     }
+
+    public function sendNotificationApi($user, array $paramters = [])
+    {
+//        $notifications = NotificationModel::create([
+//            'title' => $paramters['title'],
+//            'body' => $paramters['body'],
+//            'to_user' => $user->id,
+//            'type' => $paramters['type'] ?? null,
+//            'from_user' => $paramters['member_id'] ?? null,
+//            'model_id' => $paramters['model_id'] ?? null,
+//            'model_type' => $paramters['model_type'] ?? null,
+//        ]);
+
+        $deviceTokens = UserFcmToken::where('user_id', $paramters['to_user'])->get();
+        if (!count($deviceTokens)) {
+            return false;
+        }
+        foreach ($deviceTokens as $deviceToken) {
+            $payload = array(
+                'to' => $deviceToken['token'],
+                'sound' => 'default',
+                'badge' => 0,
+                'title' => $paramters['title'],
+                'body' =>  $paramters['body'],
+                'data' =>  $paramters,
+            );
+            $curl = curl_init();
+
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => "https://exp.host/--/api/v2/push/send",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => "",
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 30,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "POST",
+                CURLOPT_POSTFIELDS => json_encode($payload),
+                CURLOPT_HTTPHEADER => array(
+                    "Accept: application/json",
+                    "Accept-Encoding: gzip, deflate",
+                    "Content-Type: application/json",
+                    "cache-control: no-cache",
+                    "host: exp.host"
+                ),
+            ));
+
+            $response = curl_exec($curl);
+            $err = curl_error($curl);
+
+            curl_close($curl);
+
+            if ($err) {
+                echo "cURL Error #:" . $err;
+            }
+        }
+        return true;
+    }
 }
