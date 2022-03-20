@@ -266,7 +266,7 @@ class HomeController extends ApiBaseController
             $parameters = $request->all();
             if (isset($parameters['trip_id'])) {
                 $trip = $this->tripRepository->find($parameters['trip_id'], ['ApprovedMembers']);
-                if (count($trip->ApprovedMembers)) {
+                if (!empty($trip->ApprovedMembers)) {
                     foreach ($trip->ApprovedMembers as $member) {
                         $parameters['trip'] = $trip;
                         $this->notificationRepository->sendNotificationApi($member, $parameters);
