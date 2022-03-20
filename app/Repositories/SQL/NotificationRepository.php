@@ -200,16 +200,6 @@ class NotificationRepository extends AbstractModelRepository implements INotific
 
     public function sendNotificationApi($user, array $paramters = [])
     {
-//        $notifications = NotificationModel::create([
-//            'title' => $paramters['title'],
-//            'body' => $paramters['body'],
-//            'to_user' => $user->id,
-//            'type' => $paramters['type'] ?? null,
-//            'from_user' => $paramters['member_id'] ?? null,
-//            'model_id' => $paramters['model_id'] ?? null,
-//            'model_type' => $paramters['model_type'] ?? null,
-//        ]);
-
         $deviceTokens = UserFcmToken::where('user_id',$user->id)->get();
         if (!count($deviceTokens)) {
             return false;

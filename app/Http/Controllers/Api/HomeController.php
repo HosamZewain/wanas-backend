@@ -43,6 +43,7 @@ class HomeController extends ApiBaseController
     private $governorateRepository;
     private $INotificationRepository;
     private $tripRepository;
+    private $userRepository;
 
     public function __construct(VehicleTypeRepository $vehicleTypeRepository,
                                 CountryRepository     $countryRepository,
@@ -269,7 +270,8 @@ class HomeController extends ApiBaseController
                 if (!empty($trip->ApprovedMembers)) {
                     foreach ($trip->ApprovedMembers as $member) {
                         $parameters['trip'] = $trip;
-                        $this->notificationRepository->sendNotificationApi($member, $parameters);
+                        $user = $this->IUserRepository->find($member->user_id);
+                        $this->notificationRepository->sendNotificationApi($user, $parameters);
                     }
                     return $this->respondWithSuccess(__('messages.added_success'), $trip);
                 }
