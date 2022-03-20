@@ -177,7 +177,10 @@ class Trip extends Model
 
     public function getIsMemberAttribute()
     {
-        return (bool)$this->members()->where('user_id', Request()->user()->id)->whereIn('status', [TripMember::STATUS_APPROVED, TripMember::STATUS_DISAPPROVED])->first();
+        if (request()->user()) {
+            return (bool)$this->members()->where('user_id', Request()->user()->id)->whereIn('status', [TripMember::STATUS_APPROVED, TripMember::STATUS_DISAPPROVED])->first();
+        }
+        return false;
     }
 
     public function getBookedAttribute()
