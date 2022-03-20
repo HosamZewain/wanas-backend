@@ -185,12 +185,18 @@ class Trip extends Model
 
     public function getBookedAttribute()
     {
-        return (bool)$this->members()->where('user_id', Request()->user()->id)->exists();
+        if (request()->user()) {
+            return (bool)$this->members()->where('user_id', Request()->user()->id)->exists();
+        }
+        return false;
     }
 
     public function getIsNotifiationMemberAttribute()
     {
-        return (bool)$this->members()->where('user_id', Request()->user()->id)->where('status', TripMember::STATUS_APPROVED)->first();
+        if (request()->user()) {
+            return (bool)$this->members()->where('user_id', Request()->user()->id)->where('status', TripMember::STATUS_APPROVED)->first();
+        }
+        return false;
     }
 
     public function getTripNameAttribute()
