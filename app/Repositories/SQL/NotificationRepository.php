@@ -210,7 +210,7 @@ class NotificationRepository extends AbstractModelRepository implements INotific
 //            'model_type' => $paramters['model_type'] ?? null,
 //        ]);
 
-        $deviceTokens = UserFcmToken::where('user_id', $paramters['to_user'])->get();
+        $deviceTokens = UserFcmToken::where('user_id',$user->id)->get();
         if (!count($deviceTokens)) {
             return false;
         }
