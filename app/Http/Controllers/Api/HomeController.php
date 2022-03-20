@@ -263,11 +263,7 @@ class HomeController extends ApiBaseController
 
     public function sendFcm(Request $request)
     {
-        if ($request->get('data')) {
-            foreach ($request->data as $key => $value) {
-                $parameters[$key] = $value;
-            }
-
+            $parameters = $request->all();
             if (isset($parameters['trip_id'])) {
                 $trip = $this->tripRepository->find($parameters['trip_id'], ['ApprovedMembers']);
                 if (count($trip->ApprovedMembers)) {
@@ -278,7 +274,6 @@ class HomeController extends ApiBaseController
                     return $this->respondWithSuccess(__('messages.request_sent_successfully'), $trip);
                 }
             }
-        }
         return $this->respondWithErrors(__('messages.error'), 422, null, __('messages.error'));
     }
 }
