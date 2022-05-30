@@ -63,7 +63,10 @@ class UserController extends Controller
     public function update($id, Request $request)
     {
         $resource = $this->userRepository->find($id);
-        $resource->update($request->all());
+
+        $inputs = $request->all();
+        $inputs['password'] = Hash::make($request->password);
+        $this->userRepository->update($resource,$inputs);
         flash(trans('dashboard.updated_successfully'), 'success');
         return redirect()->to(route('users.index'));
     }
