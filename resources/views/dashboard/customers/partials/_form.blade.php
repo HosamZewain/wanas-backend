@@ -60,7 +60,7 @@
         @enderror
     </div>
 </div>
-@if(count($resource->attachments))
+@if(isset($resource) &&count($resource->attachments))
     <div class="col-md-12">
         <fieldset>
             <legend>{!! trans('dashboard.attachments') !!}</legend>
