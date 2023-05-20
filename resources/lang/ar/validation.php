@@ -183,12 +183,15 @@ return [
         'governorates_id' => 'المحافظة',
         'name_ar' => 'الاسم عربى',
         'name_en' => 'الاسم انجليزى',
+        'trip_name' => 'إسم الرحلة',
+        'trip_details' => 'تفاصيل الرحلة',
+        'trip_vehicle_type' => 'وسيلة الإنتقال ',
     ],
 
-    'invalid_data'    => 'البيانات المدخلة كانت خاطئة',
+    'invalid_data' => 'البيانات المدخلة كانت خاطئة',
     'empty_first_day' => 'يرجى تحديد بداية أيام العمل',
     'no_working_days' => 'يرجى تحديد أيام العمل',
-    'max_degree_must'=>'يجب ألا تتجاوز الدرجة : ',
-    'student_civil_id_digits'=> 'يجب أن تكون البطاقة المدنية للطالب 12 رقمًا',
+    'max_degree_must' => 'يجب ألا تتجاوز الدرجة : ',
+    'student_civil_id_digits' => 'يجب أن تكون البطاقة المدنية للطالب 12 رقمًا',
 
 ];

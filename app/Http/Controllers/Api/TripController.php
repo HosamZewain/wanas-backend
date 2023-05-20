@@ -25,11 +25,11 @@ class TripController extends ApiBaseController
     private $userRepository;
     private $tripRateRepository;
 
-    public function __construct(TripRepository $tripRepository,
+    public function __construct(TripRepository         $tripRepository,
                                 NotificationRepository $notificationRepository,
-                                userRepository $userRepository,
-                                TripRateRepository $tripRateRepository,
-                                TripMemberRepository $tripMemberRepository)
+                                userRepository         $userRepository,
+                                TripRateRepository     $tripRateRepository,
+                                TripMemberRepository   $tripMemberRepository)
     {
         $this->userRepository = $userRepository;
         $this->tripRateRepository = $tripRateRepository;
@@ -45,17 +45,19 @@ class TripController extends ApiBaseController
      */
     public function tripsList(Request $request): JsonResponse
     {
-         $filters['PickUpAddress'] = $request->pickup_address;
-         $filters['DropOffAddress'] = $request->drop_off_address;
-       // $filters['FromCityIdSearch'] = $request->from_city_id ?? ($request->pickup_address ?? '');
-    //    $filters['ToCityIdSearch'] = $request->to_city_id ?? ($request->drop_off_address ?? '');
+        $filters['PickUpAddress'] = $request->pickup_address;
+        $filters['DropOffAddress'] = $request->drop_off_address;
+        // $filters['FromCityIdSearch'] = $request->from_city_id ?? ($request->pickup_address ?? '');
+        //    $filters['ToCityIdSearch'] = $request->to_city_id ?? ($request->drop_off_address ?? '');
         $filters['Date'] = $request->date;
+        $filters['TripType'] = $request->type;
         $filters['StatusByDate'] = Carbon::now();
         $filters['CountryId'] = $request->user()->country_id ?? null;
 
-        $resources = $this->tripRepository->search($filters, ['user'], false, true, false);
+        $resources = $this->tripRepository->search($filters, ['user','attachments'], false, true, false);
 
         if ($resources) {
+
             $resources = TripResource::collection($resources);
             return $this->respondWithSuccess(__('messages.data_found'), $resources);
         }
@@ -68,13 +70,17 @@ class TripController extends ApiBaseController
      */
     public function createTrip(Request $request): JsonResponse
     {
+        $tripName = 'الفعالية';
+        if ($request->get('trip_type') && $request->trip_type == Trip::TYPE_RIDE) {
+            $tripName = 'الرحلة';
+        }
         $messages = [
             'pickup_address.required' => 'نقطة الإنطلاق  مطلوبة',
             'drop_off_address.required' => 'نقطة الوصول  مطلوبة',
-            'trip_date.required' => 'تاريخ الرحلة مطلوب',
-            'trip_time.required' => 'وقت الرحلة مطلوب',
+            'trip_date.required' => 'تاريخ ' . $tripName . ' مطلوب',
+            'trip_time.required' => 'وقت ' . $tripName . ' مطلوب',
             'members_count.required' => 'عدد الأفراد  مطلوب',
-            'trip_cost_per_person.required' => 'تكلفة الرحلة   مطلوبة',
+            'trip_cost_per_person.required' => 'تكلفة ' . $tripName . '   مطلوبة',
         ];
         $validation = Validator::make($request->all(), [
             'pickup_address' => 'required',
@@ -83,6 +89,10 @@ class TripController extends ApiBaseController
             'trip_time' => 'required',
             'members_count' => 'required',
             'trip_cost_per_person' => 'required',
+            'trip_type' => 'required',
+            'trip_name' => 'required_if:trip_type,' . Trip::TYPE_EVENT,
+            'trip_details' => 'required_if:trip_type,' . Trip::TYPE_EVENT,
+            'trip_vehicle_type' => 'required_if:trip_type,' . Trip::TYPE_EVENT,
         ], $messages);
 
         if ($validation->fails()) {
@@ -96,8 +106,19 @@ class TripController extends ApiBaseController
         $inputs['total_trip_cost'] = $request->members_count * $request->trip_cost_per_person;
         $resource = $this->tripRepository->create($inputs);
         if ($resource) {
+            if (!empty($request->images)) {
+                foreach ($request->images as $image) {
+                    $path = $image->store('trips', 'public');
+                    $resource->attachments()->create([
+                        'attachment_url' => 'trips/' . basename($path),
+                        'original_name' => $image->getClientOriginalName(),
+                        'file_type' => $image->getMimeType(),
+                        'key' => 'trips_images'
+                    ]);
+                }
+            }
             $resource = new TripResource($resource);
-            return $this->respondWithSuccess(__('messages.trip_added_success'), $resource);
+            return $this->respondWithSuccess(__('messages.trip_added_success', ['name' => $tripName]), $resource);
         }
         return $this->respondWithErrors(__('messages.error'), 422, null, __('messages.error'));
     }
@@ -131,7 +152,7 @@ class TripController extends ApiBaseController
 
             $filters['UserId'] = $request->user()->id;
             $filters['TripId'] = $resource->id;
-            $check = $this->tripMemberRepository->search($filters, [],  false, false, false);
+            $check = $this->tripMemberRepository->search($filters, [], false, false, false);
             if (count($check)) {
                 return $this->respondWithErrors(__('messages.booked_before'), 422, null, __('messages.booked_before'));
             }
@@ -143,13 +164,13 @@ class TripController extends ApiBaseController
             ]);
 
 
-                $title = 'وصلك إشعار جديدة بحجز رحلة جديدة';
-                $body = "طلب حجز على الرحلة رقم {$resource->id}";
-                $parameters['type'] = Notification::TYPE_NEW_BOOK;
-                $parameters['member_id'] = $request->user()->id;
-                $parameters['model_id'] = $resource->id;
-                $parameters['model_type'] = get_class($resource);
-                $this->notificationRepository->sendNotification($resource->user, $body, $title, $parameters);
+            $title = 'وصلك إشعار جديدة بحجز رحلة جديدة';
+            $body = "طلب حجز على الرحلة رقم {$resource->id}";
+            $parameters['type'] = Notification::TYPE_NEW_BOOK;
+            $parameters['member_id'] = $request->user()->id;
+            $parameters['model_id'] = $resource->id;
+            $parameters['model_type'] = get_class($resource);
+            $this->notificationRepository->sendNotification($resource->user, $body, $title, $parameters);
             $resource = new TripResource($resource);
             return $this->respondWithSuccess(__('messages.request_sent_successfully'), $resource);
         }
@@ -162,10 +183,10 @@ class TripController extends ApiBaseController
      */
     public function tripDetails(Request $request): JsonResponse
     {
-        $resource = $this->tripRepository->find($request->trip_id, ['user','user.vehicle.carFront', 'user.vehicle.carNear', 'user.vehicle.carBack', 'members']);
+        $resource = $this->tripRepository->find($request->trip_id, ['user', 'user.vehicle.carFront', 'user.vehicle.carNear', 'user.vehicle.carBack', 'members']);
         if ($resource) {
 
-        //    dd($resource);
+            //    dd($resource);
             $resource = new TripResource($resource);
             return $this->respondWithSuccess(__('messages.data_found'), $resource);
         }

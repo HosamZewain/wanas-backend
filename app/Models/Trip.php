@@ -15,6 +15,11 @@ class Trip extends Model
 
     public const STATUS_ACTIVE = 1;
     public const STATUS_ENDED = 2;
+
+    public const TYPE_RIDE = 1;
+    public const TYPE_EVENT = 2;
+
+
     protected $table = 'trips';
     protected $appends = ['is_member', 'trip_name', 'booked', 'PickUpText', 'DropText'];
     protected $fillable = [
@@ -31,14 +36,34 @@ class Trip extends Model
         'from_city_id',
         'from_governorates_id',
         'to_city_id',
-        'to_governorates_id'
+        'to_governorates_id',
+        'trip_name',
+        'trip_details',
+        'trip_type',
+        'trip_vehicle_type'
     ];
 
 
-    protected $filters = ['PickUpAddress', 'DropOffAddress', 'Date', 'FromCityId', 'FromCityIdSearch', 'ToCityId', 'ToCityIdSearch', 'StatusByDate'];
+    protected $filters = ['PickUpAddress',
+        'DropOffAddress',
+        'Date',
+        'FromCityId',
+        'FromCityIdSearch',
+        'ToCityId',
+        'ToCityIdSearch',
+        'TripType',
+        'StatusByDate'];
 
 
     /************scopes****************/
+    public function scopeOfTripType($query, $value)
+    {
+        if (empty($value)) {
+            return $query;
+        }
+        return $query->where('trip_type', $value);
+    }
+
     public function scopeOfStatusByDate($query, $value)
     {
         if (empty($value)) {
@@ -119,6 +144,10 @@ class Trip extends Model
 
     /************relations*************/
 
+    public function attachments(): MorphMany
+    {
+        return $this->morphMany(Attachment::class, 'attachmentable');
+    }
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');

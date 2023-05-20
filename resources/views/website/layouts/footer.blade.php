@@ -1,8 +1,8 @@
-
 <footer class="text-center pt-4">
     <div class="container pb-5">
-        <img src="{!! asset('website/assets/img/footerLogo.png') !!}" data-src="{!! asset('website/assets/img/footerLogo.png') !!}" class="lazyload footerLogo"
-             alt="logo" />
+        <img src="{!! asset('website/assets/img/footerLogo.png') !!}"
+             data-src="{!! asset('website/assets/img/footerLogo.png') !!}" class="lazyload footerLogo"
+             alt="logo"/>
         <ul class="social mt-3">
             <!-- <li>
                 <a href="#">
@@ -22,7 +22,11 @@
         </ul>
     </div>
     <div class="copyRight bg-white fs15 p-3 text-center">
-        جميع الحقوق محفوظة لشركة <a href="https://www.roqay.com/" class="d-inline-flex footLink">رقي</a> 2021
+        {!! __('website.copy_rights') !!}
+        <a href="https://www.roqay.com/" class="d-inline-flex footLink">
+            {!! __('website.roqay') !!}
+        </a>
+        {!! \Carbon\Carbon::now()->format('Y') !!}
     </div>
 </footer>
 <!-- end footer -->

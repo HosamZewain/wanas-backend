@@ -34,6 +34,7 @@ class TripResource extends JsonResource
             'user' => new UserResource($this->user),
             'members' => TripMemberResource::collection($this->ApprovedMembers),
             'member_approval' => $this->members()->where('status', TripMember::STATUS_WAITING_APPROVAL)->first(),
+            'images' => AttachmentResource::collection($this->whenLoaded('attachments')),
         ];
     }
 }

@@ -81,7 +81,7 @@ class HomeController extends ApiBaseController
 
     public function index(): string
     {
-        return 'documentation';
+        return view('api.documentation');
     }
 
     public function pages(): JsonResponse
@@ -100,7 +100,7 @@ class HomeController extends ApiBaseController
             $resources = CountryResource::collection($resources);
 
 
-        //    $resources = new LengthAwarePaginator($resources, $notifications->total(), $notifications->perPage());
+            //    $resources = new LengthAwarePaginator($resources, $notifications->total(), $notifications->perPage());
             return $this->respondWithSuccess(__('messages.data_found'), $resources);
         }
         return $this->respondWithErrors(__('messages.no_data_found'), 422, null, __('messages.no_data_found'));
@@ -128,7 +128,7 @@ class HomeController extends ApiBaseController
 
     public function cities(Request $request): JsonResponse
     {
-        $filters['CountryId'] = ($request->user() !== null)  ? $request->user()->country_id : null;
+        $filters['CountryId'] = ($request->user() !== null) ? $request->user()->country_id : null;
         $filters['GovernorateId'] = $request->governorate_id;
         $filters['Keyword'] = $request->keyword;
         $resources = $this->cityRepository->search($filters, [], false, false, false);
@@ -264,22 +264,22 @@ class HomeController extends ApiBaseController
 
     public function sendFcm(Request $request)
     {
-            $parameters = $request->all();
-            if (isset($parameters['trip_id'])) {
-                $trip = $this->tripRepository->find($parameters['trip_id'], ['ApprovedMembers']);
-                if ($trip->user_id != $parameters['from_id']) {
-                    $this->notificationRepository->sendNotificationApi($trip->user, $parameters);
-                    return $this->respondWithSuccess(__('messages.added_success'), $trip);
-                }
-                if (!empty($trip->ApprovedMembers)) {
-                    foreach ($trip->ApprovedMembers as $member) {
-                        $parameters['trip'] = $trip;
-                        $user = $this->IUserRepository->find($member->user_id);
-                        $this->notificationRepository->sendNotificationApi($user, $parameters);
-                    }
-                    return $this->respondWithSuccess(__('messages.added_success'), $trip);
-                }
+        $parameters = $request->all();
+        if (isset($parameters['trip_id'])) {
+            $trip = $this->tripRepository->find($parameters['trip_id'], ['ApprovedMembers']);
+            if ($trip->user_id != $parameters['from_id']) {
+                $this->notificationRepository->sendNotificationApi($trip->user, $parameters);
+                return $this->respondWithSuccess(__('messages.added_success'), $trip);
             }
+            if (!empty($trip->ApprovedMembers)) {
+                foreach ($trip->ApprovedMembers as $member) {
+                    $parameters['trip'] = $trip;
+                    $user = $this->IUserRepository->find($member->user_id);
+                    $this->notificationRepository->sendNotificationApi($user, $parameters);
+                }
+                return $this->respondWithSuccess(__('messages.added_success'), $trip);
+            }
+        }
         return $this->respondWithErrors(__('messages.error'), 422, null, __('messages.error'));
     }
 }
