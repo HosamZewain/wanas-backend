@@ -100,8 +100,8 @@
                             class="route-image mb-3 mb-md-0 lazyload" alt=""/>
                     @else
                         <img
-                             src="{!! asset( 'dashboard/assets/images/trip.png') !!}"
-                             class="route-image mb-3 mb-md-0 lazyload" alt=""/>
+                            src="{!! asset( 'dashboard/assets/images/trip.png') !!}"
+                            class="route-image mb-3 mb-md-0 lazyload" alt=""/>
                     @endif
                 </div>
                 <div class="col-md-7 col-lg-6">
@@ -288,9 +288,10 @@
                             </div>
                         </div>
                     </div>
-                    <a href="{!! url('/') !!}/trip/{!! $resource->id !!}" class="btn btn-primary text-white w-100 my-3">
+                    <button type="button" onclick="location.href='{!! url('/') !!}/trip/{!! $resource->id !!}';"
+                            class="btn btn-primary text-white w-100 my-3">
                         اشتراك
-                    </a>
+                    </button>
                 </div>
             </div>
         </div>
