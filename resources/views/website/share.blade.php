@@ -99,7 +99,7 @@
                             src="{!! asset('storage/'.optional(optional($resource->user)->vehicle)->image ?? '') !!}"
                             class="route-image mb-3 mb-md-0 lazyload" alt=""/>
                     @else
-                        <img style="width: 100%;"
+                        <img
                              src="{!! asset( 'dashboard/assets/images/trip.png') !!}"
                              class="route-image mb-3 mb-md-0 lazyload" alt=""/>
                     @endif
