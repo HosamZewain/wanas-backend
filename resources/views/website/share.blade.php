@@ -132,8 +132,8 @@
                                             alt="check"
                                             class="check-image lazyload"/>
                                         <img
-                                            src="{!! asset('website/assets/img/ellipse.svg') !!}"
-                                            data-src="{!! asset('website/assets/img/ellipse.svg') !!}"
+                                            src="{!! asset('website/assets/img/Ellipse.svg') !!}"
+                                            data-src="{!! asset('website/assets/img/Ellipse.svg') !!}"
                                             alt="ellipse" class="ellipse-image lazyload"
                                         />
                                     </div>
