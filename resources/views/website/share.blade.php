@@ -117,7 +117,7 @@
                             <div class="d-flex align-items-center">
                                 <div class="flex-shrink-0">
                                     <div class="user">
-                                        @if (isset($resource->user->profile_image) )
+                                        @if (isset($resource->user->profile_image) && file_exists(base_path('storage/'.$resource->user->profile_image)))
                                             <img
                                                 src="{!! asset('storage/'.$resource->user->profile_image)  !!}"
                                                 class="user-image lazyload" alt=""/>
