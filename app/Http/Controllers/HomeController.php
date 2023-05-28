@@ -43,9 +43,9 @@ class HomeController extends Controller
      * @param $tripId
      * @return Application|Factory|View|RedirectResponse
      */
-    public function share($tripId)
+    public function share(Request $request)
     {
-        $resource = $this->tripRepository->find($tripId, ['user.vehicle', 'members']);
+        $resource = $this->tripRepository->find($request->id, ['user.vehicle', 'members']);
         if ($resource) {
             return view('website.share', compact('resource'));
         }
