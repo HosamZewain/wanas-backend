@@ -2,18 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\SQL\TripRepository;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
     /**
+     * @var TripRepository
+     */
+    private $tripRepository;
+
+    /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(TripRepository $tripRepository)
     {
+        $this->tripRepository = $tripRepository;
+
         //  $this->middleware('auth');
     }
 
@@ -27,6 +39,18 @@ class HomeController extends Controller
 
     }
 
+    /**
+     * @param $tripId
+     * @return Application|Factory|View|RedirectResponse
+     */
+    public function share($tripId)
+    {
+        $resource = $this->tripRepository->find($tripId, ['user.vehicle', 'members']);
+        if ($resource) {
+            return view('website.share', compact('resource'));
+        }
+        return redirect()->to(url('/'));
+    }
 
     public function translate($lang, $text): void
     {

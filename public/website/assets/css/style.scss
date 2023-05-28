@@ -1,14 +1,19 @@
 /* colors */
 
-$theme-colors: (primary: #4153DE,
-  secondary: #6884E1,
+$theme-colors: (
+  primary: #4153de,
+  secondary: #6884e1,
+  lightPrimary: #536dfe1a,
   dark: #141516,
-  orange: #FFC400,
-  semon: #F5F1D7,
+  orange: #ffc400,
+  semon: #f5f1d7,
+  lightOrange: #f3bb001a,
+  grayClr: #5d5e64,
+  lightGray: #8a8a8a,
   black: #000,
   white: #fff,
-  placeholder: #B8B8BA,
-  formControl: #F8F8F8,
+  placeholder: #b8b8ba,
+  formControl: #f8f8f8,
 
   selectionBg: #000,
   selectionColor: #fff,
@@ -27,10 +32,7 @@ $theme-colors: (primary: #4153DE,
   @return mix(black, $color, $weight);
 }
 
-
-@each $color,
-$value in $theme-colors {
-
+@each $color, $value in $theme-colors {
   .btn-light-#{$color},
   .bg-light-#{$color} {
     // color: $value !important;
@@ -50,7 +52,11 @@ $value in $theme-colors {
 
   .btn-gradient-#{$color},
   .bg-gradient-#{$color} {
-    background-image: linear-gradient(to right, shade-color($value, 22%), tint-color($value, 5.0%)) !important;
+    background-image: linear-gradient(
+      to right,
+      shade-color($value, 22%),
+      tint-color($value, 5%)
+    ) !important;
   }
 
   .border-light-#{$color} {
@@ -70,28 +76,23 @@ $value in $theme-colors {
   }
 
   .btn-light-#{$color} {
-
     &:hover,
     &:active,
     &:focus {
       background-color: $value !important;
       color: tint-color($value, 20%) !important;
-
     }
   }
 
   .btn-#{$color} {
-
     &:hover,
     &:active,
     &:focus {
       background-color: tint-color($value, 20%) !important;
       // color: $value !important;
-
     }
   }
 }
-
 
 ::-moz-selection {
   color: map_get($theme-colors, selectionColor);
@@ -154,7 +155,6 @@ $value in $theme-colors {
   @include border-radius(50px);
 }
 
-
 .btn:hover,
 .btn:focus,
 .btn.focus {
@@ -171,8 +171,6 @@ a,
 button {
   @include transition(all 0.5s ease-in-out);
 }
-
-
 
 .form-control {
   height: 45px;
@@ -191,7 +189,6 @@ textarea {
   opacity: 1;
   color: map_get($theme-colors, placeholder);
 }
-
 
 .owl-carousel {
   direction: ltr;
@@ -213,16 +210,15 @@ a:focus {
   align-items: center;
 }
 
-
 ul {
   padding: 0;
   margin: 0;
   list-style: none;
 }
 
-[type=button],
-[type=reset],
-[type=submit],
+[type="button"],
+[type="reset"],
+[type="submit"],
 button {
   -webkit-appearance: media-sliderthumb;
 }
@@ -237,8 +233,8 @@ p {
 }
 
 .btn {
-  height: 45px;
-  border-radius: 9px;
+  height: 50px;
+  @include border-radius(9px);
 }
 
 // paddings
@@ -246,13 +242,17 @@ p {
   padding-bottom: 90px;
 }
 
-// font sizes 
+// font sizes
 .fs14 {
   font-size: 14px;
 }
 
 .fs15 {
   font-size: 15px;
+}
+
+.fs16 {
+  font-size: 16px;
 }
 
 .fs37 {
@@ -302,7 +302,6 @@ p {
 
 /* end common style*/
 
-
 /* start loader */
 /* end loader */
 html {
@@ -321,9 +320,9 @@ html {
 
 body {
   margin: 0;
-  font-family: 'Bahij TheSansArabic-SemiLight', sans-serif;
+  font-family: "Bahij TheSansArabic-SemiLight", sans-serif;
   text-align: right;
-  background-color: #F2F9FF;
+  background-color: #f2f9ff;
   direction: rtl;
   color: map_get($theme-colors, dark);
 }
@@ -344,14 +343,13 @@ header {
   overflow: hidden;
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
     background-color: #2037f6b8;
     width: 100%;
     height: 100%;
-
   }
 
   &::before {
@@ -423,7 +421,8 @@ header {
         li {
           margin-right: 50px;
 
-          &.active {
+          &.active,
+          &:hover {
             a {
               color: map_get($theme-colors, orange);
               font-weight: bold;
@@ -460,7 +459,17 @@ header {
   .downloadLinks {
     width: 140px;
   }
-
+  &.inner-header {
+    height: auto;
+    .mainNav {
+      background: #4a4ecb;
+    }
+    .menu {
+      .menuLinks {
+        padding: 20px 20px 20px 155px;
+      }
+    }
+  }
 }
 
 .ltr {
@@ -511,7 +520,7 @@ header {
 
 // end wave
 
-// start about us 
+// start about us
 #about {
   padding-bottom: 50px;
   position: relative;
@@ -538,7 +547,7 @@ header {
   }
 }
 
-// end about us 
+// end about us
 
 // start downloadApp
 .downloadApp {
@@ -565,6 +574,10 @@ header {
 
   .downloadLinks {
     width: 180px;
+    @include transition(all 0.5s ease-in-out);
+    &:hover {
+      transform: scale(0.9);
+    }
   }
 }
 
@@ -578,8 +591,7 @@ header {
 
 // end downloadApp
 
-
-// start screens 
+// start screens
 
 .images-wrapper {
   display: flex;
@@ -613,10 +625,8 @@ header {
         width: 100%;
         display: block;
       }
-
     }
   }
-
 
   .frameImg {
     position: absolute;
@@ -638,7 +648,6 @@ header {
       }
     }
   }
-
 }
 
 .ltr {
@@ -651,9 +660,9 @@ header {
   }
 }
 
-// end screens 
+// end screens
 
-// start contactUs 
+// start contactUs
 
 #contactUs {
   background-color: map_get($theme-colors, semon);
@@ -707,9 +716,131 @@ header {
   }
 }
 
-// end contactUs 
+// end contactUs
 
-// start footer 
+// start share route page
+.page-info {
+  background: url(../img/map.png) top left / cover no-repeat;
+  position: relative;
+  margin-top: 63px;
+  .title {
+    min-height: 250px;
+    text-align: center;
+    h1 {
+      font-weight: bold;
+      font-size: 23px;
+    }
+  }
+}
+
+.route-image {
+  @include border-radius(15px);
+  width: 100%;
+  max-height: 580px;
+}
+
+.breadcrumb-item + {
+  .breadcrumb-item {
+    &::before {
+      font-family: "Font Awesome 5 Free";
+      font-weight: 900;
+      content: "\f100";
+      color: map_get($theme-colors, lightGray);
+    }
+  }
+}
+
+.route-details {
+  background-color: #fcfcfe;
+  .user {
+    position: relative;
+  }
+  .user-image {
+    @include border-radius(50%);
+    width: 60px;
+    height: 60px;
+    position: relative;
+    z-index: 1;
+  }
+  .check-image {
+    position: absolute;
+    bottom: -8px;
+    left: -2px;
+    z-index: 1;
+  }
+  .ellipse-image {
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    height: 69px;
+  }
+}
+
+.timeline {
+  border-inline-start: 1px dashed;
+  li {
+    padding-inline-start: 15px;
+    font-size: 14px;
+    position: relative;
+    margin-bottom: 30px;
+    line-height: 0;
+    color: map_get($theme-colors, grayClr);
+    &::before {
+      content: "";
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      @include border-radius(50%);
+      background-color: map_get($theme-colors, orange);
+      right: -5px;
+      top: -5px;
+      border: 1px solid;
+    }
+    &:last-child {
+      &::before {
+        background-color: map_get($theme-colors, primary);
+      }
+      margin-bottom: 0;
+    }
+  }
+}
+
+.svg-icon {
+  width: 37px;
+  height: 37px;
+  @include border-radius(7px);
+}
+
+.ltr {
+  .breadcrumb-item + {
+    .breadcrumb-item {
+      &::before {
+        content: "\f101";
+      }
+    }
+  }
+  .route-details {
+    .check-image {
+      right: -2px;
+      left: auto;
+    }
+    .ellipse-image {
+      right: auto;
+      left: -5px;
+      transform: rotateY(-180deg);
+    }
+  }
+  .timeline {
+    li {
+      &::before {
+        left: -5px;
+        right: auto;
+      }
+    }
+  }
+}
+
+// start footer
 footer {
   .footerLogo {
     width: 150px;
@@ -745,10 +876,9 @@ footer {
       color: map_get($theme-colors, primary);
     }
   }
-
 }
 
-// end footer 
+// end footer
 
 /*start scroll top */
 
@@ -769,9 +899,9 @@ footer {
   left: 15px;
 
   &:hover {
-    background-color: #FFF;
+    background-color: #fff;
     color: map_get($theme-colors, primary);
-    border: 2px solid map_get($theme-colors, primary)
+    border: 2px solid map_get($theme-colors, primary);
   }
 }
 
@@ -782,13 +912,11 @@ footer {
   }
 }
 
-
 /*end scroll-top*/
-
 
 /* Start Media Query */
 
-@media(max-width: 767px) {
+@media (max-width: 767px) {
   header {
     height: auto;
 
@@ -815,7 +943,6 @@ footer {
     }
 
     .mainNav {
-
       height: 60px;
 
       .menu {
@@ -836,7 +963,7 @@ footer {
         overflow: auto;
 
         &.ulDir {
-          right: 0
+          right: 0;
         }
 
         .user {
@@ -907,6 +1034,22 @@ footer {
     }
   }
 
+  .page-info {
+    .title {
+      h1 {
+        font-size: 20px;
+      }
+    }
+  }
+
+  p {
+    font-size: 13px;
+  }
+
+  .breadcrumb {
+    font-size: 14px;
+  }
+
   .images-wrapper {
     .frameImg {
       width: 100%;
@@ -935,7 +1078,6 @@ footer {
     .handPhone {
       width: 190px;
     }
-
   }
 
   #contactUs {
@@ -961,7 +1103,6 @@ footer {
       bottom: 8px;
     }
   }
-
 
   .ltr {
     header {
@@ -996,30 +1137,23 @@ footer {
       }
     }
   }
-
 }
-
 
 /*Small Screen*/
 
-@media(min-width: 768px) and (max-width: 991px) {
-
-
+@media (min-width: 768px) and (max-width: 991px) {
   .fs37 {
     font-size: 28px;
   }
 
   header {
-
     height: 60vh;
 
     .mainNav {
-
       .menu {
         justify-content: center !important;
 
         .menuLinks {
-
           padding: 30px 30px !important;
 
           li {
@@ -1035,7 +1169,6 @@ footer {
       position: unset;
       width: 100%;
     }
-
   }
 
   .waveShape {
@@ -1070,29 +1203,23 @@ footer {
   }
 
   .ltr {
-
     #about {
       .shapes {
         right: 25px;
       }
     }
   }
-
 }
-
 
 /*Medium Screen*/
 
-@media(min-width: 992px) and (max-width: 1199px) {
+@media (min-width: 992px) and (max-width: 1199px) {
   header {
-
     .mainNav {
-
       .menu {
         justify-content: center !important;
 
         .menuLinks {
-
           padding: 30px 30px !important;
 
           li {
@@ -1108,7 +1235,6 @@ footer {
       position: unset;
       width: 100%;
     }
-
   }
 
   #about {
@@ -1128,10 +1254,9 @@ footer {
   }
 }
 
-@media(min-width: 1200px) {}
-
+@media (min-width: 1200px) {
+}
 
 /*Larger Screen*/
-
 
 /* End Media Query */

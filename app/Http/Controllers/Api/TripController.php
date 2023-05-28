@@ -52,7 +52,7 @@ class TripController extends ApiBaseController
         $filters['Date'] = $request->date;
         $filters['TripType'] = $request->type;
         $filters['StatusByDate'] = Carbon::now();
-        $filters['CountryId'] = $request->user()->country_id ?? null;
+      //  $filters['CountryId'] = $request->user()->country_id ?? null;
 
         $resources = $this->tripRepository->search($filters, ['user','attachments'], false, true, false);
 

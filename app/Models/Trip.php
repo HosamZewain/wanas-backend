@@ -21,7 +21,7 @@ class Trip extends Model
 
 
     protected $table = 'trips';
-    protected $appends = ['is_member', 'trip_name', 'booked', 'PickUpText', 'DropText'];
+    protected $appends = ['is_member', 'trip_title', 'booked', 'PickUpText', 'DropText'];
     protected $fillable = [
         'user_id',
         'pickup_address',
@@ -148,6 +148,7 @@ class Trip extends Model
     {
         return $this->morphMany(Attachment::class, 'attachmentable');
     }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -228,16 +229,21 @@ class Trip extends Model
         return false;
     }
 
-    public function getTripNameAttribute()
+    public function getTripTitleAttribute()
     {
-        return ' من  '
-            . ($this->fromCity->LName ?? '') . ','
-            . $this->pickup_address
-            . ' إلى  '
-            . ($this->ToCity->LName ?? '')
-            . ',' . $this->drop_off_address
-            . '  ميعاد قيام الرحلة :  '
-            . Carbon::parse($this->trip_date)->format('Y-m-d')
-            . ' - (' . $this->trip_time . ')';
+        if ($this->trip_type == self::TYPE_EVENT) {
+            return $this->trip_name ?? 'رحلة';
+        } else {
+            return ' من  '
+                . ($this->fromCity->LName ?? '') . ','
+                . $this->pickup_address
+                . ' إلى  '
+                . ($this->ToCity->LName ?? '')
+                . ',' . $this->drop_off_address
+                . '  ميعاد قيام الرحلة :  '
+                . Carbon::parse($this->trip_date)->format('Y-m-d')
+                . ' - (' . $this->trip_time . ')';
+        }
+
     }
 }

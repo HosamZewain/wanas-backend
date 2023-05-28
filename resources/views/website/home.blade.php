@@ -76,16 +76,13 @@
         </div>
 
     </header>
-
     <!--end header-->
-
     <!-- start waves -->
     <div class="waveShape">
         <img src="{!! asset('website/assets/img/waves.png') !!}"
              data-src="{!! asset('website/assets/img/waves.png') !!}" class="headerWaves lazyload" alt="wave">
     </div>
     <!-- end waves -->
-
     <!-- start about wanas  -->
     <div id="about">
         <div class="container">
