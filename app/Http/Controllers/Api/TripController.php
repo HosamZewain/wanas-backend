@@ -14,6 +14,7 @@ use App\Repositories\SQL\UserRepository;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Validator;
 
 class TripController extends ApiBaseController
@@ -47,18 +48,21 @@ class TripController extends ApiBaseController
     {
         $filters['PickUpAddress'] = $request->pickup_address;
         $filters['DropOffAddress'] = $request->drop_off_address;
-        // $filters['FromCityIdSearch'] = $request->from_city_id ?? ($request->pickup_address ?? '');
-        //    $filters['ToCityIdSearch'] = $request->to_city_id ?? ($request->drop_off_address ?? '');
-        $filters['Date'] = $request->date;
+        $filters['FromCityIdSearch'] = $request->from_city_id ?? '';
+        $filters['ToCityIdSearch'] = $request->to_city_id ?? '';
+      //  $filters['Date'] = $request->date;
+        $filters['Dates'] = [$request->FromDate, $request->ToDate];
         $filters['TripType'] = $request->type;
         $filters['StatusByDate'] = Carbon::now();
-      //  $filters['CountryId'] = $request->user()->country_id ?? null;
+        $filters['FromGovernorateId'] = $request->from_governorate_id ?? '';
+        $filters['ToGovernorateId'] = $request->to_governorate_id ?? '';
+        //  $filters['CountryId'] = $request->user()->country_id ?? null;
 
-        $resources = $this->tripRepository->search($filters, ['user','attachments'], false, true, false);
+        $trips = $this->tripRepository->search($filters, ['user', 'attachments'], true, true, false);
 
-        if ($resources) {
-
-            $resources = TripResource::collection($resources);
+        if ($trips) {
+            $resources = TripResource::collection($trips);
+            $resources = new LengthAwarePaginator($resources, $trips->total(), $trips->perPage());
             return $this->respondWithSuccess(__('messages.data_found'), $resources);
         }
         return $this->respondWithErrors(__('messages.no_data_found'), 422, null, __('messages.error'));

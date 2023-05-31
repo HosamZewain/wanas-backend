@@ -49,6 +49,9 @@ class Trip extends Model
         'Date',
         'FromCityId',
         'FromCityIdSearch',
+        'FromGovernorateId',
+        'ToGovernorateId',
+        'Dates',
         'ToCityId',
         'ToCityIdSearch',
         'TripType',
@@ -56,6 +59,22 @@ class Trip extends Model
 
 
     /************scopes****************/
+    public function scopeOfDate($query, $value)
+    {
+        if (empty($value)) {
+            return $query;
+        }
+        return $query->whereDate('trip_date', $value);
+    }
+
+    public function scopeOfDates($query, $value)
+    {
+        if (!isset($value) && empty($value[0])) {
+            return $query;
+        }
+        return $query->whereBetween('trip_date', [$value[0], $value[1]]);
+    }
+
     public function scopeOfTripType($query, $value)
     {
         if (empty($value)) {
@@ -94,13 +113,6 @@ class Trip extends Model
             });
     }
 
-    public function scopeOfDate($query, $value)
-    {
-        if (empty($value)) {
-            return $query;
-        }
-        return $query->whereDate('trip_date', $value);
-    }
 
     public function scopeOfFromCityId($query, $value)
     {
@@ -109,6 +121,26 @@ class Trip extends Model
         }
 
         return $query->where('from_city_id', $value);
+    }
+
+    public function scopeOfFromGovernorateId($query, $value)
+    {
+        if (empty($value)) {
+            return $query;
+        }
+        return $query->whereHas('fromCity', function ($query) use ($value) {
+            $query->where('governorates_id', $value);
+        });
+    }
+
+    public function scopeOfToGovernorateId($query, $value)
+    {
+        if (empty($value)) {
+            return $query;
+        }
+        return $query->whereHas('ToCity', function ($query) use ($value) {
+            $query->where('governorates_id', $value);
+        });
     }
 
     public function scopeOfFromCityIdSearch($query, $value)
@@ -143,7 +175,6 @@ class Trip extends Model
     }
 
     /************relations*************/
-
     public function attachments(): MorphMany
     {
         return $this->morphMany(Attachment::class, 'attachmentable');
