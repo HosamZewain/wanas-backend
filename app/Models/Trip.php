@@ -42,8 +42,6 @@ class Trip extends Model
         'trip_type',
         'trip_vehicle_type'
     ];
-
-
     protected $filters = ['PickUpAddress',
         'DropOffAddress',
         'Date',
@@ -55,10 +53,20 @@ class Trip extends Model
         'ToCityId',
         'ToCityIdSearch',
         'TripType',
+        'Gender',
         'StatusByDate'];
-
-
     /************scopes****************/
+
+    public function scopeOfGender($query, $value)
+    {
+        if (empty($value)) {
+            return $query;
+        }
+        return $query->whereHas('user',function($query , $value){
+            return $query->where('gender', $value);
+        });
+    }
+
     public function scopeOfDate($query, $value)
     {
         if (empty($value)) {

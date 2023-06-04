@@ -53,6 +53,7 @@ class TripController extends ApiBaseController
       //  $filters['Date'] = $request->date;
         $filters['Dates'] = [$request->FromDate, $request->ToDate];
         $filters['TripType'] = $request->type;
+        $filters['Gender'] = $request->gender;
         $filters['StatusByDate'] = Carbon::now();
         $filters['FromGovernorateId'] = $request->from_governorate_id ?? '';
         $filters['ToGovernorateId'] = $request->to_governorate_id ?? '';
