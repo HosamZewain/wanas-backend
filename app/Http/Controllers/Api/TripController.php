@@ -46,15 +46,14 @@ class TripController extends ApiBaseController
      */
     public function tripsList(Request $request): JsonResponse
     {
-        $filters['PickUpAddress'] = $request->pickup_address;
-        $filters['DropOffAddress'] = $request->drop_off_address;
-        $filters['FromCityIdSearch'] = $request->from_city_id ?? '';
-        $filters['ToCityIdSearch'] = $request->to_city_id ?? '';
-      //  $filters['Date'] = $request->date;
+    //    $filters['PickUpAddress'] = $request->pickup_address;
+    //    $filters['DropOffAddress'] = $request->drop_off_address;
         $filters['Dates'] = [$request->FromDate, $request->ToDate];
         $filters['TripType'] = $request->type;
         $filters['Gender'] = $request->gender;
         $filters['StatusByDate'] = Carbon::now();
+        $filters['FromCityIdSearch'] = $request->from_city_id ?? '';
+        $filters['ToCityIdSearch'] = $request->to_city_id ?? '';
         $filters['FromGovernorateId'] = $request->from_governorate_id ?? '';
         $filters['ToGovernorateId'] = $request->to_governorate_id ?? '';
         //  $filters['CountryId'] = $request->user()->country_id ?? null;
