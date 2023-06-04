@@ -77,7 +77,7 @@ class Trip extends Model
 
     public function scopeOfDates($query, $value)
     {
-        if (empty($value)) {
+        if (!isset($value[0])) {
             return $query;
         }
         return $query->whereBetween('trip_date', [$value[0], $value[1]]);
