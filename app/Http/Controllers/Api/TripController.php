@@ -50,7 +50,7 @@ class TripController extends ApiBaseController
     //    $filters['DropOffAddress'] = $request->drop_off_address;
         $filters['Dates'] = [$request->FromDate, $request->ToDate];
         $filters['TripType'] = $request->type;
-        $filters['Gender'] = $request->gender;
+        $filters['GenderType'] = $request->gender;
         $filters['StatusByDate'] = Carbon::now();
         $filters['FromCityIdSearch'] = $request->from_city_id ?? '';
         $filters['ToCityIdSearch'] = $request->to_city_id ?? '';

@@ -53,17 +53,17 @@ class Trip extends Model
         'ToCityId',
         'ToCityIdSearch',
         'TripType',
-        'Gender',
+        'GenderType',
         'StatusByDate'];
     /************scopes****************/
 
-    public function scopeOfGender($query, $value)
+    public function scopeOfGenderType($query, $value)
     {
         if (empty($value)) {
             return $query;
         }
-        return $query->whereHas('user',function($query , $value){
-            return $query->where('gender', $value);
+        return $query->whereHas('user',function($query) use ($value){
+             $query->where('gender', $value);
         });
     }
 
