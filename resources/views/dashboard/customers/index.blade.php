@@ -47,7 +47,7 @@
                                     <td>{!! __("dashboard.gender_list")[$resource->gender] !!}</td>
                                     <td>{!! $resource->created_at !!}</td>
                                     <td>
-                                        @if($resource->is_verified)
+                                        @if($resource->status == \App\Models\User::STATUS_ACTIVE)
                                             <button
                                                 data-toggle="tooltip" data-placement="top"
                                                 title="{!! __('dashboard.confirmed') !!}"
