@@ -207,7 +207,7 @@ class CustomerController extends Controller
         $customer = $this->userRepository->find($request->customer_id, ['fcmTokens']);
         if ($customer) {
             $this->userRepository->update($customer, [
-                'is_verified' => true,
+                'status' => User::ACTIVE,
             ]);
         }
         $title = 'تم تأكيد بياناتك ';
