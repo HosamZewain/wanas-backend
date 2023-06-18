@@ -48,6 +48,9 @@ Route::middleware(['auth:web'])->prefix('admin')->group(function () {
     Route::POST('customers_confirm', [\App\Http\Controllers\Admin\CustomerController::class, 'confirm'])->name('customers.confirm');
     Route::get('customers_attachments_confirm', [\App\Http\Controllers\Admin\CustomerController::class, 'changeStatusAttachment'])->name('customers.attachments.change_status');
 
+    Route::get('customers_verify_form/{id}', [\App\Http\Controllers\Admin\CustomerController::class, 'verifyForm'])->name('customers.verifyForm');
+    Route::POST('customers_verify', [\App\Http\Controllers\Admin\CustomerController::class, 'verify'])->name('customers.verify');
+
     Route::get('vehicles_confirm/{id}', [\App\Http\Controllers\Admin\UserVehicleController::class, 'confirmForm'])->name('user_vehicles.confirmForm');
     Route::POST('user_vehicles_confirm', [\App\Http\Controllers\Admin\UserVehicleController::class, 'confirm'])->name('user_vehicles.confirm');
 });

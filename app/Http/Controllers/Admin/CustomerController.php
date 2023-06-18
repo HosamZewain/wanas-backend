@@ -112,10 +112,7 @@ class CustomerController extends Controller
     public function confirmForm($id)
     {
         $data = $this->userRepository->find($id, ['attachments']);
-
-
         $resource = new UserResource($data);
-
         $view = view('dashboard.customers.partials._confirm', compact('resource'))->render();
         return response()->json(['msg' => trans('dashboard.deleted_successfully'), 'data' => $view]);
     }
@@ -189,6 +186,37 @@ class CustomerController extends Controller
             $this->notificationRepository->sendNotification($customer, $body, $title, $parameters);
 
 
+        $resource = new UserResource($customer);
+        return response()->json(['msg' => trans('dashboard.approved'), 'data' => $resource], 200);
+
+    }
+
+    //verifyForm
+    public function verifyForm($id)
+    {
+        $data = $this->userRepository->find($id, ['attachments']);
+        $resource = new UserResource($data);
+        $view = view('dashboard.customers.partials._verify', compact('resource'))->render();
+        return response()->json(['msg' => trans('dashboard.updated_successfully'), 'data' => $view]);
+
+    }
+
+
+    public function verify(Request $request): JsonResponse
+    {
+        $customer = $this->userRepository->find($request->customer_id, ['fcmTokens']);
+        if ($customer) {
+            $this->userRepository->update($customer, [
+                'is_verified' => true,
+            ]);
+        }
+        $title = 'تم تأكيد بياناتك ';
+        $body = "تم تأكيد بياناتك بنجاح ، يمكنك الان حجز الرحلات المفضلة لديك";
+        $parameters['type'] = Notification::TYPE_CONFIRM_USER;
+        $parameters['member_id'] = $request->user()->id;
+        $parameters['model_id'] = $customer->id;
+        $parameters['model_type'] = get_class($customer);
+        $this->notificationRepository->sendNotification($customer, $body, $title, $parameters);
         $resource = new UserResource($customer);
         return response()->json(['msg' => trans('dashboard.approved'), 'data' => $resource], 200);
 

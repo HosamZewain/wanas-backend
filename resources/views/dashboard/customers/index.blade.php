@@ -47,6 +47,26 @@
                                     <td>{!! __("dashboard.gender_list")[$resource->gender] !!}</td>
                                     <td>{!! $resource->created_at !!}</td>
                                     <td>
+                                        @if($resource->is_verified)
+                                            <button
+                                                data-toggle="tooltip" data-placement="top"
+                                                title="{!! __('dashboard.confirmed') !!}"
+                                                data-id="{!! $resource->id !!}"
+                                                data-route="{!! route('customers.verifyForm',$resource->id) !!}"
+                                                class="open_modal btn btn-success  mt-2 btn-sm">
+                                                <i class="fas fa-2x fa-user-check"></i>
+                                            </button>
+                                        @else
+                                            <button
+                                                data-toggle="tooltip" data-placement="top"
+                                                title="{!! __('dashboard.confirm') !!}"
+                                                data-id="{!! $resource->id !!}"
+                                                data-route="{!! route('customers.verifyForm',$resource->id) !!}"
+                                                class="open_modal btn btn-danger mt-2 btn-sm">
+                                                <i class="fas fa-2x fa-user-times"></i>
+                                            </button>
+                                        @endif
+
                                         @if(!$resource->UnConfirmed)
                                             <span
                                                 data-toggle="tooltip" data-placement="top"
