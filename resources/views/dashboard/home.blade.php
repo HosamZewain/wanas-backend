@@ -89,13 +89,13 @@
 @endsection
 
 @push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.0/main.min.js"
+    <script src="https://fastly.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"
             integrity="sha256-vB0AxkwD8fMGdgwuIfLl+VhH2pFA0ZtJdAJe4OHRKcs=" crossorigin="anonymous"></script>
     <script
-        src="https://cdn.jsdelivr.net/combine/npm/fullcalendar@5.7.0/main.js,npm/fullcalendar@5.7.0/locales-all.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.0/main.js"
+        src="https://fastly.jsdelivr.net/combine/npm/fullcalendar@5.7.0/main.js,npm/fullcalendar@5.7.0/locales-all.min.js"></script>
+    <script src="https://fastly.jsdelivr.net/npm/fullcalendar@5.7.0/main.js"
             integrity="sha256-UYwUI07v3ZaBPEu6HOJIokV15Zeh2Xj/bGT+MxtA0l0=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.0/locales-all.min.js"
+    <script src="https://fastly.jsdelivr.net/npm/fullcalendar@5.7.0/locales-all.min.js"
             integrity="sha256-6TW9hevn9VV+Dk6OtclSzIjH05B6f2WWhJ/PQgy7m7s=" crossorigin="anonymous"></script>
 
     <script>

@@ -15,8 +15,8 @@
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"> -->
 
     <!-- bootstrap 5 if arabic -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css"
-          integrity="sha384-gXt9imSW0VcJVHezoNQsP+TNrjYXoGcrqBZJpry9zJt8PCQjobwmhMGaDHTASo9N" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.rtl.min.css"
+          integrity="sha512-LbSN0zUc47h+h7KpimHiKIjJWcf2lLP5+mtzJFXcklWfITRR1pv4+qWFkHt5qIAdy8RrX7ejRym0JxtKj6I45w==" crossorigin="anonymous">
 
     <!-- Font Awesome -->
 
