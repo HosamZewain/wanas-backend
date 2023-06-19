@@ -33,16 +33,16 @@ class CustomerController extends Controller
 
     public function index(Request $request)
     {
-        $filters['Keyword'] =$request->keyword;
+        $filters['Keyword'] = $request->keyword;
         $filters['Type'] = User::TYPE_USER;
         $filters['UnConfirmed'] = $request->unconfirmed;
-        $resources = $this->userRepository->search($filters, [], true, true);
+        $resources = $this->userRepository->search($filters, [], true, true, false, 'created_at', 'desc');
         return view('dashboard.customers.index', compact('resources'));
     }
 
     public function create()
     {
-        $countries = $this->countryRepository->search([], [], true, false,false);
+        $countries = $this->countryRepository->search([], [], true, false, false);
         return view('dashboard.customers.create', compact('countries'));
     }
 
@@ -67,16 +67,17 @@ class CustomerController extends Controller
     public function edit($id)
     {
         $resource = $this->userRepository->find($id);
-        $countries = $this->countryRepository->search([], [], true, false,false);
-        return view('dashboard.customers.edit', compact('resource','countries'));
+        $countries = $this->countryRepository->search([], [], true, false, false);
+        return view('dashboard.customers.edit', compact('resource', 'countries'));
     }
+
     public function show($id)
     {
         $resource = $this->userRepository->find($id);
 
 
-        $countries = $this->countryRepository->search([], [], true, false,false);
-        return view('dashboard.customers.show', compact('resource','countries'));
+        $countries = $this->countryRepository->search([], [], true, false, false);
+        return view('dashboard.customers.show', compact('resource', 'countries'));
     }
 
     /**
@@ -130,7 +131,7 @@ class CustomerController extends Controller
             ]);
 
             $user = $this->userRepository->find($request->userId, ['fcmTokens']);
-            if ($user && $request->status == 'disapprove' ) {
+            if ($user && $request->status == 'disapprove') {
                 $title = __('dashboard.attachment_disapproved', ['name' => $fileName, 'username' => $user->name]);
                 $body = __('dashboard.attachment_disapproved_body', ['name' => $fileName, 'notes' => $request->statusText]);
                 $parameters['type'] = Notification::TYPE_BOOK_DISAPPROVED;
@@ -154,7 +155,7 @@ class CustomerController extends Controller
                 $parameters['model_id'] = $user->id;
                 $parameters['model_type'] = get_class($user);
                 $this->notificationRepository->sendNotification($user, $body, $title, $parameters);
-              //  return response()->json(['msg' => trans('dashboard.data_confirmed'), 'data' => $file], 200);
+                //  return response()->json(['msg' => trans('dashboard.data_confirmed'), 'data' => $file], 200);
             }
 //            if ($user && $request->status == 'approve' && count($user->fcmTokens)) {
 //                $title = __('dashboard.attachment_approved', ['name' => $fileName, 'username' => $user->name]);
@@ -178,13 +179,13 @@ class CustomerController extends Controller
                 'is_verified' => true,
             ]);
         }
-            $title = 'تم تأكيد بياناتك ';
-            $body = "تم تأكيد بياناتك بنجاح ، يمكنك الان حجز الرحلات المفضلة لديك";
-            $parameters['type'] = Notification::TYPE_CONFIRM_USER;
-            $parameters['member_id'] = $request->user()->id;
-            $parameters['model_id'] = $customer->id;
-            $parameters['model_type'] = get_class($customer);
-            $this->notificationRepository->sendNotification($customer, $body, $title, $parameters);
+        $title = 'تم تأكيد بياناتك ';
+        $body = "تم تأكيد بياناتك بنجاح ، يمكنك الان حجز الرحلات المفضلة لديك";
+        $parameters['type'] = Notification::TYPE_CONFIRM_USER;
+        $parameters['member_id'] = $request->user()->id;
+        $parameters['model_id'] = $customer->id;
+        $parameters['model_type'] = get_class($customer);
+        $this->notificationRepository->sendNotification($customer, $body, $title, $parameters);
 
 
         $resource = new UserResource($customer);
