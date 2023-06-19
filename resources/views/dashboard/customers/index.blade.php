@@ -25,7 +25,7 @@
                 <div class="row">
                     <div class="col-md-3">
                         <div class="input-group">
-                            <input type="text" name="keyword" class="form-control bg-white"
+                            <input type="text" name="keyword" value="{!! Request()->keyword  ?? '' !!}" class="form-control bg-white"
                                    placeholder="{!! __('dashboard.search') !!}">
                             <span class="input-group-addon">
                         <button type="submit" class="btn btn-primary ">
