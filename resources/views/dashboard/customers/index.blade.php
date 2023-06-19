@@ -19,6 +19,25 @@
     ])
 @section('content')
     <div class="row clearfix">
+        <div class="col-md-12">
+            {{--add form search with keyword--}}
+            <form action="{!! route('customers.index') !!}" method="get">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <input type="text" name="keyword" class="form-control bg-white"
+                                   placeholder="{!! __('dashboard.search') !!}">
+                            <span class="input-group-addon">
+                        <button type="submit" class="btn btn-primary ">
+                            <i class="zmdi zmdi-search"></i>
+                        </button>
+                    </span>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            {{--end form search with keyword--}}
+        </div>
         <div class="col-md-12 col-sm-12 col-xs-12">
             @if (count($resources))
                 <div class="card project_list">

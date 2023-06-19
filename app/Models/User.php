@@ -24,7 +24,7 @@ class User extends Authenticatable
     public const GENDER_MALE = 1;
     public const GENDER_FEMALE = 2;
 
-    protected $filters = ['Type', 'UnConfirmed'];
+    protected $filters = ['Type', 'UnConfirmed','Keyword'];
     protected $appends = [ 'UnConfirmed'];
     protected $fillable = [
         'name',
@@ -66,6 +66,14 @@ class User extends Authenticatable
     ];
 
     /*****************scopes********************/
+    public function scopeOfKeyword($query, $value)
+    {
+        return $query->where(static function ($query) use ($value) {
+            $query->where('name', 'like', "%{$value}%")
+                ->orWhere('email', 'like', "%{$value}%")
+                ->orWhere('mobile', 'like', "%{$value}%");
+        });
+    }
     public function scopeOfType($query, $value)
     {
         return $query->where('type', $value);

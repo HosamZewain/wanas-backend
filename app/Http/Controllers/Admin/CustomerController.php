@@ -33,6 +33,7 @@ class CustomerController extends Controller
 
     public function index(Request $request)
     {
+        $filters['Keyword'] =$request->keyword;
         $filters['Type'] = User::TYPE_USER;
         $filters['UnConfirmed'] = $request->unconfirmed;
         $resources = $this->userRepository->search($filters, [], true, true);

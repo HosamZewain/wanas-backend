@@ -8,8 +8,8 @@ return [
     'name' => 'الإسم ',
     'email' => 'البريد الإلكترونى',
     'mobile' => 'رقم الهاتف',
-    'birth_date'=>'تاريخ الميلاد',
-    'country_id'=>'الدولة ',
+    'birth_date' => 'تاريخ الميلاد',
+    'country_id' => 'الدولة ',
     'password' => 'كلمة المرور',
     'save' => 'حفظ',
     'edit' => 'تعديل',
@@ -84,4 +84,5 @@ return [
     'attachment_disapproved_body' => 'شكرًا لك على الوقت الذي استغرقته لإرفاق (:name) ولكنها تخالف معايير الأمان لدى ونس  يرجى إرفاق صورة أخرى،  :notes',
     'attachment_approved' => 'عزيزي :username ، يرجى العلم انه تمت تأكيد والموافقة على  (:name)  لدى ونـس',
     'attachment_approved_body' => ' تم الموافقة وتأكيد  (:name)  شكرًا لك  ،  :notes',
+    'search' => 'بحث',
 ];
