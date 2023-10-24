@@ -3,15 +3,19 @@
 namespace App\Models;
 
 use App\Constants\FileConstants;
+use App\Constants\GenderConstants;
+use App\Constants\UserStatusConstants;
+use App\Constants\UserTypeConstants;
 use App\Traits\ModelTrait;
 use App\Traits\SearchTrait;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticated;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\Translatable\HasTranslations;
@@ -27,7 +31,17 @@ class User extends Authenticated
      * @var array<int, string>
      */
     protected $fillable = [
-        'name', 'email', 'password','phone','country_code','need_logout'
+        'name',
+        'email',
+        'password',
+        'phone',
+        'activation_code',
+        'birth_date',
+        'notification_active',
+        'rate',
+        'gender',
+        'status',
+        'type',
     ];
 
     /**
@@ -47,22 +61,40 @@ class User extends Authenticated
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'gender' => GenderConstants::class,
+        'status' => UserStatusConstants::class,
+        'type' => UserTypeConstants::class
     ];
-    protected array $filters = ['keyword', 'role', 'roleName', 'email'];
-    public array $filterModels = ['Role'];
-    public array $filterCustom = ['employmentAttachments'];
-    protected array $searchable = ['name', 'email','employee.personal_email','employee.job_title'];
-    public array $translatable = ['name'];
+    protected array $filters = ['keyword'];
+    public array $filterModels = [];
+    public array $filterCustom = [];
+    protected array $searchable = ['name', 'email','phone'];
+    public array $translatable = [];
 
     //---------------------relations-------------------------------------
-    public function employee(): HasOne
+   
+    public function profileImage(): MorphOne
     {
-        return $this->hasOne(Employee::class);
+        return $this->morphOne(File::class, 'fileable')
+            ->where('type', FileConstants::PROFILE_IMAGE->value);
     }
 
-    public function customer(): HasOne
+    public function civilImage(): MorphOne
     {
-        return $this->hasOne(Customer::class);
+        return $this->morphOne(File::class, 'fileable')
+            ->where('type', FileConstants::CIVIL_IMAGE->value);
+    }
+
+    public function civilImageFront(): MorphOne
+    {
+        return $this->morphOne(File::class, 'fileable')
+            ->where('type', FileConstants::CIVIL_IMAGE_FRONT->value);
+    }
+
+    public function civilImageBack(): MorphOne
+    {
+        return $this->morphOne(File::class, 'fileable')
+            ->where('type', FileConstants::CIVIL_IMAGE_BACK->value);
     }
 
     public function notifications(): HasMany
@@ -73,35 +105,18 @@ class User extends Authenticated
     //---------------------relations-------------------------------------
 
     // ----------------------- Scopes -----------------------
-    public function scopeOfRole($query, $value)
-    {
-        return $query->whereHas('roles', function ($query) use ($value) {
-            $query->where('id', $value);
-        });
-    }
-
-    public function scopeOfRoleName($query, $value)
-    {
-        return $query->whereHas('roles', function ($query) use ($value) {
-            $query->where('name', $value);
-        });
-    }
 
     // ----------------------- Scopes -----------------------
 
-    // --------------------- custom filters data -------------------
-    public static function employmentAttachments(): array
+    // --------------------- Attributes ---------------------
+    
+    public function password(): Attribute
     {
-        return FileConstants::employmentAttachmentTypes();
+        return Attribute::make(
+            set: fn($value) => bcrypt($value)
+        );
     }
-    // --------------------- custom filters data -------------------
-
-    public function setPasswordAttribute($input): void
-    {
-        if ($input) {
-            $this->attributes['password'] = app('hash')->needsRehash($input) ? Hash::make($input) : $input;
-        }
-    }
+    // --------------------- Attributes ---------------------
 
     public function routeNotificationForFcm(): array|string
     {

@@ -24,25 +24,16 @@ class UsersTableSeeder extends Seeder
         $permissions = Permission::where('guard_name', 'sanctum')->get();
         $role = Role::findOrCreate('admin', 'sanctum');
         $role->givePermissionTo($permissions);
-        $user = User::where('email' , 'admin@admin.com')->first();
+        $user = User::where('email' , 'admin@wanas.com')->first();
         if (!$user){
             try {
                 DB::transaction(static function() use ($role){
-                    $user = User::firstOrCreate([ 'email' => 'admin@admin.com'],[
+                    $user = User::firstOrCreate(['email' => 'admin@wanas.com'],[
                         'name' => 'admin',
-                        'email' => 'admin@admin.com',
+                        'email' => 'admin@wanas.com',
                         'phone' => 12345678910,
-                        'password' => 123456
+                        'password' => 'WanasP@ssw0rd'
                     ]);
-                    $employee = [
-                        "user_id" => $user->id,
-                        "gender" => 1,
-                        "is_active" => true,
-                        "personal_email" => 'admin@admin.com',
-                        "department_id" => 1,
-                        "date_of_birth" => "2023-05-28",
-                    ];
-                    Employee::create($employee);
                     $user->assignRole($role);
                 });
             }catch (Exception $e) {

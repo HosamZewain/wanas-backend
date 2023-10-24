@@ -26,12 +26,11 @@ class LoginController extends BaseApiController
             'password' => ['required'],
         ]);
         if (Auth::attempt($credentials)) {
-            if (!Auth::user()->customer?->is_active && !Auth::user()->employee?->is_active) {
+            if (!Auth::user()->is_active) {
                 Auth::logout();
                 return $this->errorWrongArgs(__json('messages.not_active'));
             }
-            $user = $request->user()->load('roles', 'permissions', 'employee.avatar',
-                'employee.user', 'customer.user', 'customer.avatar', 'tokens');
+            $user = $request->user()->load('roles', 'permissions', 'profileImage','tokens');
             return $this->respondWithModel($user);
         }
         return $this->errorWrongArgs('Wrong Credentials');

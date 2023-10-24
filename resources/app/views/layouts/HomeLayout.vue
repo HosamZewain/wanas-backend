@@ -11,7 +11,7 @@ const isAuth = userStore.user?.id;
     <div class="auth-content min-vh-100">
         <div class="container-fluid">
             <div class="row no-gutters">
-                home
+                <h1>WEBSITE</h1>
             </div>
         </div>
     </div>

@@ -20,15 +20,9 @@ async function handleLogin() {
     useAuthUserStore()
         .login(loginForm)
         .then(() => {
-            if (store.user.roles.split(",").includes("customer")) {
-                router.push({
-                    path: "/customer/dashboard",
-                });
-            } else {
-                router.push({
-                    path: "/dashboard",
-                });
-            }
+            router.push({
+                path: "/dashboard",
+            });
         })
         .catch((error) => {
             console.log(error);
@@ -42,8 +36,7 @@ async function handleLogin() {
 </script>
 
 <template>
-    <!-- <div class="auth-content min-vh-100"  :style="{background:`url(${publicPath}/assets/images/bg.png) no-repeat center left/100% 100%`}"> -->
-    <div class="auth-content min-vh-100">
+    <div class="auth-content min-vh-100"  :style="{background:`url(${publicPath}/assets/images/bg.png) no-repeat center left/100% 100%`}">
         <div class="container-fluid">
             <div class="row no-gutters">
                 <!-- discription -->
@@ -57,7 +50,7 @@ async function handleLogin() {
                     </div>
                     <h1 class="main-heder text-center mb-5">Login</h1>
                     <p class="text-center main-p text-capitalize mb-5">
-                        roqay operations mangement system
+                        Wanas
                     </p>
 
                     <div class="authForm mb-3">
@@ -88,9 +81,9 @@ async function handleLogin() {
                                 </div>
 
                                 <div class="mb-4">
-                                    <router-link :to="{name:'customer_forgot_password'}" class="forgotPass text-white">
+                                    <!-- <router-link :to="{name:'customer_forgot_password'}" class="forgotPass text-white">
                                         {{ $t("pages.forgot_password") }}
-                                    </router-link>
+                                    </router-link> -->
                                 </div>
                             </div>
 
@@ -109,11 +102,6 @@ async function handleLogin() {
                             >
                                 <span class="or">OR</span>
                             </div>
-
-                            <router-link :to="{name:'customer_register'}" class="signUp">
-                                Don't have an account?
-                                <span class="fw-bold">Sign up here!</span>
-                            </router-link>
                         </form>
                     </div>
                 </div>
@@ -129,32 +117,4 @@ async function handleLogin() {
         </div>
     </div>
 
-    <!-- <div class="d-flex flex-column align-items-center justify-content-center min-vh-100">
-        <div class="authForm mx-auto">
-            <div class="text-center mb-2">
-                <img :src="`${publicPath}/assets/images/d1-logo.png`" class="header-brand-img" alt="logo">
-            </div>
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="text-center fs-20">{{ $t('global.sign_in_message') }}</h4>
-                    <el-form label-position="top">
-                        <div class="mb-3">
-                            <form-input label="pages.email" type="email" :model="loginForm" name="email"
-                                :errors="errors.value" />
-                        </div>
-                        <div class="mb-3">
-                            <form-input label="pages.password" type="password" :model="loginForm" name="password"
-                                :errors="errors.value" />
-                        </div>
-                        <button type="submit" @click.prevent="handleLogin" class="btn ripple btn-primary w-100">
-                            {{ $t('global.sign_in') }}
-                        </button>
-                    </el-form>
-                    <div class="mt-3 text-center">
-                        <p class="mb-1"><a href="#">{{ $t('global.forget_password') }}?</a></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
 </template>

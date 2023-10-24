@@ -15,17 +15,9 @@ class RoleTableSeeder extends Seeder
      */
     public function run(): void
     {
-        $defaultRoles = ["admin", "top management", "employee", "human resource", "customer"];
+        $defaultRoles = ["admin"];
         foreach ($defaultRoles as $defaultRole){
-            $role = Role::findOrCreate($defaultRole, 'sanctum');
-            $permissions = Permission::whereIn('name', ['read-ticket', 'update-ticket'])->pluck('name')->toArray();
-            if ($role->name === 'customer') {
-                $role->syncPermissions(['read-project', 'read-sla', 'read-sla-log-hours', 'read-notification',
-                    'delete-notification', 'create-notification', 'read-note', 'update-note', 'create-note',
-                    'delete-note', 'create-ticket', 'read-ticket', 'update-ticket']);
-            } else {
-                $role->syncPermissions($permissions);
-            }
+            Role::findOrCreate($defaultRole, 'sanctum');
         }
 
     }

@@ -17,8 +17,6 @@ class UserResource extends BaseResource
         $this->micro = [
             'id' => $this->id,
             'name' => $this->name,
-            'name_en' => $this->getTranslation('name', 'en'),
-            'name_ar' => $this->getTranslation('name', 'ar'),
         ];
 
         $this->mini = [
@@ -32,13 +30,16 @@ class UserResource extends BaseResource
         $this->relations = [
             'roles' => $this->relationLoaded('roles') && $this->roles ?
                 strtolower(implode(' ,', $this->getRoleNames()->toArray())) : '',
+
             'roles_ids' => $this->relationLoaded('roles') && $this->roles ? $this->getRoleIds() : [],
+
             'role_id' => $this->relationLoaded('roles')? $this->getLastRoleId() : null,
+
             'permissions' => $this->relationLoaded('permissions') && $this->permissions ?
                 PermissionResource::collection($this->getAllPermissions()) : null,
-            'employee' => $this->relationLoaded('employee') ? new EmployeeResource($this->employee) : null,
-            'customer' => $this->relationLoaded('customer') ? new CustomerResource($this->customer) : null,
+
             'fcm_tokens' => $this->relationLoaded('tokens') ? $this->getDeviceTokens() : null,
+            
             'notifications' => $this->relationLoaded('notifications') ?
                 NotificationResource::collection($this->notifications()->latest()->limit(5)->get())
                 : null,
