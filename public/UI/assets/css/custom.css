@@ -1,0 +1,26 @@
+.table>:not(:last-child)>:last-child>*{
+    border-bottom-color: transparent;
+}
+.dtr-details{
+    text-align: left;
+}
+.rtl .dtr-details{
+    text-align: right;
+}
+
+
+.Vue-Toastification__container.top-left .Vue-Toastification__toast--rtl,
+.Vue-Toastification__container.bottom-left .Vue-Toastification__toast--rtl{
+    margin-right: auto !important;
+    margin-left: 0 !important;
+}
+.Vue-Toastification__container.top-right .Vue-Toastification__toast--rtl,
+.Vue-Toastification__container.bottom-right .Vue-Toastification__toast--rtl{
+    margin-left: auto !important;
+    margin-right: 0 !important;
+}
+
+.bg-custom-dark{
+    background-color: #313a55 !important;
+}
+

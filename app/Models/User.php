@@ -2,54 +2,38 @@
 
 namespace App\Models;
 
+use App\Constants\FileConstants;
 use App\Traits\ModelTrait;
+use App\Traits\SearchTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticated;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
+use Spatie\Translatable\HasTranslations;
 
-class User extends Authenticatable
+class User extends Authenticated
 {
-    use HasFactory, Notifiable, HasApiTokens, ModelTrait;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, ModelTrait,
+        HasRoles, SearchTrait, HasTranslations;
 
-    public const ACTIVE = 1;
-    public const NOT_ACTIVE = 0;
-
-    public const TYPE_USER = 1;
-    public const TYPE_ADMIN = 2;
-    public const GENDER_MALE = 1;
-    public const GENDER_FEMALE = 2;
-
-    protected $filters = ['Type', 'UnConfirmed','Keyword'];
-    protected $appends = [ 'UnConfirmed'];
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
-        'name',
-        'email',
-        'mobile',
-        'civil_image',
-        'profile_image',
-        'gender',
-        'status',
-        'birth_date',
-        'activation_code',
-        'password',
-        'type',
-        'notifications',
-        'civil_image_front',
-        'civil_image_back',
-        'rate',
-        'country_id',
-        'is_verified'
+        'name', 'email', 'password','phone','country_code','need_logout'
     ];
 
     /**
-     * The attributes that should be hidden for arrays.
+     * The attributes that should be hidden for serialization.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $hidden = [
         'password',
@@ -57,86 +41,75 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be cast to native types.
+     * The attributes that should be cast.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    protected array $filters = ['keyword', 'role', 'roleName', 'email'];
+    public array $filterModels = ['Role'];
+    public array $filterCustom = ['employmentAttachments'];
+    protected array $searchable = ['name', 'email','employee.personal_email','employee.job_title'];
+    public array $translatable = ['name'];
 
-    /*****************scopes********************/
-    public function scopeOfKeyword($query, $value)
+    //---------------------relations-------------------------------------
+    public function employee(): HasOne
     {
-        return $query->where(static function ($query) use ($value) {
-            $query->where('name', 'like', "%{$value}%")
-                ->orWhere('email', 'like', "%{$value}%")
-                ->orWhere('mobile', 'like', "%{$value}%");
+        return $this->hasOne(Employee::class);
+    }
+
+    public function customer(): HasOne
+    {
+        return $this->hasOne(Customer::class);
+    }
+
+    public function notifications(): HasMany
+    {
+        return $this->hasMany(Notification::class);
+    }
+
+    //---------------------relations-------------------------------------
+
+    // ----------------------- Scopes -----------------------
+    public function scopeOfRole($query, $value)
+    {
+        return $query->whereHas('roles', function ($query) use ($value) {
+            $query->where('id', $value);
         });
     }
-    public function scopeOfType($query, $value)
+
+    public function scopeOfRoleName($query, $value)
     {
-        return $query->where('type', $value);
+        return $query->whereHas('roles', function ($query) use ($value) {
+            $query->where('name', $value);
+        });
     }
 
-    public function scopeOfUnConfirmed($query, $value)
+    // ----------------------- Scopes -----------------------
+
+    // --------------------- custom filters data -------------------
+    public static function employmentAttachments(): array
     {
-        if ($value){
-            return $query->whereHas('attachments', function ($query) use ($value) {
-                $query->whereIn('status', [Attachment::STATUS_UPLOADED, Attachment::STATUS_DISAPPROVED]);
-            });
+        return FileConstants::employmentAttachmentTypes();
+    }
+    // --------------------- custom filters data -------------------
+
+    public function setPasswordAttribute($input): void
+    {
+        if ($input) {
+            $this->attributes['password'] = app('hash')->needsRehash($input) ? Hash::make($input) : $input;
         }
-        return $query->whereHas('attachments', function ($query) use ($value) {
-            $query->whereIn('status', [Attachment::STATUS_APPROVED]);
-        });
     }
 
-    /*****************relations*****************/
-    public function vehicle(): HasOne
+    public function routeNotificationForFcm(): array|string
     {
-        return $this->hasOne(UserVehicle::class, 'user_id');
+        return $this->getDeviceTokens();
     }
 
-    public function trips(): HasMany
+    public function getDeviceTokens(): array
     {
-        return $this->hasMany(Trip::class, 'user_id');
-    }
-
-    public function rates(): HasMany
-    {
-        return $this->hasMany(UserRate::class, 'rate_user_id');
-    }
-    public function Notification(): MorphMany
-    {
-        return $this->morphMany(Notification::class, 'model');
-    }
-
-    public function fcmTokens(): HasMany
-    {
-        return $this->hasMany(UserFcmToken::class, 'user_id');
-    }
-
-    public function country(): BelongsTo
-    {
-        return $this->belongsTo(Country::class, 'country_id');
-    }
-
-    public function attachments(): MorphMany
-    {
-        return $this->morphMany(Attachment::class, 'attachmentable');
-    }
-
-    /***************attributes******************/
-
-    public function getIsMemberAttribute()
-    {
-
-    }
-
-    public function getUnConfirmedAttribute()
-    {
-        return (bool)$this->whereHas('attachments', function ($query) {
-            $query->whereIn('status', [Attachment::STATUS_UPLOADED, Attachment::STATUS_DISAPPROVED]);
-        });
+        return $this->tokens->unique('fcm_token')->pluck('fcm_token')->toArray();
     }
 }

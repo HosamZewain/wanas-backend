@@ -1,0 +1,148 @@
+// light mode colors
+:root {
+    --mainText: #535353;
+    --bodyBg: #f8fafc;
+    --layoutsBg: #fff;
+    --layoutsborder: #e1e6f1;
+    --sideBarColor: #828e9f;
+    --placeholderColor: #99a6b7;
+    --formControlBg: #f5f8fc;
+    --mainHeadNavText: #596882;
+    --btnLight: #f1f2f9;
+    --blackWhite: #000;
+    --modalHeader: #e2e8f0;
+}
+
+// dark mode colors
+[data-theme="dark"] {
+    --mainText: #fdfeff;
+    --bodyBg: #101329;
+    --layoutsBg: #1c1c38;
+    --layoutsborder: #ffffff0d;
+    --sideBarColor: #fff;
+    --placeholderColor: #bbc1ca;
+    --formControlBg: #252542;
+    --mainHeadNavText: #8283a0;
+    --btnLight: #ffffff0f;
+    --blackWhite: #fff;
+    --modalHeader: #e2e8f0;
+}
+
+$theme-colors: (
+    primary: #b59357,
+    lightPrimary: #fefbf7,
+    secondary: #09295e,
+    success: #04b386,
+    info: #01b8ff,
+    grayClr: #828e9f,
+    light: #eff1f9,
+    warning: #eb6f33,
+    danger: #e73026,
+    dark: #232b3b,
+    orangeClr: #ffc107,
+    controlBg: #f5f8fc,
+
+    darkTheme: #1c1c38,
+    lightTheme: #fff,
+
+    selectionBg: #000,
+    selectionColor: #fff,
+    scrollTrackBg: #f1f1f1,
+    scrollThumbBg: #888,
+    scrollThumbHoverBg: #555,
+);
+
+// Tint a color: mix a color with white
+@function tint-color($color, $weight) {
+    @return mix(white, $color, $weight);
+}
+
+// Shade a color: mix a color with black
+@function shade-color($color, $weight) {
+    @return mix(black, $color, $weight);
+}
+
+@each $color, $value in $theme-colors {
+    .btn-light-#{$color},
+    .bg-light-#{$color} {
+        // color: $value !important;
+        background-color: tint-color($value, 25%) !important;
+    }
+
+    .btn-outline-#{$color} {
+        color: $value !important;
+        border-color: $value !important;
+    }
+
+    .btn-#{$color},
+    .bg-#{$color} {
+        // color: $value !important;
+        background-color: $value !important;
+        border-color: $value !important;
+    }
+
+    .btn-gradient-#{$color},
+    .bg-gradient-#{$color} {
+        background-image: linear-gradient(
+            to right,
+            shade-color($value, 22%),
+            tint-color($value, 5%)
+        ) !important;
+    }
+
+    .border-light-#{$color} {
+        border-color: tint-color($value, 20%) !important;
+    }
+
+    .border-#{$color} {
+        border-color: $value !important;
+    }
+
+    .text-light-#{$color} {
+        color: tint-color($value, 20%) !important;
+    }
+
+    .text-#{$color} {
+        color: $value !important;
+    }
+
+    .btn-light-#{$color} {
+        &:hover,
+        &:active,
+        &:focus {
+            background-color: $value !important;
+            // color: tint-color($value, 20%) !important;
+        }
+    }
+
+    .btn-#{$color} {
+        &:hover,
+        &:active,
+        &:focus {
+            background-color: tint-color($value, 20%) !important;
+            // color: $value !important;
+        }
+    }
+}
+
+::-moz-selection {
+    color: map_get($theme-colors, selectionColor);
+    background: map_get($theme-colors, selectionBg);
+}
+
+::selection {
+    color: map_get($theme-colors, selectionColor);
+    background: map_get($theme-colors, selectionBg);
+}
+
+::-webkit-scrollbar-track {
+    background: map_get($theme-colors, scrollTrackBg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: map_get($theme-colors, scrollThumbBg);
+
+    &::-webkit-scrollbar-thumb:hover {
+        background: map_get($theme-colors, scrollThumbHoverBg);
+    }
+}

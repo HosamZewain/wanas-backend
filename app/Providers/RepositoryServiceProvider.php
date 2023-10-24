@@ -2,27 +2,28 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
     /**
-     * Register the application services.
+     * Register services.
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         foreach ($this->getModels() as $model) {
             $this->app->bind(
-                "App\Repositories\Contracts\I{$model}Repository",
-                "App\Repositories\SQL\\${model}Repository"
+                "App\Repositories\Contracts\\{$model}Contract",
+                "App\Repositories\SQL\\{$model}Repository"
             );
         }
     }
 
-    protected function getModels(): \Illuminate\Support\Collection
+    protected function getModels(): Collection
     {
         $files = Storage::disk('app')->files('Models');
         return collect($files)->map(function ($file) {

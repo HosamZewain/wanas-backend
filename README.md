@@ -1,61 +1,10 @@
-![wanas-readme.png](wanas-readme.png)
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-# Wanas App
+## About roms
+roqay operations management system
 
-A Mobile Application For Sharing Rides & Events
+## Deploy to solutions 
+```php vendor/bin/envoy run deploy --server=solution --branch=enhanced --app_name=roms --with_build=true --push_message="build for solution" --local_ip=192.168.10.10```
 
-## Features
-
-- Share Rides
-- Share Events
-- Share Driver Performance with reviews
-- Share Passenger Performance with reviews
-- chat with other users
-
-## Demo
-
-https://wanas.roqay.solutions
-
-## Deployment
-
-To deploy this project run
-
-```bash
-git clone
-git checkout develop
-git pull
-
-set .env file
-set database
-
-composer install
-php artisan migrate
-php artisan db:seed
-php artisan telescope:install
-php artisan storage:link
-    
-    
-    
-```
-
-## Authors
-
-- [@khaledAlWakeel](https://www.github.com/khaledweka)
-
-## API Reference
-
-#### Get all items
-
-```http
-  GET /api/
-```
-
-| Parameter | Type     | Description                |
-|:----------|:---------|:---------------------------|
-| `api_key` | `string` | **Required**. Your API key |
-
-
-## Appendix
-
- All Copy Rights Reserved To [@RoQay](https://www.roqay.com) Company
-
+## create repository files
+```php artisan make:repo --api ```

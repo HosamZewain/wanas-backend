@@ -2,36 +2,48 @@
 
 namespace App\Traits;
 
+use Illuminate\Contracts\Translation\Translator;
+use Illuminate\Foundation\Application;
 use ReflectionClass;
-use ReflectionException;
 
 trait ModelTrait
 {
+    public function __construct()
+    {
+        parent::__construct();
+        if (isset($this->dates)) {
+            foreach ($this->dates as $date) {
+                $this->casts[$date] = 'datetime';
+            }
+        }
+    }
     /**
-     * Get filters list
-     *
      * @return array
      */
-    public function getFilters()
+    public function getFilters(): array
     {
         return $this->filters ?? [];
     }
 
     /**
-     * Get defined relations list
-     *
      * @return array
      */
+    public function getFilterModels(): array
+    {
+        return $this->filterModels ?? [];
+    }
+
+    public function getFilterCustom(): array
+    {
+        return $this->filterCustom ?? [];
+    }
+
     public function getDefinedRelations()
     {
         return $this->definedRelations ?? [];
     }
 
-    /**
-     * @param $relation
-     * @param array $options
-     */
-    public function syncOneToMany($relation, $options = [])
+    public function syncOneToMany($relation, $options = []): void
     {
         $oldOptionsIDs = [];
         // create new options
@@ -43,7 +55,6 @@ trait ModelTrait
                 $oldOptionsIDs[] = $option['id'];
             }
         }
-
         // delete removed options
         $allOptionsIDs = $this->$relation->lists('id');
         $allOptionsIDs = $allOptionsIDs->all();
@@ -51,67 +62,34 @@ trait ModelTrait
             $removedOptionsIDs = array_diff($allOptionsIDs, $oldOptionsIDs);
             $this->$relation()->whereIn('id', $removedOptionsIDs)->delete();
         }
-
         // save new options after delete removed options
         $this->$relation()->saveMany($newOptions);
     }
 
-    /**
-     * Get constants list of the class
-     *
-     * @param string $keyContains
-     * @param boolean $returnCount
-     * @return array|int
-     */
-    public static function getConstants($keyContains = null, $returnCount = false)
+    public static function getConstants($keyContains = null, $returnCount = false): array|int
     {
         // Get all constants
         $constants = (new ReflectionClass(static::class))->getConstants();
-
         // Return filtered constants based on constants names filter
         if (!empty($keyContains)) {
-            $constants = array_filter($constants, function ($k) use ($keyContains) {
-                return strpos($k, $keyContains) === 0;
+            $constants = array_filter($constants, static function ($k) use ($keyContains) {
+                return str_starts_with($k, $keyContains);
             }, ARRAY_FILTER_USE_KEY);
         }
-
         if ($returnCount) {
             return count($constants);
         }
         return $constants;
     }
 
-    /**
-     * Get relations method of the class
-     *
-     * @return array
-     */
-    public static function getRelationsMethods($namesOnly = false)
+    public function getActiveStatusAttribute(): Application|array|string|Translator|\Illuminate\Contracts\Foundation\Application|null
     {
-        $relations = [];
-        // Get all methods
-        $methods = (new ReflectionClass(static::class))->getMethods();
-
-        // Return  relations methods only
-        foreach ($methods as $reflectionMethod) {
-            $returnType = $reflectionMethod->getReturnType();
-
-            if ($returnType) {
-                if (in_array(
-                    class_basename($returnType->getName()),
-                    [
-                        'HasOne', 'HasMany', 'BelongsTo', 'BelongsToMany', 'MorphToMany', 'MorphTo'
-                    ]
-                )) {
-                    if ($namesOnly) {
-                        $reflectionMethod = $reflectionMethod->getName();
-                    }
-
-                    $relations[] = $reflectionMethod;
-                }
-            }
-        }
-
-        return $relations;
+        return $this->is_active ? __('Active') : __('Inactive');
     }
+
+    public function getActiveClassAttribute(): string
+    {
+        return $this->is_active ? 'success' : 'danger';
+    }
+
 }

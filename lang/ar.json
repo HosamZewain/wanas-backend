@@ -1,0 +1,36 @@
+{
+    "ar": "عربي",
+    "en": "English",
+    "dispatcher": "ديسباتشر",
+    "sidebar": {
+        "home": "الرئيسية",
+        "roles": "صلاحيات مديرين النظام"
+    },
+    "pages":{
+        "coming_late": "حضر متاخر",
+        "leave_early": "انصراف مبكر",
+        "lapse_attendance_departure": "حضور متاخر وانصراف مبكر",
+        "absent": "غياب",
+        "manual": "يدوي",
+        "no_log_out": "لم يتم تسجيل الخروج",
+        "deduction_of_a_quarter_of_a_day_from_the_monthly_salary": "خصم ربع يوم من الراتب الشهري ويتضاعف الجزاء",
+        "deduction_of_the_day_from_the_basic_salary_by_two_days": "ب يخصم اليوم بيومين من الراتب"
+    },
+    "messages": {
+        "Dashboard": "الرئيسيه",
+        "add new role": "اضافة دور جديد",
+        "not_active": "حسابك غير مفعل برجاء التواصل مع الدعم"
+    },
+    "notifications": {
+        "Hello": "مرحباً"
+    },
+    "inputs": {
+        "name": "الإسم"
+    },
+    "validation": {
+        "Value is required": "الحقل مطلوب.",
+        "pass_regex": "يجب ان يكون الرقم السري مكون من رقم واحد علي الافل وحرف كابتل علي الاقل وحرف سمول علي الاقل"
+    },
+    "permissions": {
+    }
+}

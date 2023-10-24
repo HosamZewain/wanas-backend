@@ -1,6 +1,13 @@
 <?php
 
-use App\Http\Middleware\checkUserStatus;
+use App\Http\Controllers\Api\V1\Auth\LoginController;
+use App\Http\Controllers\Api\V1\Auth\LogoutController;
+use App\Http\Controllers\Api\V1\FileController;
+use App\Http\Controllers\Api\V1\FilterController;
+use App\Http\Controllers\Api\V1\NotificationController;
+use App\Http\Controllers\Api\V1\PermissionController;
+use App\Http\Controllers\Api\V1\UserController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -9,51 +16,39 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 |
 | Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "api" middleware group. Make something great!
 |
 */
-/*test*/
-Route::get('doSomeStuff', [\App\Http\Controllers\Api\HomeController::class, 'doSomeStuff']);
 
-//login & register
-Route::get('/', [\App\Http\Controllers\Api\HomeController::class, 'index']);
-Route::post('register', [\App\Http\Controllers\Api\Auth\RegisterController::class, 'register']);
-Route::post('login', [\App\Http\Controllers\Api\Auth\LoginController::class, 'login']);
-Route::post('/update_password', [\App\Http\Controllers\Api\Auth\LoginController::class, 'updatePassword']);
-
-//dynamic modules
-Route::get('vehicle_types', [\App\Http\Controllers\Api\HomeController::class, 'VehicleTypes']);
-Route::get('trip_filters', [\App\Http\Controllers\Api\HomeController::class, 'tripFilters']);
-Route::post('/contact_us', [\App\Http\Controllers\Api\HomeController::class, 'contactUs']);
-Route::get('/pages', [\App\Http\Controllers\Api\HomeController::class, 'pages']);
-Route::get('/page/{id}', [\App\Http\Controllers\Api\HomeController::class, 'page']);
-Route::get('/terms_conditions', [\App\Http\Controllers\Api\HomeController::class, 'termsConditions']);
-Route::get('/setting', [\App\Http\Controllers\Api\HomeController::class, 'setting']);
-Route::get('/countries', [\App\Http\Controllers\Api\HomeController::class, 'countries']);
-Route::get('/colors', [\App\Http\Controllers\Api\HomeController::class, 'colors']);
-Route::get('/cities', [\App\Http\Controllers\Api\HomeController::class, 'cities']);
-Route::get('/governorates', [\App\Http\Controllers\Api\HomeController::class, 'governorates']);
-Route::get('refresh', [\App\Http\Controllers\Api\HomeController::class, 'refresh']);
-Route::post('get_user', [\App\Http\Controllers\Api\UserController::class, 'getUser']);
-Route::post('sendFcm', [\App\Http\Controllers\Api\HomeController::class, 'sendFcm']);
-
-//auth
-Route::middleware(['checkUserStatus', 'auth:sanctum'])->group(function () {
-    Route::post('logout', [\App\Http\Controllers\Api\Auth\LoginController::class, 'logout']);
-    Route::post('user', [\App\Http\Controllers\Api\UserController::class, 'userDetails']);
-    Route::post('activate_account', [\App\Http\Controllers\Api\Auth\RegisterController::class, 'activateAccount']);
-    Route::post('/profile', [\App\Http\Controllers\Api\Auth\LoginController::class, 'profile']);
-    Route::post('/add_vehicle', [\App\Http\Controllers\Api\VehicleController::class, 'addVehicle']);
-    Route::post('/edit_vehicle', [\App\Http\Controllers\Api\VehicleController::class, 'editVehicle']);
-    Route::post('/create_trip', [\App\Http\Controllers\Api\TripController::class, 'createTrip']);
-    Route::post('/trips_list', [\App\Http\Controllers\Api\TripController::class, 'tripsList']);
-    Route::post('/book_trip', [\App\Http\Controllers\Api\TripController::class, 'bookTrip']);
-    Route::post('/trip_details', [\App\Http\Controllers\Api\TripController::class, 'tripDetails']);
-    Route::post('/notification_list', [\App\Http\Controllers\Api\NotificationsController::class, 'notificationList']);
-    Route::post('/accept_member', [\App\Http\Controllers\Api\TripController::class, 'acceptMember']);
-    Route::post('/reject_member', [\App\Http\Controllers\Api\TripController::class, 'rejectMember']);
-    Route::post('/rate_trip', [\App\Http\Controllers\Api\TripController::class, 'rateTrip']);
-    Route::post('/rate_user', [\App\Http\Controllers\Api\UserController::class, 'rateUser']);
-    Route::post('/add_city', [\App\Http\Controllers\Api\HomeController::class, 'addCity']);
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
 });
+
+Route::post('login', LoginController::class);
+
+Route::resource('files', FileController::class)->only(['store', 'destroy', 'show']);
+Route::post('users/forget-password', [UserController::class, 'forgetPassword']);
+
+Route::middleware(['auth:sanctum'])
+    ->group(function () {
+
+        //---------------- basics routes ----------------
+        Route::post('logout', LogoutController::class);
+        Route::get('/filters/{model}', FilterController::class);
+        Route::get('permissions', PermissionController::class);
+        Route::put('users/{user}/token', [UserController::class, 'updateToken']);
+
+        Route::apiResource('notifications', NotificationController::class)->only(['index', 'destroy']);
+        Route::controller(NotificationController::class)
+            ->prefix('notifications')->group(function () {
+                Route::put('{notification}/toggle-read', 'markAsRead');
+                Route::post('{notification}/take-action', 'takeAction');
+                Route::put('mark-all-as-read', 'markAllAsRead');
+                Route::put('mark-all-as-unread', 'markAllAsUnread');
+                Route::delete('delete-all', 'deleteAll');
+            });
+        //---------------- basics routes ----------------
+
+    });
+

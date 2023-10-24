@@ -1,0 +1,13 @@
+body{-webkit-print-color-adjust: exact !important;border: 0 !important;/*border: 1px solid #000;*/}
+.table-seperate{border-collapse: separate!important;border:0!important;border-spacing: 1rem;}
+hr {border-top: 1px solid #000;width:100%;}
+.table-bordered th, .table-bordered td {border: 1px solid #000!important;padding:.5rem!important;}
+.pg-break{page-break-after:always;}
+.grade-book-report-pg{width:100%;display: flex;flex-direction: column;justify-content: center;min-height: 100%;}
+/*.print-header{display: block;}*/
+
+.borderdTable{border: 1px solid #aaa;}
+.borderdTable td{border-bottom: 1px solid #aaa;}
+.verticalMiddle td{ vertical-align: middle; }
+.customTable td, .customTable th {vertical-align: top !important;}
+.customTable td{padding: 5px 0 !important;font-weight: bold;}

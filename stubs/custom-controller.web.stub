@@ -1,0 +1,111 @@
+<?php
+
+namespace App\Http\Controllers{{namespace}};
+
+use App\Http\Requests{{namespace}}\{{modelName}}Request;
+use App\Models\{{modelName}};
+use App\Repositories\Contracts\{{modelName}}Contract;
+use App\Http\Controllers\Website\BaseResourceController;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+
+class {{modelName}}Controller extends BaseResourceController
+{
+    /**
+     * {{modelName}}Controller constructor.
+     * @param {{modelName}}Contract $repository
+     */
+    public function __construct({{modelName}}Contract $repository)
+    {
+        parent::__construct($repository, '{{modelName}}');
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @param Request $request
+     * @return Application|Factory|View
+     */
+    public function index(Request $request): View|Factory|Application
+    {
+        ${{modelObject}}List = $this->repository->search($request->all());
+        return $this->indexBlade(['{{modelObject}}List' => ${{modelObject}}List]);
+    }
+
+     /**
+     * Show the form for creating a new resource.
+     *
+     * @return Application|Factory|View
+     */
+    public function create(): View|Factory|Application
+    {
+        return $this->createBlade();
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param {{modelName}}Request $request
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function store({{modelName}}Request $request)
+    {
+        $this->repository->create($request->all());
+        return $this->redirectBack();
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param {{modelName}} ${{modelObject}}
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function show({{modelName}} ${{modelObject}})
+    {
+        return $this->showBlade(['{{modelObject}}' => ${{modelObject}}]);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param {{modelName}} ${{modelObject}}
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function edit({{modelName}} ${{modelObject}})
+    {
+        return $this->editBlade(['{{modelObject}}' => ${{modelObject}}]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param {{modelName}}Request $request
+     * @param {{modelName}} ${{modelObject}}
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update({{modelName}}Request $request, {{modelName}} ${{modelObject}})
+    {
+        $this->repository->update(${{modelObject}}, $request->all());
+        return $this->redirectBack();
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param {{modelName}} ${{modelObject}}
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy({{modelName}} ${{modelObject}})
+    {
+       $this->repository->remove(${{modelObject}});
+       return $this->redirectBack();
+    }
+}

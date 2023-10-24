@@ -2,37 +2,39 @@
 
 namespace App\Providers;
 
-use App\Models\Setting;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\View;
+use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
-        if ($this->app->environment('local')) {
-            $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
-            $this->app->register(TelescopeServiceProvider::class);
+        if ($this->app->isLocal()) {
+            $this->app->register(IdeHelperServiceProvider::class);
         }
     }
 
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
-        //
-        if (Schema::hasTable('settings')) {
-            $settings = Setting::find(1);
-            View::share('settings', $settings);
+        $modelFiles = Storage::disk('app')->files('Models');
+        foreach ($modelFiles as $modelFile) {
+            $model = str_replace('.php', '', $modelFile);
+            $model = str_replace('Models/', '', $model);
+            $modelClass = 'App\\Models\\' . str_replace('/', '\\', $model);
+            Relation::enforceMorphMap([
+                "$model" => "$modelClass"
+            ]);
         }
+
+        Model::preventLazyLoading(!$this->app->isProduction());
     }
 }

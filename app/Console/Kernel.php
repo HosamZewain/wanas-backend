@@ -8,31 +8,28 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 class Kernel extends ConsoleKernel
 {
     /**
-     * The Artisan commands provided by your application.
-     *
-     * @var array
-     */
-    protected $commands = [
-        //
-    ];
-
-    /**
      * Define the application's command schedule.
-     *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
-     * @return void
      */
-    protected function schedule(Schedule $schedule)
+    protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        //delete files that has no relation
+        $schedule->command('untracked_files:delete')->daily();
+        //telescope entries delete
+        $schedule->command('telescope:clear')->daily();
+        //create absent days (daily at 10 PM)
+        $schedule->command('employees:check-absent')->dailyAt('22:00');
+        //create deduction for absent (workDays at 11 PM)
+        $schedule->command('deduction:auto-create')
+            ->days([Schedule::SUNDAY,Schedule::MONDAY,Schedule::TUESDAY, Schedule::WEDNESDAY,Schedule::THURSDAY])
+            ->at("23:00");
+        //update sla active status
+        $schedule->command('sla-records:outdated')->daily();
     }
 
     /**
      * Register the commands for the application.
-     *
-     * @return void
      */
-    protected function commands()
+    protected function commands(): void
     {
         $this->load(__DIR__.'/Commands');
 

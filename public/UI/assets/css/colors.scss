@@ -1,0 +1,171 @@
+// light mode colors
+:root {
+    --mainText: #535353;
+    --bodyBg: #f6f7fc;
+    --layoutsBg: #fff;
+    --layoutsborder: #e1e6f1;
+    --sideBarColor: #333;
+    --placeholderColor: #99a6b7;
+    --formControlBg: #fff;
+    --mainHeadNavText: #596882;
+    --btnLight: #f1f2f9;
+    --blackWhite: #000;
+    --modalHeader: #e2e8f0;
+    --el-color-success: #179977 !important;
+}
+
+// dark mode colors
+[data-theme="dark"] {
+    --mainText: #fdfeff;
+    --bodyBg: #101329;
+    --layoutsBg: #1c1c38;
+    --layoutsborder: #ffffff0d;
+    --sideBarColor: #fff;
+    --placeholderColor: #bbc1ca;
+    --formControlBg: #252542;
+    --mainHeadNavText: #8283a0;
+    --btnLight: #ffffff0f;
+    --blackWhite: #fff;
+    --modalHeader: #e2e8f0;
+}
+
+$theme-colors: (
+    primary: #2190d5,
+    lightPrimary: #4981d41a,
+    secondary: #0d5890,
+    success: #179977,
+    info: #01b8ff,
+    grayClr: #808A99,
+    whiteClr: #fff,
+    lightGray:#999999,
+    lightGray2:#f5f5f5,
+    lightGray3:#f1f1f1,
+    lightGray4:#F8F8F8,
+    lightBlue: #7d8fb3,
+    lightBlue2: #097BD81A,
+    babyblue: #90c7ea,
+    light: #eff1f9,
+    warning: #ffb933,
+    danger: #e73026,
+    lightDanger:#F78E8B,
+    dark: #232b3b,
+    orangeClr: #ffc107,
+    controlBg: #f5f8fc,
+    darkTheme: #1c1c38,
+    lightTheme: #fff,
+    selectionBg: #000,
+    selectionColor: #fff,
+    scrollTrackBg: #f1f1f1,
+    scrollThumbBg: rgba(186, 186, 186, 0.5),
+    scrollThumbHoverBg: #555,
+);
+
+// Tint a color: mix a color with white
+@function tint-color($color, $weight) {
+    @return mix(white, $color, $weight);
+}
+
+// Shade a color: mix a color with black
+@function shade-color($color, $weight) {
+    @return mix(black, $color, $weight);
+}
+
+@each $color, $value in $theme-colors {
+    .btn-light-#{$color},
+    .bg-light-#{$color} {
+        color: $value !important;
+        background-color: tint-color($value, 65%) !important;
+    }
+
+    .btn-outline-#{$color} {
+        color: $value !important;
+        border-color: $value !important;
+    }
+
+    .btn-#{$color},
+    .bg-#{$color} {
+        // color: $value !important;
+        background-color: $value !important;
+        // border-color: $value !important;
+    }
+
+    .btn-gradient-#{$color},
+    .bg-gradient-#{$color} {
+        background-image: linear-gradient(
+                to right,
+                shade-color($value, 22%),
+                tint-color($value, 5%)
+        ) !important;
+    }
+
+    .border-light-#{$color} {
+        border-color: tint-color($value, 20%) !important;
+    }
+
+    .border-#{$color} {
+        border-color: $value !important;
+    }
+
+    .text-light-#{$color} {
+        color: tint-color($value, 20%) !important;
+    }
+
+    .text-#{$color} {
+        color: $value !important;
+    }
+
+    .btn-light-#{$color} {
+        &:hover,
+        &:active,
+        &:focus {
+            background-color: $value !important;
+            color: #fff !important;
+        }
+    }
+
+    .badge-light-#{$color} {
+        background-color: tint-color($value, 90%);
+        color: $value;
+    }
+
+    .badge-#{$color} {
+        background-color: $value;
+        color: #fff;
+        &:hover,
+        &:active,
+        &:focus {
+            color: #fff;
+        }
+    }
+
+    .btn-#{$color} {
+        &:hover,
+        &:active,
+        &:focus {
+            background-color: tint-color($value, 20%) !important;
+            // color: $value !important;
+        }
+    }
+}
+
+::-moz-selection {
+    color: map_get($theme-colors, selectionColor);
+    background: map_get($theme-colors, selectionBg);
+}
+
+::selection {
+    color: map_get($theme-colors, selectionColor);
+    background: map_get($theme-colors, selectionBg);
+}
+
+::-webkit-scrollbar-track {
+    background: map_get($theme-colors, scrollTrackBg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: map_get($theme-colors, scrollThumbBg);
+
+    &::-webkit-scrollbar-thumb:hover {
+        background: map_get($theme-colors, scrollThumbHoverBg);
+    }
+}

@@ -1,5 +1,7 @@
 <?php
 
+$base_dir = 'uploads';
+
 return [
 
     /*
@@ -13,7 +15,7 @@ return [
     |
     */
 
-    'default' => env('FILESYSTEM_DRIVER', 'local'),
+    'default' => env('FILESYSTEM_DISK', 'local'),
 
     /*
     |--------------------------------------------------------------------------
@@ -22,7 +24,7 @@ return [
     |
     | Here you may configure as many filesystem "disks" as you wish, and you
     | may even configure multiple disks of the same driver. Defaults have
-    | been setup for each driver as an example of the required options.
+    | been set up for each driver as an example of the required values.
     |
     | Supported Drivers: "local", "ftp", "sftp", "s3"
     |
@@ -33,6 +35,7 @@ return [
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app'),
+            'throw' => false,
         ],
 
         'public' => [
@@ -40,6 +43,7 @@ return [
             'root' => storage_path('app/public'),
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
+            'throw' => false,
         ],
 
         's3' => [
@@ -50,6 +54,14 @@ return [
             'bucket' => env('AWS_BUCKET'),
             'url' => env('AWS_URL'),
             'endpoint' => env('AWS_ENDPOINT'),
+            'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
+            'throw' => false,
+        ],
+
+        'app' => [
+            'driver' => 'local',
+            'root' => app_path() . DIRECTORY_SEPARATOR,
+            'visibility' => 'public',
         ],
 
     ],
@@ -67,6 +79,29 @@ return [
 
     'links' => [
         public_path('storage') => storage_path('app/public'),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | upload config
+    |--------------------------------------------------------------------------
+    |
+    | Here you may configure the upload config
+    |
+    */
+    'upload' => [
+        'max_size'  => 10240,   // kb
+        'max_width' => 1080,    // px
+        'max_height'=> 2160,    // px
+        'quality'   => 60,
+        'paths' => [
+            'default'  => $base_dir . DIRECTORY_SEPARATOR,
+            'user' => $base_dir . DIRECTORY_SEPARATOR . 'users' . DIRECTORY_SEPARATOR,
+            'project' => $base_dir . DIRECTORY_SEPARATOR . 'projects' . DIRECTORY_SEPARATOR,
+            'milestone' => $base_dir . DIRECTORY_SEPARATOR . 'milestones' . DIRECTORY_SEPARATOR,
+            'projectScope' => $base_dir . DIRECTORY_SEPARATOR . 'projects' . DIRECTORY_SEPARATOR . 'scopes' . DIRECTORY_SEPARATOR,
+            'task' => $base_dir . DIRECTORY_SEPARATOR . 'tasks' . DIRECTORY_SEPARATOR,
+        ],
     ],
 
 ];
