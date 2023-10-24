@@ -40,14 +40,12 @@
                         </router-link>
                     </li>
 
-                    <li
-                        class="nav-item"
+                    <li class="nav-item"
                         v-if="
                             hasAnyPermission('read', [
-                                'Role',
+                                'Role', 'VehiclesType'
                             ])
-                        "
-                    >
+                        ">
                         <a class="nav-link subMenu with-sub">
                             <i class="fas fa-sliders me-2"></i>
                             <span class="sidemenu-label">{{
@@ -57,8 +55,16 @@
                         <ul class="nav-sub">
                             <li :class="`nav-sub-item${this.$route.name === 'roles'? 'active': ''}`"
                                 v-if="hasPermission('read', 'Role')">
-                                <router-link to="/roles" class="nav-sub-link">
+                                <router-link :to="{name: 'roles'}" class="nav-sub-link">
                                     <span class="sidemenu-label">{{ $t("sidebar.roles") }}</span>
+                                </router-link>
+                            </li>
+                        </ul>
+                        <ul class="nav-sub">
+                            <li :class="`nav-sub-item${this.$route.name === 'vehicles-types'? 'active': ''}`"
+                                v-if="hasPermission('read', 'VehiclesType')">
+                                <router-link :to="{name: 'vehicles-types'}" class="nav-sub-link">
+                                    <span class="sidemenu-label">{{ $t("sidebar.vehicles_types") }}</span>
                                 </router-link>
                             </li>
                         </ul>

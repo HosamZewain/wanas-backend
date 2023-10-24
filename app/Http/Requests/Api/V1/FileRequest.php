@@ -34,15 +34,9 @@ class FileRequest extends FormRequest
 
     public function getTypeValidation(): string|null
     {
-        $mixed = $this->accept ?
+        return $this->accept ?
             config('validations.file.mixed').','.str_replace('.','',$this->accept)
             : config('validations.file.mixed');
-        return match(request('type')){
-            FileConstants::FILE_TYPE_EMPLOYEE_AVATAR->value,
-            FileConstants::FILE_TYPE_EMPLOYEE_COVER->value,
-            => config('validations.file.image'),
-            default => $mixed
-        };
     }
 
     public function messages(): array

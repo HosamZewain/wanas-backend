@@ -56,6 +56,39 @@ export default [
             module: "Role",
         },
     },
+    {
+        path: "/vehicles-types",
+        name: "vehicles-types",
+        component: () => import("@views/vehiclesTypes/VehiclesTypesIndex.vue"),
+        meta: {
+            requiresAuth: true,
+            title: t("sidebar.vehicles_types"),
+            action: "read",
+            module: "VehiclesType",
+        },
+    },
+    {
+        path: "/vehicles-types/create",
+        name: "vehicles-types-create",
+        component: () => import("@views/vehiclesTypes/VehiclesTypesForm.vue"),
+        meta: {
+            requiresAuth: true,
+            title: t("sidebar.vehicles_types"),
+            action: "create",
+            module: "VehiclesType",
+        },
+    },
+    {
+        path: "/vehicles-types/edit/:id?",
+        name: "vehicles-types-edit",
+        component: () => import("@views/vehiclesTypes/VehiclesTypesForm.vue"),
+        meta: {
+            requiresAuth: true,
+            title: t("sidebar.vehicles_types"),
+            action: "update",
+            module: "VehiclesType",
+        },
+    },
     // {
     //     path: "/edit-profile",
     //     name: "edit-profile",

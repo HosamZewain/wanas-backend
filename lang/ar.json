@@ -5,7 +5,8 @@
     "sidebar": {
         "home": "الرئيسية",
         "roles": "صلاحيات مديرين النظام",
-        "dashboard": "لوحة التحكم"
+        "dashboard": "لوحة التحكم",
+        "vehicles_types": "أنواع السيارات"
     },
     "global": {
         "search": "بحث",
@@ -37,7 +38,16 @@
         "setups": "الإعدادات",
         "add_new_role": "إضافة صلاحية جديده",
         "name": "الإسم",
-        "new_name": "الأسم الجديد"
+        "new_name": "الأسم الجديد",
+        "sign_out": "تسجيل الخروج",
+        "profile": "الملف الشخصي",
+        "logo": "الشعار",
+        "add_new_vehicle": "إضافة نوع جديد",
+        "edit_new_vehicle": "تعديل نوع",
+        "file_upload_text": "تحميل الملف",
+        "click_to_upload": "إضغط للتحميل",
+        "file_upload_img_hint": "حجم الملف أقل من",
+        "mega":"ميجابايت"
     },
     "messages": {
         "Dashboard": "الرئيسيه",

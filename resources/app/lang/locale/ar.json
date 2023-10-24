@@ -1,10 +1,30 @@
 {
     "ar": "عربي",
     "en": "English",
-    "dispatcher": "ونس",
+    "dispatcher": "ديسباتشر",
     "sidebar": {
         "home": "الرئيسية",
-        "roles": "صلاحيات مديرين النظام"
+        "roles": "صلاحيات مديرين النظام",
+        "dashboard": "لوحة التحكم",
+        "vehicles_types": "أنواع السيارات"
+    },
+    "global": {
+        "search": "بحث",
+        "no_results": "لا يوجد بيانات للعرض",
+        "create": "إضافه",
+        "read": "عرض",
+        "update": "تعديل",
+        "delete": "حذف",
+        "view-all": "عرض الكل",
+        "clone_permissions": "نسخ الصلاحيات",
+        "sign_in": "تسجيل الدخول"
+    },
+    "forms": {
+        "save": "حفظ",
+        "delete": "حذف",
+        "edit": "تعديل",
+        "permissions": "الصلاحيات",
+        "cancel": "إلغاء"
     },
     "pages":{
         "coming_late": "حضر متاخر",
@@ -15,7 +35,19 @@
         "no_log_out": "لم يتم تسجيل الخروج",
         "deduction_of_a_quarter_of_a_day_from_the_monthly_salary": "خصم ربع يوم من الراتب الشهري ويتضاعف الجزاء",
         "deduction_of_the_day_from_the_basic_salary_by_two_days": "ب يخصم اليوم بيومين من الراتب",
-        "setups": "الإعدادات"
+        "setups": "الإعدادات",
+        "add_new_role": "إضافة صلاحية جديده",
+        "name": "الإسم",
+        "new_name": "الأسم الجديد",
+        "sign_out": "تسجيل الخروج",
+        "profile": "الملف الشخصي",
+        "logo": "الشعار",
+        "add_new_vehicle": "إضافة نوع جديد",
+        "edit_new_vehicle": "تعديل نوع",
+        "file_upload_text": "تحميل الملف",
+        "click_to_upload": "إضغط للتحميل",
+        "file_upload_img_hint": "حجم الملف أقل من",
+        "mega":"ميجابايت"
     },
     "messages": {
         "Dashboard": "الرئيسيه",
@@ -33,5 +65,10 @@
         "pass_regex": "يجب ان يكون الرقم السري مكون من رقم واحد علي الافل وحرف كابتل علي الاقل وحرف سمول علي الاقل"
     },
     "permissions": {
-    }
+        "GeneralSettings": "الإعدادات العامه",
+        "Notification": "الإشعارات",
+        "Role": "الأدوار و الصلاحيات",
+        "User": "المستخدمين"
+    },
+    "placeholder": "أكتب "
 }

@@ -12,6 +12,7 @@ enum FileConstants: string
     case CIVIL_IMAGE_FRONT = 'civil_image_front';
     case CIVIL_IMAGE_BACK = 'civil_image_back';
     case PROFILE_IMAGE = 'profile_image';
+    case VEHICLE_LOGO = 'vehicle_logo';
 
 
     public static function getLabels(): array
@@ -21,11 +22,20 @@ enum FileConstants: string
             self::CIVIL_IMAGE_FRONT->value => __json('pages.civil_image_front'),
             self::CIVIL_IMAGE_BACK->value => __json('pages.civil_image_back'),
             self::PROFILE_IMAGE->value => __json('pages.profile_image'),
+            self::VEHICLE_LOGO->value => __json('pages.vehicle_logo'),
         ];
     }
 
     public function label(){
         return self::getLabels()[$this->value];
+    }
+
+    public static function fileableTypes(): array
+    {
+        return [
+            'User',
+            'VehiclesType'
+        ];
     }
 
 }

@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\V1\NotificationController;
 use App\Http\Controllers\Api\V1\PermissionController;
 use App\Http\Controllers\Api\V1\UserController;
 use App\Http\Controllers\Api\V1\RoleController;
+use App\Http\Controllers\Api\V1\VehiclesTypeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -34,7 +35,7 @@ Route::post('users/forget-password', [UserController::class, 'forgetPassword']);
 Route::middleware(['auth:sanctum'])
     ->group(function () {
 
-        //---------------- basics routes ----------------
+        //---------------- START: basics routes ----------------
         Route::post('logout', LogoutController::class);
         Route::get('/filters/{model}', FilterController::class);
         Route::apiResource('roles', RoleController::class);
@@ -50,7 +51,11 @@ Route::middleware(['auth:sanctum'])
                 Route::put('mark-all-as-unread', 'markAllAsUnread');
                 Route::delete('delete-all', 'deleteAll');
             });
-        //---------------- basics routes ----------------
+        //---------------- END: basics routes ----------------
+
+        //---------------- START: vehcles types ----------------
+        Route::apiResource('vehicles-types', VehiclesTypeController::class);
+        //---------------- END: vehcles types ----------------
 
     });
 
