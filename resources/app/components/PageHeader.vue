@@ -6,14 +6,10 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item" aria-current="page">
 
-                        <router-link :to="{name: 'customer-dashboard'}" v-if="isCustomer">
+                        <router-link :to="{name: 'dashboard'}">
                             {{ $t('sidebar.dashboard') }}
-                        </router-link>
-
-                        <router-link :to="{name: 'dashboard'}" v-else>
-                            {{ $t('sidebar.dashboard') }}
-                        </router-link>
-                    </li>
+                        </router-link> 
+                    </li> 
                     <li :class="active ? 'breadcrumb-item active' : 'breadcrumb-item'" aria-current="page">
                         <span v-if="active">{{ $t(title) }}</span>
                         <a v-else @click="$router.back()">{{ $t(title) }}</a>
@@ -61,15 +57,6 @@ export default {
     setup() {
         const store = useAuthUserStore();
         const authUserRoles = store.user.roles.split(',');
-        let isCustomer = ref(false);
-        onMounted(() => {
-            if (authUserRoles.includes('customer')) {
-                isCustomer.value = true;
-            } else {
-                isCustomer.value = false;
-            }
-        });
-        return {isCustomer}
     }
 }
 </script>

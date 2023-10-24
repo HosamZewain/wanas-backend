@@ -12,6 +12,50 @@ export default [
             title: t("sidebar.dashboard"),
         },
     },
+    {
+        path: "/roles",
+        name: "roles",
+        component: () => import("@views/roles/RoleIndex.vue"),
+        meta: {
+            requiresAuth: true,
+            title: t("sidebar.roles"),
+            action: "read",
+            module: "Role",
+        },
+    },
+    {
+        path: "/roles/create",
+        name: "role-create",
+        component: () => import("@views/roles/RoleForm.vue"),
+        meta: {
+            requiresAuth: true,
+            title: t("sidebar.roles"),
+            action: "create",
+            module: "Role",
+        },
+    },
+    {
+        path: "/roles/edit/:id?",
+        name: "role-edit",
+        component: () => import("@views/roles/RoleForm.vue"),
+        meta: {
+            requiresAuth: true,
+            title: t("sidebar.roles"),
+            action: "update",
+            module: "Role",
+        },
+    },
+    {
+        path: "/roles/show/:id?",
+        name: "role-show",
+        component: () => import("@views/roles/RoleForm.vue"),
+        meta: {
+            requiresAuth: true,
+            title: t("sidebar.roles"),
+            action: "read",
+            module: "Role",
+        },
+    },
     // {
     //     path: "/edit-profile",
     //     name: "edit-profile",
@@ -38,50 +82,6 @@ export default [
     //         title: t("sidebar.notifications"),
     //         action: "read",
     //         module: "Notification",
-    //     },
-    // },
-    // {
-    //     path: "/roles",
-    //     name: "roles",
-    //     component: () => import("@views/roles/RoleIndex.vue"),
-    //     meta: {
-    //         requiresAuth: true,
-    //         title: t("sidebar.roles"),
-    //         action: "read",
-    //         module: "Role",
-    //     },
-    // },
-    // {
-    //     path: "/roles/create",
-    //     name: "role-create",
-    //     component: () => import("@views/roles/RoleForm.vue"),
-    //     meta: {
-    //         requiresAuth: true,
-    //         title: t("sidebar.roles"),
-    //         action: "create",
-    //         module: "Role",
-    //     },
-    // },
-    // {
-    //     path: "/roles/edit/:id?",
-    //     name: "role-edit",
-    //     component: () => import("@views/roles/RoleForm.vue"),
-    //     meta: {
-    //         requiresAuth: true,
-    //         title: t("sidebar.roles"),
-    //         action: "update",
-    //         module: "Role",
-    //     },
-    // },
-    // {
-    //     path: "/roles/show/:id?",
-    //     name: "role-show",
-    //     component: () => import("@views/roles/RoleForm.vue"),
-    //     meta: {
-    //         requiresAuth: true,
-    //         title: t("sidebar.roles"),
-    //         action: "read",
-    //         module: "Role",
     //     },
     // },
 

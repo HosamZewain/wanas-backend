@@ -43,6 +43,7 @@ class UserResource extends BaseResource
             'notifications' => $this->relationLoaded('notifications') ?
                 NotificationResource::collection($this->notifications()->latest()->limit(5)->get())
                 : null,
+            'profileImage' => $this->relationLoaded('profileImage') ? new FileResource($this->profileImage) : null
         ];
 
         return $this->getResource();

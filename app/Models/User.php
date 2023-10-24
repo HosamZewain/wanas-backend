@@ -42,6 +42,8 @@ class User extends Authenticated
         'gender',
         'status',
         'type',
+        'is_active',
+        'need_logout'
     ];
 
     /**

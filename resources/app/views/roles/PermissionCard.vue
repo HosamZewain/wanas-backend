@@ -51,7 +51,7 @@ onMounted(async () => {
                 <input class="form-check-input" type="checkbox" :id="`${groupTitle}-checkbox`" :checked="allSelected()"
                     @click="selectAll($event)" :disabled="readonly">
                 <label class="form-check-label" for="flexCheckChecked" :for="`${groupTitle}-checkbox`">
-                    {{ $t(`${groupTitle}`) }}
+                    {{ $t(`permissions.${groupTitle}`) }}
                 </label>
             </div>
         </div>
@@ -60,7 +60,7 @@ onMounted(async () => {
                 <input class="form-check-input" type="checkbox" v-model="modelValue[groupTitle]"
                     :id="`checkbox-${permission.id}`" :value="permission.id" :disabled="readonly">
                 <label class="form-check-label" :for="`checkbox-${permission.id}`">
-                    {{ $t(`${permission.name}`) }}
+                    {{ $t(`global.${permission.action}`) }}
                 </label>
             </div>
         </div>

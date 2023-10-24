@@ -17,7 +17,8 @@ class RoleTableSeeder extends Seeder
     {
         $defaultRoles = ["admin"];
         foreach ($defaultRoles as $defaultRole){
-            Role::findOrCreate($defaultRole, 'sanctum');
+            $role = Role::findOrCreate($defaultRole, 'sanctum');
+            $role->update(['can_be_deleted' => 0]);
         }
 
     }

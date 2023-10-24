@@ -25,6 +25,9 @@ return new class extends Migration
             $table->tinyInteger('status')->after('gender')->default(UserStatusConstants::NOT_APPROVED->value);
             $table->tinyInteger('type')->after('status')->default(UserTypeConstants::CLIENT->value);
             $table->boolean('is_active')->after('type')->default(1);
+            $table->boolean('need_logout')
+                ->default(0)
+                ->after('is_active');
         });
     }
 
@@ -42,6 +45,9 @@ return new class extends Migration
             $table->dropColumn('gender');
             $table->dropColumn('status');
             $table->dropColumn('type');
+            $table->dropColumn('is_active');
+            $table->dropColumn('need_logout');
+
             
         });
     }

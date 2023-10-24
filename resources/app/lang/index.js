@@ -5,8 +5,8 @@ import en from '../../../lang/en.json'
 import ar from '../../../lang/ar.json'
 
 const i18n = createI18n({
-    locale: 'en', // set locale
-    fallbackLocale: 'en', // set fallback locale
+    locale: 'ar', // set locale
+    fallbackLocale: 'ar', // set fallback locale
     pluralizationRules: {
         ar: pluralizationRulesAR
     },

@@ -4,13 +4,11 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Api\BaseApiController;
 use App\Http\Requests\Api\V1\UserRequest;
-use App\Http\Requests\CustomerProfileRequest;
 use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\TokenRequest;
 use App\Http\Requests\ForgetPasswordRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
-use App\Repositories\Contracts\EmployeeContract;
 use App\Repositories\Contracts\UserContract;
 use Exception;
 use \Illuminate\Http\JsonResponse;

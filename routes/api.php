@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\V1\FilterController;
 use App\Http\Controllers\Api\V1\NotificationController;
 use App\Http\Controllers\Api\V1\PermissionController;
 use App\Http\Controllers\Api\V1\UserController;
+use App\Http\Controllers\Api\V1\RoleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -36,6 +37,7 @@ Route::middleware(['auth:sanctum'])
         //---------------- basics routes ----------------
         Route::post('logout', LogoutController::class);
         Route::get('/filters/{model}', FilterController::class);
+        Route::apiResource('roles', RoleController::class);
         Route::get('permissions', PermissionController::class);
         Route::put('users/{user}/token', [UserController::class, 'updateToken']);
 

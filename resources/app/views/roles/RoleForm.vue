@@ -137,11 +137,11 @@ onMounted(async () => {
                                 />
                             </div>
                             <div class="col-md-3" v-if="isUpdateForm">
-                                <el-button v-if="cloneMode" type="primary" class="btn btn-primary mt-4"
+                                <!-- <el-button v-if="cloneMode" type="primary" class="btn btn-primary mt-4"
                                            @click.prevent="clonePermissions">
                                     {{ $t("global.clone_permissions") }}
-                                </el-button>
-                                <el-button type="info" class="btn btn-dark mt-4" @click.prevent="enableCloneMode">
+                                </el-button> -->
+                                <el-button v-if="cloneMode" type="info" class="btn btn-dark mt-4" @click.prevent="enableCloneMode">
                                     {{cloneTitle}}
                                 </el-button>
                             </div>
@@ -153,7 +153,7 @@ onMounted(async () => {
 
                 <div class="mb-3 row">
                     <div
-                        class="col-md-4"
+                        class="col-md-3"
                         v-for="(model_permissions, index) in system_permissions"
                         :key="index"
                     >

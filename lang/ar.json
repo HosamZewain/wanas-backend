@@ -4,7 +4,26 @@
     "dispatcher": "ديسباتشر",
     "sidebar": {
         "home": "الرئيسية",
-        "roles": "صلاحيات مديرين النظام"
+        "roles": "صلاحيات مديرين النظام",
+        "dashboard": "لوحة التحكم"
+    },
+    "global": {
+        "search": "بحث",
+        "no_results": "لا يوجد بيانات للعرض",
+        "create": "إضافه",
+        "read": "عرض",
+        "update": "تعديل",
+        "delete": "حذف",
+        "view-all": "عرض الكل",
+        "clone_permissions": "نسخ الصلاحيات",
+        "sign_in": "تسجيل الدخول"
+    },
+    "forms": {
+        "save": "حفظ",
+        "delete": "حذف",
+        "edit": "تعديل",
+        "permissions": "الصلاحيات",
+        "cancel": "إلغاء"
     },
     "pages":{
         "coming_late": "حضر متاخر",
@@ -14,7 +33,11 @@
         "manual": "يدوي",
         "no_log_out": "لم يتم تسجيل الخروج",
         "deduction_of_a_quarter_of_a_day_from_the_monthly_salary": "خصم ربع يوم من الراتب الشهري ويتضاعف الجزاء",
-        "deduction_of_the_day_from_the_basic_salary_by_two_days": "ب يخصم اليوم بيومين من الراتب"
+        "deduction_of_the_day_from_the_basic_salary_by_two_days": "ب يخصم اليوم بيومين من الراتب",
+        "setups": "الإعدادات",
+        "add_new_role": "إضافة صلاحية جديده",
+        "name": "الإسم",
+        "new_name": "الأسم الجديد"
     },
     "messages": {
         "Dashboard": "الرئيسيه",
@@ -32,5 +55,10 @@
         "pass_regex": "يجب ان يكون الرقم السري مكون من رقم واحد علي الافل وحرف كابتل علي الاقل وحرف سمول علي الاقل"
     },
     "permissions": {
-    }
+        "GeneralSettings": "الإعدادات العامه",
+        "Notification": "الإشعارات",
+        "Role": "الأدوار و الصلاحيات",
+        "User": "المستخدمين"
+    },
+    "placeholder": "أكتب "
 }

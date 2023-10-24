@@ -33,7 +33,7 @@ export default {
             <div class="col-md-3" v-if="enableKeyword">
                 <div class="mb-3">
                     <el-form-item
-                        label="search"
+                        :label="`${$t('global.search')}`"
                         class="mb-0"
                     >
                     </el-form-item>

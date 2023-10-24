@@ -2,7 +2,6 @@
 import {onMounted, ref} from "vue";
 import {useAuthUserStore} from "@store/user";
 import {useRouter} from "vue-router";
-// import EmployeeApi from "@api/employee.api";
 import {useTimerStore} from "@store/timer";
 import {getToken, onMessage} from "firebase/messaging";
 import {ElNotification} from "element-plus";
@@ -10,22 +9,15 @@ import {ElNotification} from "element-plus";
 const store = useAuthUserStore();
 const username = store.user.name;
 const roles = store.user.roles;
+const user = store.user;
 let openAttendanceModal = ref(false);
 const router = useRouter();
-const employee = ref({
-    todayAttendance: {},
-});
+
 const tasksKey = ref("");
 const embed = ref(
-    "todayAttendance,todayAttendance.projects," +
-    "todayAttendance.notes,avatar," +
-    "todayAttendance.projects.attendanceTasks,projects.sla,user.notifications"
+    "user.notifications,user.profileImage"
 );
 const hasUnReadNotifications = ref(true);
-
-async function toggleAttendanceModal() {
-    openAttendanceModal.value = !openAttendanceModal.value;
-}
 
 async function toggleSideBar() {
     if ($("#mainNavShow").closest(".with-side-menu").length === 1) {
@@ -128,51 +120,18 @@ async function logout() {
         });
 }
 
-async function getAuthEmployee() {
-    // EmployeeApi.get(store.user.employee, {embed: embed.value})
-    //     .then((response) => {
-    //         employee.value = response.data.data;
-    //         let todayAttendance = employee.value.todayAttendance;
-    //         if (todayAttendance) {
-    //             if (!todayAttendance.time_out) {
-    //                 useTimerStore().toggle();
-    //             }
-    //             tasksKey.value = "finished_tasks";
-    //         } else {
-    //             employee.value.todayAttendance = {
-    //                 projects: [],
-    //                 project_ids: [],
-    //             };
-    //             tasksKey.value = "planned_tasks";
-    //         }
-    //     })
-    //     .catch((error) => {
-    //         console.log(error);
-    //     });
-}
-
 onMounted(async () => {
     $(".main-header .dropdown > a").on("click", function (e) {
         e.preventDefault();
         $(this).parent().toggleClass("show");
         $(this).parent().siblings().removeClass("show");
     });
-
-    if (store.user.employee) {
-        await getAuthEmployee();
-    }
 });
 
-async function updateAttendanceData(data, key = "") {
-    employee.value.todayAttendance = data;
-    if (key !== "") {
-        tasksKey.value = key;
-    }
-}
 
 // notification
 onMessage(window.fcmMessaging, (payload) => {
-    employee.value.user?.notifications?.unshift(payload.notification);
+    user?.notifications?.unshift(payload.notification);
     ElNotification({
         title: payload.notification.title,
         message: payload.notification.body,
@@ -252,9 +211,9 @@ getToken(window.fcmMessaging, {
                         <i class="fa-solid fa-bell"></i>
                     </a>
                     <div class="dropdown-menu">
-                        <ul v-if="employee.user?.notifications?.length" class="main-notification-list">
+                        <ul v-if="user?.notifications?.length" class="main-notification-list">
                             <li
-                                v-for="not in employee.user?.notifications"
+                                v-for="not in user?.notifications"
                                 class="media d-flex"
                             >
                                 <router-link
@@ -266,7 +225,7 @@ getToken(window.fcmMessaging, {
                                 </router-link>
                             </li>
                         </ul>
-                        <ul v-if="!employee.user?.notifications?.length" class="main-notification-list">
+                        <ul v-if="!user?.notifications?.length" class="main-notification-list">
                             <li class="media text-center">
                                 {{ $t("pages.no_data") }}
                             </li>
@@ -280,7 +239,7 @@ getToken(window.fcmMessaging, {
                 </div>
                 <div class="dropdown main-profile-menu">
                     <a class="main-img-user" href="">
-                        <img alt="avatar" :src="employee.avatar_view?.url"/>
+                        <img alt="avatar" :src="user.profileImage?.url ?? `${defaultUserImage}`"/>
                     </a>
                     <div class="dropdown-menu">
                         <div class="header-navheading text-center">

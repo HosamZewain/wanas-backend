@@ -8,8 +8,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class NeedLogout
 {
-
-
     /**
      * @param Request $request
      * @param Closure $next
