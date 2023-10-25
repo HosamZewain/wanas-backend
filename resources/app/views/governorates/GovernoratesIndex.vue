@@ -1,7 +1,7 @@
 <script setup>
 import { ref, shallowRef, onMounted, getCurrentInstance } from "vue";
-import PageApi from "@api/page.api";
-import PageForm from "@views/pages/PageForm.vue";
+import GovernorateApi from "@api/governorate.api";
+import GovernorateForm from "@views/governorates/GovernorateForm.vue";
 import { Plus } from "@element-plus/icons-vue";
 import ConfirmBox from "@components/ConfirmBox.vue";
 import { ElMessage } from "element-plus";
@@ -30,7 +30,7 @@ async function getResources(page = 1) {
     
     filters.value.page = page;
 
-    PageApi.list(filters.value)
+    GovernorateApi.list(filters.value)
     .then(({ data }) => {
         resources.value = data.data;
         pagination.value = data.meta;
@@ -42,7 +42,7 @@ async function getResources(page = 1) {
 
 const deleteResource = async (selectedResource) => {
 
-    await PageApi.delete(selectedResource)
+    await GovernorateApi.delete(selectedResource)
     .then(async () => {
         await getResources();
         ElMessage({
@@ -57,12 +57,12 @@ const deleteResource = async (selectedResource) => {
 
 const openCreateModal = () => {
     openModal.value = true;
-    title.value = t("pages.add_new_page");
+    title.value = t("pages.add_new_governorate");
 };
 
 const openUpdateModal = (model) => {
     openModal.value = true;
-    title.value = t("pages.edit_page");
+    title.value = t("pages.edit_governorate");
     resource.value = _.cloneDeep(model);
 };
 
@@ -94,8 +94,8 @@ onMounted(async () => {
             <page-header title="sidebar.pages">
                 <template v-slot:button>
                     <el-button type="primary" class="btn btn-primary" :icon="Plus"
-                        @click="openCreateModal()" v-if="hasPermission('create', 'Page')">
-                        {{ $t("pages.add_new_page") }}
+                        @click="openCreateModal()" v-if="hasPermission('create', 'Governorate')">
+                        {{ $t("pages.add_new_governorate") }}
                     </el-button>
                 </template>
             </page-header>
@@ -107,20 +107,20 @@ onMounted(async () => {
             <spinner/>
             <el-table :data="resources" style="width: 100%" v-if="resources.length">
                 <el-table-column label="#" type="index" />
-                <el-table-column :label="$t('pages.title')">
+                <el-table-column :label="$t('pages.name_ar')">
                     <template #default="scope">
                         <div class="text-dark fw-bold">
-                            {{ scope.row.title }}
+                            {{ scope.row.name_ar }}
                         </div>
 
                         <div>
-                            <a @click="openUpdateModal(scope.row)" v-if="hasPermission('update', 'Page')">
+                            <a @click="openUpdateModal(scope.row)" v-if="hasPermission('update', 'Governorate')">
                                 <span class="me-2 text-primary text-underline">
                                     {{ $t("forms.edit") }}
                                 </span>
                             </a>
                             <ConfirmBox
-                                v-if="hasPermission('delete', 'Page')"
+                                v-if="hasPermission('delete', 'Governorate')"
                                 @confirmAction="deleteResource(scope.row, scope.$index)">
                                 <template #content>
                                     <a href="javascript:void(0)" class="me-2 text-primary text-underline">
@@ -131,20 +131,7 @@ onMounted(async () => {
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column :label="$t('pages.title')">
-                    <template #default="scope">
-                        <span v-html="scope.row.body"></span>
-                    </template>
-                </el-table-column>
-                <el-table-column :label="$t('pages.image')">
-                    <template #default="scope">
-                        <img
-                            :src="scope.row.image?.url ?? defaultUserImage"
-                            class="img-fluid"
-                            alt="page image"
-                        />
-                    </template>
-                </el-table-column>
+                <el-table-column :label="$t('pages.name_en')" prop="name_en"/>
             </el-table>
             <strong v-if="!resources.length && !loaderStore.loading" class="text-danger">
                 {{ $t("global.no_results") }}
@@ -152,7 +139,7 @@ onMounted(async () => {
             <Pagination :pagination="pagination" @paginate="getResources" />
         </div>
 
-        <PageForm
+        <GovernorateForm
             v-if="openModal"
             :openModal="openModal"
             :title="title"

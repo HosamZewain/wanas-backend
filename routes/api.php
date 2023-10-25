@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\V1\Auth\LoginController;
 use App\Http\Controllers\Api\V1\Auth\LogoutController;
 use App\Http\Controllers\Api\V1\FileController;
 use App\Http\Controllers\Api\V1\FilterController;
+use App\Http\Controllers\Api\V1\GovernorateController;
 use App\Http\Controllers\Api\V1\NotificationController;
 use App\Http\Controllers\Api\V1\PageController;
 use App\Http\Controllers\Api\V1\PermissionController;
@@ -60,6 +61,10 @@ Route::middleware(['auth:sanctum'])
 
         //---------------- START: pages ----------------
         Route::apiResource('pages', PageController::class);
+        //---------------- END: pages ----------------
+
+        //---------------- START: pages ----------------
+        Route::apiResource('governorates', GovernorateController::class);
         //---------------- END: pages ----------------
 
     });

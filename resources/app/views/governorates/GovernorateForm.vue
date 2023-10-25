@@ -1,6 +1,6 @@
 <script setup>
 import {getCurrentInstance, ref} from "vue";
-import PageApi from "@api/page.api";
+import GovernorateApi from "@api/governorate.api";
 import {ElMessage} from "element-plus";
 
 const app = getCurrentInstance();
@@ -43,7 +43,7 @@ async function submit() {
 
 async function save() {
 
-    PageApi.store(props.resource)
+    GovernorateApi.store(props.resource)
     .then(({data}) => {
         ElMessage({
             message: t('messages.success'),
@@ -62,7 +62,7 @@ async function save() {
 
 async function update() {
     
-    PageApi.update(props.resource)
+    GovernorateApi.update(props.resource)
     .then(({data}) => {
         ElMessage({
             message: t('messages.success'),
@@ -79,29 +79,6 @@ async function update() {
     }).finally(() => isSubmitted.value = false)
 }
 
-async function successUpload(data) {
-
-    if (!props.resource[data.type]) {
-
-        props.resource[data.type] = [];
-
-        props.resource['image'] = [];
-    }
-
-    props.resource[data.type].push(data.id);
-    
-    props.resource['image'].push(data);
-}
-
-async function successDeleteUpload(data) {
-
-    if (!props.resource[data.type])
-
-        props.resource[data.type] = [];
-
-    props.resource[data.type].splice(props.resource[data.type].indexOf(data.id), 1);
-}
-
 function close() {
 
     emit("close");
@@ -116,30 +93,16 @@ function close() {
         <el-form ref="ruleFormRef" :model="resource">
             <div class="row">
                
-                <div class="col-md-12">
-                    <FormInput :errors="errors" :model="resource" label="pages.title"
-                            :required="true" name="title" title="pages.title"/>
+                <div class="col-md-6">
+                    <FormInput :errors="errors" :model="resource" label="pages.name_ar"
+                            :required="true" name="name_ar" title="pages.name_ar"/>
                 </div>
 
-                <div class="col-md-12">
-                    <FormEditor
-                        :model="resource"
-                        name="body"
-                        :required="true"
-                        :errors="errors"
-                    />
+                <div class="col-md-6">
+                    <FormInput :errors="errors" :model="resource" label="pages.name_en"
+                            :required="true" name="name_en" title="pages.name_en"/>
                 </div>
                 
-                <div class="col-md-12">
-                    <FormFileUpload 
-                        :accept="`.png,.jpeg,.jpg,.gif`"
-                        :files="resource.image ? resource.image : []" :maxSize="'20480'"
-                        :multiple="false"
-                        type="page_image"
-                        @successDeleteUpload="successDeleteUpload"
-                        @successUpload="successUpload"
-                    />
-                </div>
             </div>
         </el-form>
         <hr>

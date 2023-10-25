@@ -7,7 +7,8 @@
         "roles": "صلاحيات مديرين النظام",
         "dashboard": "لوحة التحكم",
         "vehicles_types": "أنواع السيارات",
-        "pages": "الصفحات"
+        "pages": "الصفحات",
+        "governorates": "المحافظات"
     },
     "global": {
         "search": "بحث",
@@ -55,7 +56,11 @@
         "view_all": "عرض الكل",
         "title": "العنوان",
         "body": "المحتوى",
-        "image": "الصوره"
+        "image": "الصوره",
+        "add_new_governorate": "إضافة محافظة جديده",
+        "edit_governorate": "تعديل محافظة",
+        "name_en": "الإسم عربى",
+        "name_ar": "الإسم إنجليزى"
     },
     "messages": {
         "Dashboard": "الرئيسيه",
