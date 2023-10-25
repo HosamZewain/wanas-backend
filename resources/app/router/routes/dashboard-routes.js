@@ -89,6 +89,39 @@ export default [
             module: "VehiclesType",
         },
     },
+    {
+        path: "/pages",
+        name: "pages",
+        component: () => import("@views/pages/PagesIndex.vue"),
+        meta: {
+            requiresAuth: true,
+            title: t("sidebar.pages"),
+            action: "read",
+            module: "Page",
+        },
+    },
+    {
+        path: "/pages/create",
+        name: "pages-create",
+        component: () => import("@views/pages/PageForm.vue"),
+        meta: {
+            requiresAuth: true,
+            title: t("sidebar.pages"),
+            action: "create",
+            module: "Page",
+        },
+    },
+    {
+        path: "/pages/edit/:id?",
+        name: "pages-edit",
+        component: () => import("@views/pages/PageForm.vue"),
+        meta: {
+            requiresAuth: true,
+            title: t("sidebar.pages"),
+            action: "update",
+            module: "Page",
+        },
+    },
     // {
     //     path: "/edit-profile",
     //     name: "edit-profile",

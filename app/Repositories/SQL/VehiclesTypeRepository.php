@@ -32,6 +32,23 @@ class VehiclesTypeRepository extends BaseRepository implements VehiclesTypeContr
         return $vehicleType->refresh();
     }
 
+    public function update(Model $model, array $attributes = []): mixed
+    {
+        $vehicleType = parent::update($model, $attributes);
+        
+        if (isset($attributes['logo'])) {
+
+            $vehicleType->logo->delete();
+
+            foreach ($attributes['logo'] as $logo) {
+
+                saveFileByRelation($vehicleType, $logo['id'], 'logo');
+            }
+        }
+
+        return $vehicleType->refresh();
+    }
+
     public function remove(Model $model): mixed
     {
         $model->logo->delete();

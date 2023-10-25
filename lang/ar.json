@@ -6,7 +6,8 @@
         "home": "الرئيسية",
         "roles": "صلاحيات مديرين النظام",
         "dashboard": "لوحة التحكم",
-        "vehicles_types": "أنواع السيارات"
+        "vehicles_types": "أنواع السيارات",
+        "pages": "الصفحات"
     },
     "global": {
         "search": "بحث",
@@ -47,7 +48,14 @@
         "file_upload_text": "تحميل الملف",
         "click_to_upload": "إضغط للتحميل",
         "file_upload_img_hint": "حجم الملف أقل من",
-        "mega":"ميجابايت"
+        "mega":"ميجابايت",
+        "add_new_page": "إضافة صفحة جديده",
+        "edit_page": "تعديل صفحة",
+        "no_data": "لا يوجد بيانات",
+        "view_all": "عرض الكل",
+        "title": "العنوان",
+        "body": "المحتوى",
+        "image": "الصوره"
     },
     "messages": {
         "Dashboard": "الرئيسيه",

@@ -1,6 +1,6 @@
 <script setup>
 import {getCurrentInstance, ref} from "vue";
-import VehiclesTypeApi from "@api/vehiclesType.api";
+import PageApi from "@api/pages.api";
 import {ElMessage} from "element-plus";
 
 const app = getCurrentInstance();
@@ -29,7 +29,7 @@ async function submit() {
 
     errors.value = [];
 
-    props.resource.embed = "logo";
+    props.resource.embed = "image";
 
     if (props.resource.id) {
 
@@ -43,7 +43,7 @@ async function submit() {
 
 async function save() {
 
-    VehiclesTypeApi.store(props.resource)
+    PageApi.store(props.resource)
     .then(({data}) => {
         ElMessage({
             message: t('messages.success'),
@@ -62,7 +62,7 @@ async function save() {
 
 async function update() {
     
-    VehiclesTypeApi.update(props.resource)
+    PageApi.update(props.resource)
     .then(({data}) => {
         ElMessage({
             message: t('messages.success'),
@@ -85,12 +85,12 @@ async function successUpload(data) {
 
         props.resource[data.type] = [];
 
-        props.resource['logo'] = [];
+        props.resource['image'] = [];
     }
 
     props.resource[data.type].push(data.id);
     
-    props.resource['logo'].push(data);
+    props.resource['image'].push(data);
 }
 
 async function successDeleteUpload(data) {
@@ -116,17 +116,26 @@ function close() {
         <el-form ref="ruleFormRef" :model="resource">
             <div class="row">
                
-                <div class="col-md-6">
-                    <FormInput :errors="errors" :model="resource" label="pages.name"
-                            :required="true" name="name" title="pages.name"/>
+                <div class="col-md-12">
+                    <FormInput :errors="errors" :model="resource" label="pages.title"
+                            :required="true" name="title" title="pages.title"/>
+                </div>
+
+                <div class="col-md-12">
+                    <FormEditor
+                        :model="resource"
+                        name="body"
+                        :required="true"
+                        :errors="errors"
+                    />
                 </div>
                 
                 <div class="col-md-12">
                     <FormFileUpload 
                         :accept="`.png,.jpeg,.jpg,.gif`"
-                        :files="resource.logo ? resource.logo : []" :maxSize="'20480'"
+                        :files="resource.image ? resource.image : []" :maxSize="'20480'"
                         :multiple="false"
-                        type="vehicle_logo"
+                        type="page_image"
                         @successDeleteUpload="successDeleteUpload"
                         @successUpload="successUpload"
                     />

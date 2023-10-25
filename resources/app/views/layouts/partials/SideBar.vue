@@ -68,6 +68,14 @@
                                 </router-link>
                             </li>
                         </ul>
+                        <ul class="nav-sub">
+                            <li :class="`nav-sub-item${this.$route.name === 'pages'? 'active': ''}`"
+                                v-if="hasPermission('read', 'Page')">
+                                <router-link :to="{name: 'pages'}" class="nav-sub-link">
+                                    <span class="sidemenu-label">{{ $t("sidebar.pages") }}</span>
+                                </router-link>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             </div>

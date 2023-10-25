@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\V1\Auth\LogoutController;
 use App\Http\Controllers\Api\V1\FileController;
 use App\Http\Controllers\Api\V1\FilterController;
 use App\Http\Controllers\Api\V1\NotificationController;
+use App\Http\Controllers\Api\V1\PageController;
 use App\Http\Controllers\Api\V1\PermissionController;
 use App\Http\Controllers\Api\V1\UserController;
 use App\Http\Controllers\Api\V1\RoleController;
@@ -56,6 +57,10 @@ Route::middleware(['auth:sanctum'])
         //---------------- START: vehcles types ----------------
         Route::apiResource('vehicles-types', VehiclesTypeController::class);
         //---------------- END: vehcles types ----------------
+
+        //---------------- START: pages ----------------
+        Route::apiResource('pages', PageController::class);
+        //---------------- END: pages ----------------
 
     });
 
