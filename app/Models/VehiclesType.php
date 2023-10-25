@@ -15,7 +15,7 @@ class VehiclesType extends Model
     public const ADDITIONAL_PERMISSIONS = [];
     protected $fillable = ['name'];
     protected array $filters = ['keyword'];
-    protected array $searchable = [];
+    protected array $searchable = ['name'];
     protected array $dates = [];
     public array $filterModels = [];
     public array $filterCustom = [];

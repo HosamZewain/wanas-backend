@@ -3,6 +3,7 @@
 namespace App\Repositories\SQL;
 
 use App\Models\VehiclesType;
+use Illuminate\Database\Eloquent\Model;
 use App\Repositories\Contracts\VehiclesTypeContract;
 
 class VehiclesTypeRepository extends BaseRepository implements VehiclesTypeContract
@@ -29,5 +30,12 @@ class VehiclesTypeRepository extends BaseRepository implements VehiclesTypeContr
         }
 
         return $vehicleType->refresh();
+    }
+
+    public function remove(Model $model): mixed
+    {
+        $model->logo->delete();
+        parent::remove($model);
+        return $model->delete();
     }
 }
