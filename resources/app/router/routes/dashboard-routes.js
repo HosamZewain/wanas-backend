@@ -182,6 +182,39 @@ export default [
             action: "update",
             module: "Governorate",
         },
+    },
+    {
+        path: "/countries",
+        name: "countries",
+        component: () => import("@views/countries/CountriesIndex.vue"),
+        meta: {
+            requiresAuth: true,
+            title: t("sidebar.countries"),
+            action: "read",
+            module: "Country",
+        },
+    },
+    {
+        path: "/countries/create",
+        name: "countries-create",
+        component: () => import("@views/countries/CountryForm.vue"),
+        meta: {
+            requiresAuth: true,
+            title: t("sidebar.countries"),
+            action: "create",
+            module: "Country",
+        },
+    },
+    {
+        path: "/countries/edit/:id?",
+        name: "countries-edit",
+        component: () => import("@views/countries/CountryForm.vue"),
+        meta: {
+            requiresAuth: true,
+            title: t("sidebar.countries"),
+            action: "update",
+            module: "Country",
+        },
     }
 
 ];

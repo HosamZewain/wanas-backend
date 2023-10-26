@@ -39,7 +39,11 @@ class GovernorateRequest extends FormRequest
      */
     public function attributes() : array
     {
-        return [];
+        return [
+            'name_ar' => __json('pages.name_ar'),
+            'name_en' => __json('pages.name_en'),
+            'country_id' => __json('pages.country'),
+        ];
     }
 
     /**

@@ -8,7 +8,8 @@
         "dashboard": "لوحة التحكم",
         "vehicles_types": "أنواع السيارات",
         "pages": "الصفحات",
-        "governorates": "المحافظات"
+        "governorates": "المحافظات",
+        "countries": "الدول"
     },
     "global": {
         "search": "بحث",
@@ -26,7 +27,8 @@
         "delete": "حذف",
         "edit": "تعديل",
         "permissions": "الصلاحيات",
-        "cancel": "إلغاء"
+        "cancel": "إلغاء",
+        "select": "إختر"
     },
     "pages":{
         "coming_late": "حضر متاخر",
@@ -60,12 +62,15 @@
         "add_new_governorate": "إضافة محافظة جديده",
         "edit_governorate": "تعديل محافظة",
         "name_en": "الإسم عربى",
-        "name_ar": "الإسم إنجليزى"
+        "name_ar": "الإسم إنجليزى",
+        "country": "الدوله"
     },
     "messages": {
         "Dashboard": "الرئيسيه",
         "add new role": "اضافة دور جديد",
-        "not_active": "حسابك غير مفعل برجاء التواصل مع الدعم"
+        "not_active": "حسابك غير مفعل برجاء التواصل مع الدعم",
+        "error": "حدث خطأ ما",
+        "success": "تمت العملية بنجاح"
     },
     "notifications": {
         "Hello": "مرحباً"

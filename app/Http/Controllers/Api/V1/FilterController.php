@@ -3,19 +3,9 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\AssetModelResource;
-use App\Http\Resources\CompanyResource;
-use App\Http\Resources\CustomerResource;
-use App\Http\Resources\DepartmentResource;
-use App\Http\Resources\EmployeeResource;
-use App\Http\Resources\OpportunityStatusResource;
-use App\Http\Resources\PositionResource;
-use App\Http\Resources\ProjectResource;
-use App\Http\Resources\QuestionGroupResource;
 use App\Http\Resources\RoleResource;
 use App\Http\Resources\UserResource;
-use App\Http\Resources\WorkRegulationResource;
-use App\Http\Resources\AwardTypeResource;
+use App\Http\Resources\CountryResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -76,17 +66,7 @@ class FilterController extends Controller
         return match ($model) {
             'User' => UserResource::collection($data),
             'Role' => RoleResource::collection($data),
-            'Company' => CompanyResource::collection($data),
-            'Customer' => CustomerResource::collection($data),
-            'Project' => ProjectResource::collection($data),
-            'Department' => DepartmentResource::collection($data),
-            'WorkRegulation' => WorkRegulationResource::collection($data),
-            'QuestionGroup' => QuestionGroupResource::collection($data),
-            'Employee' => EmployeeResource::collection($data),
-            'Position' => PositionResource::collection($data),
-            'AssetModel' => AssetModelResource::collection($data),
-            'OpportunityStatus' => OpportunityStatusResource::collection($data),
-            'AwardType' => AwardTypeResource::collection($data)
+            'Country' => CountryResource::collection($data)
         };
     }
 }

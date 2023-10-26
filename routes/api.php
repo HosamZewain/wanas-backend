@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\V1\Auth\LoginController;
 use App\Http\Controllers\Api\V1\Auth\LogoutController;
+use App\Http\Controllers\Api\V1\CountryController;
 use App\Http\Controllers\Api\V1\FileController;
 use App\Http\Controllers\Api\V1\FilterController;
 use App\Http\Controllers\Api\V1\GovernorateController;
@@ -63,9 +64,13 @@ Route::middleware(['auth:sanctum'])
         Route::apiResource('pages', PageController::class);
         //---------------- END: pages ----------------
 
-        //---------------- START: pages ----------------
+        //---------------- START: governorates ----------------
         Route::apiResource('governorates', GovernorateController::class);
-        //---------------- END: pages ----------------
+        //---------------- END: governorates ----------------
+
+         //---------------- START: countries ----------------
+         Route::apiResource('countries', CountryController::class);
+         //---------------- END: countries ----------------
 
     });
 

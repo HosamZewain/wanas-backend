@@ -19,6 +19,8 @@ class GovernorateResource extends BaseResource
             'id' => $this->id,
         ];
         $this->mini = [
+            'name_ar' => $this->name_ar,
+            'name_en' => $this->name_en,
             'is_active' => $this->is_active,
             'active_status' => $this->active_status,
             'active_class' => $this->active_class,
@@ -29,6 +31,7 @@ class GovernorateResource extends BaseResource
         ];
         //$this->relationLoaded()
         $this->relations = [
+            'country' => $this->relationLoaded('country') ? new CountryResource($this->country) : null
         ];
         return $this->getResource();
     }

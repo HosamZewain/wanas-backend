@@ -16,6 +16,9 @@ return new class extends Migration
             $table->json('name');
             $table->string('code', 10);
             $table->string('mobile_code', 10)->nullable();
+
+            $table->softDeletes();
+            
             $table->timestamps();
         });
     }
