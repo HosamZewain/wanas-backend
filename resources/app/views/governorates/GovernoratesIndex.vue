@@ -25,7 +25,7 @@ let pagination = shallowRef({
 let filters = ref({
     page: 1,
     keyword: "",
-    embed: "image"
+    embed: "country"
 });
 
 async function getModuleRelatedData() {
@@ -145,6 +145,7 @@ onMounted(async () => {
                     </template>
                 </el-table-column>
                 <el-table-column :label="$t('pages.name_en')" prop="name_en"/>
+                <el-table-column :label="$t('pages.country')" prop="country.name"/>
             </el-table>
             <strong v-if="!resources.length && !loaderStore.loading" class="text-danger">
                 {{ $t("global.no_results") }}

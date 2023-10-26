@@ -33,7 +33,7 @@ async function submit() {
 
     errors.value = [];
 
-    props.resource.embed = "image";
+    props.resource.embed = "country";
 
     if (props.resource.id) {
 
@@ -114,7 +114,7 @@ function close() {
                         name="country_id"
                         :options="countries"
                         :errors="errors"
-                        label="country"
+                        label="name"
                         :required="true"
                     />
                 </div>

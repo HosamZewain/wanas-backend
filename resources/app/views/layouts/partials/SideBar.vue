@@ -86,7 +86,7 @@
                         </ul>
                         <ul class="nav-sub">
                             <li :class="`nav-sub-item${this.$route.name === 'countries'? 'active': ''}`"
-                                v-if="hasPermission('read', 'Governorate')">
+                                v-if="hasPermission('read', 'Country')">
                                 <router-link :to="{name: 'countries'}" class="nav-sub-link">
                                     <span class="sidemenu-label">{{ $t("sidebar.countries") }}</span>
                                 </router-link>

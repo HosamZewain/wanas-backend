@@ -17,10 +17,12 @@ class GovernorateResource extends BaseResource
     {
         $this->micro = [
             'id' => $this->id,
+            'name' => $this->name
         ];
         $this->mini = [
-            'name_ar' => $this->name_ar,
-            'name_en' => $this->name_en,
+            'name_ar' => $this->getTranslation('name', 'ar', $this->useFallbackLocale()),
+            'name_en' => $this->getTranslation('name', 'en', $this->useFallbackLocale()),
+            'country_id' => $this->country_id,
             'is_active' => $this->is_active,
             'active_status' => $this->active_status,
             'active_class' => $this->active_class,

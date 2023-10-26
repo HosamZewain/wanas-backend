@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Traits\JsonValidationTrait;
+use Illuminate\Auth\Events\Validated;
 
 class GovernorateRequest extends FormRequest
 {
@@ -17,6 +18,15 @@ class GovernorateRequest extends FormRequest
     public function authorize(): bool
     {
         return true;
+    }
+
+    public function validated($key = null, $default = null)
+    {
+        $validated = parent::validated($key, $default);
+
+        return array_merge($validated, [
+            'name' => ['ar' => $this->name_ar, 'en' => $this->name_en]
+        ]);
     }
 
     /**

@@ -19,6 +19,15 @@ class CountryRequest extends FormRequest
         return true;
     }
 
+    public function validated($key = null, $default = null)
+    {
+        $validated = parent::validated($key, $default);
+
+        return array_merge($validated, [
+            'name' => ['ar' => $this->name_ar, 'en' => $this->name_en]
+        ]);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -26,7 +35,11 @@ class CountryRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [];
+        return [
+            'name_ar' => config('validations.string.req'),
+            'name_en' => config('validations.string.req'),
+            'code' => config('validations.string.req').'|max:3'
+        ];
     }
 
     /**
@@ -35,7 +48,11 @@ class CountryRequest extends FormRequest
      */
     public function attributes() : array
     {
-        return [];
+        return [
+            'name_ar' => __json('pages.name_ar'),
+            'name_en' => __json('pages.name_en'),
+            'code' => __json('pages.code'),
+        ];
     }
 
     /**

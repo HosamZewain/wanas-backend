@@ -63,7 +63,10 @@
         "edit_governorate": "تعديل محافظة",
         "name_en": "الإسم عربى",
         "name_ar": "الإسم إنجليزى",
-        "country": "الدوله"
+        "country": "الدوله",
+        "code": "الكود",
+        "add_new_country": "إضافة دوله جديده",
+        "edit_country": "تعديل دوله"
     },
     "messages": {
         "Dashboard": "الرئيسيه",

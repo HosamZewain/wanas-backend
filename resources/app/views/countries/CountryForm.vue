@@ -1,6 +1,6 @@
 <script setup>
 import {getCurrentInstance, ref} from "vue";
-import GovernorateApi from "@api/governorate.api";
+import CountryApi from "@api/country.api";
 import {ElMessage} from "element-plus";
 
 const app = getCurrentInstance();
@@ -18,10 +18,6 @@ const props = defineProps({
     title: {
         type: String,
         required: false,
-    },
-    countries: {
-        type: [Array, Object],
-        required: true
     }
 })
 let errors = ref([]);
@@ -32,8 +28,6 @@ async function submit() {
     isSubmitted.value = true;
 
     errors.value = [];
-
-    props.resource.embed = "image";
 
     if (props.resource.id) {
 
@@ -47,7 +41,7 @@ async function submit() {
 
 async function save() {
 
-    GovernorateApi.store(props.resource)
+    CountryApi.store(props.resource)
     .then(({data}) => {
         ElMessage({
             message: t('messages.success'),
@@ -66,7 +60,7 @@ async function save() {
 
 async function update() {
     
-    GovernorateApi.update(props.resource)
+    CountryApi.update(props.resource)
     .then(({data}) => {
         ElMessage({
             message: t('messages.success'),
@@ -107,16 +101,9 @@ function close() {
                             :required="true" name="name_en" title="pages.name_en"/>
                 </div>
 
-                <div class="col-md-12">
-                    <FormSelect
-                        title="pages.country"
-                        :model="resource"
-                        name="country_id"
-                        :options="countries"
-                        :errors="errors"
-                        label="country"
-                        :required="true"
-                    />
+                <div class="col-md-6">
+                    <FormInput :errors="errors" :model="resource" label="pages.code"
+                            :required="true" name="code" title="pages.code"/>
                 </div>
                 
             </div>
